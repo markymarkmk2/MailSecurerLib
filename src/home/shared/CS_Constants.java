@@ -49,6 +49,21 @@ public class CS_Constants
     public static final String DS_ERROR =        "error";
     public static final String DS_OFFLINE =      "offline";
 
+    // FIELDNAMES
+    public static final String FLD_ATTACHMENT = "FLDN_ATTACHMENT";
+    public static final String FLD_ATTACHMENT_NAME = "FLDN_ATTNAME";
+    public static final String FLD_BODY = "FLDN_BODY";
+    public static final String FLD_UID_NAME = "FLDN_UID";
+    public static final String FLD_LANG = "FLDN_LANG";
+    public static final String FLD_HEADERVAR_VALUE = "FLDN_HEADERVAR_VALUE";
+    public static final String FLD_HEADERVAR_NAME = "FLDN_HEADERVAR_NAME";
+    public static final String FLD_MA = "FLDN_MA";
+    public static final String FLD_DA = "FLDN_DA";
+    public static final String FLD_DS = "FLDN_DS";
+    public static final String FLD_TM = "FLDN_TM";
+    public static final String FLD_SIZE = "FLDN_SZ";
+    public static final String FLD_SUBJECT = "FLDN_SJ";
+    public static final String FLD_DATE = "FLDN_DT";
 
 
     public static int STREAM_BUFFER_LEN = 128*1024;
