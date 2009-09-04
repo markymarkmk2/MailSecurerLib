@@ -68,6 +68,42 @@ public class SQLArrayResult
         }
     }
 
+    static public String encode( String cmd )
+    {
+        cmd = cmd.replace("\\", "\\\\");
+        cmd = cmd.replace("'", "\\'");
+        cmd = cmd.replace("\"", "\\\"");
+        return cmd;
+    }
+    static public String decode( String cmd )
+    {
+        cmd = cmd.replace("\\'", "'" );
+        cmd = cmd.replace( "\\\"", "\"");
+        cmd = cmd.replace("\\\\", "\\");
+        return cmd;
+    }
+
+    public void decode()
+    {
+        for (int i = 0; i < resultList.size(); i++)
+        {
+            ArrayList<String> list = (ArrayList<String>)resultList.get(i);
+
+            for (int f = 0; f < list.size(); f++)
+            {
+                String orig = list.get(f);
+                String field = decode( orig );
+
+                // MODIFIED ?
+                if ( field.length() != orig.length())
+                {
+                    // THEN REPLACE
+                    list.remove(f);
+                    list.add(f, field);
+                }
+            }
+        }
+    }
     
 
     public ArrayList<ArrayList> getResultList()
