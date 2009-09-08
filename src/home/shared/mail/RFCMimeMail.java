@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -378,17 +376,6 @@ public class RFCMimeMail
         }
         catch (MessagingException messagingException)
         {
-        }
-
-        if (txt_msg == null)
-        {
-            try
-            {
-                txt_msg = msg.getContent().toString();
-            }
-            catch (Exception ex)
-            {
-            }
         }
 
         return txt_msg;

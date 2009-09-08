@@ -64,6 +64,8 @@ public class CS_Constants
     public static final String FLD_SIZE = "FLDN_SZ";
     public static final String FLD_SUBJECT = "FLDN_SJ";
     public static final String FLD_DATE = "FLDN_DT";
+    public static final String FLD_HAS_ATTACHMENT = "FLDN_HATT";
+    public static final String FLD_META_ADDRESS = "FLDN_ADDR";
 
 
     public static int STREAM_BUFFER_LEN = 128*1024;
