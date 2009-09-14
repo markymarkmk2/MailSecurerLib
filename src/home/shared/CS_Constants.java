@@ -68,6 +68,9 @@ public class CS_Constants
     public static final String FLD_META_ADDRESS = "FLDN_ADDR";
 
 
+    public static final String IFETCHER_TYPE_IMAP = "imap";
+    public static final String IFETCHER_TYPE_ENVELOPE = "exchange";
+
     public static int STREAM_BUFFER_LEN = 128*1024;
 
     static EMTypeEntry[] typelist =

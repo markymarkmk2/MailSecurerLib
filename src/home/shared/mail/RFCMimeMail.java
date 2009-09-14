@@ -170,8 +170,13 @@ public class RFCMimeMail
 
         for (int i = 0; i < mp.getCount(); i++)
         {
+            // WE DONT WANT TO LOOK DEEPER INTO MAIL
+            if (html_part != null && text_part != null)
+                break;
+
             Part p = mp.getBodyPart(i);
-            if (p instanceof Multipart)
+            // WE GO DOWN TO NEXT LEVEL ONLY IF WE HAVE MP/ALTERNATIVE, OTHERWISE WE WOULD DETECT TEXT IN INLINE ATTACHMENTS
+            if (p instanceof Multipart && p.isMimeType("multipart/alternative"))
             {
                 check_mp_content((Multipart) p);
             }
@@ -179,7 +184,6 @@ public class RFCMimeMail
             {
                 check_part_content( p);
             }
-
         }
     }
 
@@ -205,7 +209,7 @@ public class RFCMimeMail
                 }
                 else if (disposition.equalsIgnoreCase(Part.INLINE))
                 {
-                    continue;
+                    sum++;
                 }
                 else if (disposition.equalsIgnoreCase(Part.ATTACHMENT))
                 {
@@ -243,7 +247,10 @@ public class RFCMimeMail
                 }
                 else if (disposition.equalsIgnoreCase(Part.INLINE))
                 {
-                    continue;
+                    if (idx == 0)
+                        return p;
+
+                    idx--;
                 }
                 else if (disposition.equalsIgnoreCase(Part.ATTACHMENT))
                 {

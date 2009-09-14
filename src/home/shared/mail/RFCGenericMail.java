@@ -79,6 +79,7 @@ public abstract class RFCGenericMail
 
                 break;
             }
+
             trg_file = null;
             try
             {
@@ -86,6 +87,8 @@ public abstract class RFCGenericMail
             }
             catch (InterruptedException ex)
             {}
+
+            date = new Date( System.currentTimeMillis() );
 
         } while (true && retries-- > 0);
 
