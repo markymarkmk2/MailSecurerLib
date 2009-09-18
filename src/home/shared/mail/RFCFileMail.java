@@ -80,14 +80,14 @@ public class RFCFileMail extends RFCGenericMail
 
     public static InputStream open_inputstream(File file, boolean encoded) throws FileNotFoundException
     {
-        if (encoded)
+        if (!encoded)
             return new BufferedInputStream( new FileInputStream( file));
         else
             return new BufferedInputStream( new EncodedMailInputStream( new FileInputStream( file)));
     }
     public static OutputStream open_outputstream(File file, boolean encoded) throws FileNotFoundException
     {
-        if (encoded)
+        if (!encoded)
             return new BufferedOutputStream( new FileOutputStream( file));
         else
             return new BufferedOutputStream( new EncodedMailOutputStream( new FileOutputStream( file)));

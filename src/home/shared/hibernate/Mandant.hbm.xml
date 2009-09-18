@@ -22,6 +22,9 @@
     <property name="flags" type="string">
       <column length="80" name="flags" not-null="true"/>
     </property>
+    <property name="imap_port" type="int">
+      <column name="imap_port"/>
+    </property>
     <set inverse="true" name="hotfolders">
       <key>
         <column name="mid" not-null="true"/>
@@ -63,6 +66,12 @@
         <column name="mid"/>
       </key>
       <one-to-many class="home.shared.hibernate.AccountConnector"/>
+    </set>
+    <set inverse="true" name="mailHeaderVariable">
+      <key>
+        <column name="mid"/>
+      </key>
+      <one-to-many class="home.shared.hibernate.MailHeaderVariable"/>
     </set>
   </class>
 </hibernate-mapping>

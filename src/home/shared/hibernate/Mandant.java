@@ -17,6 +17,7 @@ public class Mandant  implements java.io.Serializable {
      private String password;
      private String loginname;
      private String flags;
+     private int imap_port;
      private Set<Hotfolder> hotfolders = new HashSet<Hotfolder>(0);
      private Set<ImapFetcher> imapFetchers = new HashSet<ImapFetcher>(0);
      private Set<Role> roles = new HashSet<Role>(0);
@@ -24,26 +25,32 @@ public class Mandant  implements java.io.Serializable {
      private Set<Proxy> proxies = new HashSet<Proxy>(0);
      private Set<DiskArchive> diskArchives = new HashSet<DiskArchive>(0);
      private Set<AccountConnector> accountConnectors = new HashSet<AccountConnector>(0);
+     private Set<MailHeaderVariable> mailHeaderVariable = new HashSet<MailHeaderVariable>(0);
 
     public Mandant() {
     }
 
 	
-    public Mandant(int id, String name, String license, String password, String loginname, String flags) {
+    public Mandant(int id, String name, String license, String password, String loginname, String flags, int imap_port) {
         this.id = id;
         this.name = name;
         this.license = license;
         this.password = password;
         this.loginname = loginname;
         this.flags = flags;
+        this.imap_port = imap_port;
     }
-    public Mandant(int id, String name, String license, String password, String loginname, String flags, Set<Hotfolder> hotfolders, Set<ImapFetcher> imapFetchers, Set<Role> roles, Set<Milter> milters, Set<Proxy> proxies, Set<DiskArchive> diskArchives, Set<AccountConnector> accountConnectors) {
+    public Mandant(int id, String name, String license, String password, String loginname, String flags, int imap_port, Set<Hotfolder> hotfolders,
+                Set<ImapFetcher> imapFetchers, Set<Role> roles, Set<Milter> milters, Set<Proxy> proxies, Set<DiskArchive> diskArchives,
+                Set<AccountConnector> accountConnectors, Set<MailHeaderVariable> mailHeaderVariable)
+    {
        this.id = id;
        this.name = name;
        this.license = license;
        this.password = password;
        this.loginname = loginname;
        this.flags = flags;
+       this.imap_port = imap_port;
        this.hotfolders = hotfolders;
        this.imapFetchers = imapFetchers;
        this.roles = roles;
@@ -51,6 +58,7 @@ public class Mandant  implements java.io.Serializable {
        this.proxies = proxies;
        this.diskArchives = diskArchives;
        this.accountConnectors = accountConnectors;
+       this.mailHeaderVariable = mailHeaderVariable;
     }
    
     public int getId() {
@@ -140,9 +148,33 @@ public class Mandant  implements java.io.Serializable {
     public Set<AccountConnector> getAccountConnectors() {
         return this.accountConnectors;
     }
-    
+
     public void setAccountConnectors(Set<AccountConnector> accountConnectors) {
         this.accountConnectors = accountConnectors;
+    }
+
+    public Set<MailHeaderVariable>  getMailHeaderVariable() {
+        return this.mailHeaderVariable;
+    }
+
+    public void setMailHeaderVariable(Set<MailHeaderVariable> mailHeaderVariable) {
+        this.mailHeaderVariable = mailHeaderVariable;
+    }
+
+    /**
+     * @return the imap_port
+     */
+    public int getImap_port()
+    {
+        return imap_port;
+    }
+
+    /**
+     * @param imap_port the imap_port to set
+     */
+    public void setImap_port( int imap_port )
+    {
+        this.imap_port = imap_port;
     }
 
 

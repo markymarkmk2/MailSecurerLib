@@ -10,11 +10,10 @@
     <property name="varName" type="string">
       <column name="var_name" unique="true"/>
     </property>
-    <set inverse="true" name="mailHeaders">
-      <key>
-        <column name="var_id"/>
-      </key>
-      <one-to-many class="home.shared.hibernate.MailHeader"/>
-    </set>
+    <many-to-one class="home.shared.hibernate.Mandant" fetch="select" name="mandant">
+      <column name="mid"/>
+    </many-to-one>
+
+    
   </class>
 </hibernate-mapping>
