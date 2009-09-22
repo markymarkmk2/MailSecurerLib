@@ -14,6 +14,10 @@ public class AccountConnector  implements java.io.Serializable {
      private String type;
      private String ip;
      private Integer port;
+     private String username;
+     private String pwd;
+     private int flags;
+
 
     public AccountConnector() {
     }
@@ -22,12 +26,17 @@ public class AccountConnector  implements java.io.Serializable {
     public AccountConnector(int id) {
         this.id = id;
     }
-    public AccountConnector(int id, Mandant mandant, String type, String ip, Integer port) {
-       this.id = id;
-       this.mandant = mandant;
-       this.type = type;
-       this.ip = ip;
-       this.port = port;
+
+    public AccountConnector( int id, Mandant mandant, String type, String ip, Integer port, String user, String pwd, int flags )
+    {
+        this.id = id;
+        this.mandant = mandant;
+        this.type = type;
+        this.ip = ip;
+        this.port = port;
+        this.username = user;
+        this.pwd = pwd;
+        this.flags = flags;
     }
    
     public int getId() {
@@ -64,6 +73,54 @@ public class AccountConnector  implements java.io.Serializable {
     
     public void setPort(Integer port) {
         this.port = port;
+    }
+
+    /**
+     * @return the user
+     */
+    public String getUsername()
+    {
+        return username;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUsername( String user )
+    {
+        this.username = user;
+    }
+
+    /**
+     * @return the pwd
+     */
+    public String getPwd()
+    {
+        return pwd;
+    }
+
+    /**
+     * @param pwd the pwd to set
+     */
+    public void setPwd( String pwd )
+    {
+        this.pwd = pwd;
+    }
+
+    /**
+     * @return the flags
+     */
+    public int getFlags()
+    {
+        return flags;
+    }
+
+    /**
+     * @param flags the flags to set
+     */
+    public void setFlags( int flags )
+    {
+        this.flags = flags;
     }
 
 

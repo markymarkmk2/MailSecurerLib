@@ -66,6 +66,7 @@ public class CS_Constants
     public static final String FLD_DATE = "FLDN_DT";
     public static final String FLD_HAS_ATTACHMENT = "FLDN_HATT";
     public static final String FLD_META_ADDRESS = "FLDN_ADDR";
+    public static final String FLD_HASH = "FLDN_HASH";
 
 
     public static final String IFETCHER_TYPE_IMAP = "imap";

@@ -5,6 +5,7 @@
 
 package home.shared.mail;
 
+import home.shared.CS_Constants;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -13,6 +14,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.DigestInputStream;
+import java.security.DigestOutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 /**
@@ -23,6 +28,7 @@ public class RFCFileMail extends RFCGenericMail
 {
     File msg;
     boolean encoded;
+    MessageDigest digest;
 
     public static boolean dflt_encoded = false;
 
@@ -31,6 +37,7 @@ public class RFCFileMail extends RFCGenericMail
         super(_date);
         msg = _msg;
         encoded = _encoded;
+        digest = null;
     }
     public RFCFileMail( File _msg, boolean _encoded )
     {
@@ -47,6 +54,11 @@ public class RFCFileMail extends RFCGenericMail
     public InputStream open_inputstream() throws FileNotFoundException
     {
         return open_inputstream(msg, encoded);
+    }
+
+    public OutputStream open_outputstream() throws FileNotFoundException
+    {
+        return open_outputstream(msg, encoded);
     }
 
 
@@ -78,20 +90,78 @@ public class RFCFileMail extends RFCGenericMail
     }
 
 
-    public static InputStream open_inputstream(File file, boolean encoded) throws FileNotFoundException
+
+    private InputStream open_inputstream(File file, boolean encoded) throws FileNotFoundException
     {
+        InputStream is;
+
+        try
+        {
+            digest = MessageDigest.getInstance("SHA");
+            is = new DigestInputStream(new FileInputStream(file), digest);
+        }
+        catch (NoSuchAlgorithmException noSuchAlgorithmException)
+        {
+            System.out.println("Cannot open SHA Digest: " + noSuchAlgorithmException.getMessage());
+            noSuchAlgorithmException.printStackTrace();
+
+            is = new FileInputStream(file);
+        }
+
         if (!encoded)
-            return new BufferedInputStream( new FileInputStream( file));
+            return new BufferedInputStream( is );
         else
-            return new BufferedInputStream( new EncodedMailInputStream( new FileInputStream( file)));
+            return new BufferedInputStream( new EncodedMailInputStream( is ));
     }
-    public static OutputStream open_outputstream(File file, boolean encoded) throws FileNotFoundException
+    private OutputStream open_outputstream(File file, boolean encoded) throws FileNotFoundException
     {
+        OutputStream os;
+
+        try
+        {
+            digest = MessageDigest.getInstance("SHA");
+            os = new DigestOutputStream(new FileOutputStream(file), digest);
+        }
+        catch (NoSuchAlgorithmException noSuchAlgorithmException)
+        {
+            System.out.println("Cannot open SHA Digest: " + noSuchAlgorithmException.getMessage());
+            noSuchAlgorithmException.printStackTrace();
+
+            os = new FileOutputStream(file);
+        }
+
         if (!encoded)
-            return new BufferedOutputStream( new FileOutputStream( file));
+            return new BufferedOutputStream( os );
         else
-            return new BufferedOutputStream( new EncodedMailOutputStream( new FileOutputStream( file)));
+            return new BufferedOutputStream( new EncodedMailOutputStream(os));
     }
 
+    public byte[] get_hash()
+    {
+        if (digest == null)
+        {
+            try
+            {
+                InputStream is = open_inputstream();
+                byte[] buff = new byte[CS_Constants.STREAM_BUFFER_LEN];
 
+                while (true)
+                {
+                    int rlen = is.read(buff);
+                    if (rlen == -1)
+                    {
+                        break;
+                    }
+                }
+                is.close();
+            }
+            catch (Exception iOException)
+            {
+            }
+        }
+        if (digest != null)
+            return digest.digest();
+
+        return null;
+    }
 }

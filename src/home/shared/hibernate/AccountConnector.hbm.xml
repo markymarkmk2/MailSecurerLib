@@ -19,5 +19,15 @@
     <property name="port" type="java.lang.Integer">
       <column name="port"/>
     </property>
+    <property name="username" type="string">
+      <column length="80" name="username"/>
+    </property>
+    <property name="pwd" type="string">
+      <column length="80" name="pwd"/>
+    </property>
+    <property name="flags" type="java.lang.Integer">
+      <column name="flags"/>
+    </property>
   </class>
 </hibernate-mapping>
+
