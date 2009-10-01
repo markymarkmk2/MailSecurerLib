@@ -2,16 +2,19 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 09.07.2009 10:42:46 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping default-lazy="false">
-  <class name="home.shared.hibernate.MailHeaderVariable" schema="APP" table="mail_header_variable">
+  <class name="home.shared.hibernate.RoleOption" schema="APP" table="role_option">
     <id name="id" type="int">
       <column name="id"/>
       <generator class="identity"/>
     </id>
-    <property name="varName" type="string">
-      <column name="var_name" unique="true"/>
-    </property>
-    <many-to-one class="home.shared.hibernate.Mandant" fetch="select" name="mandant">
-      <column name="mid"/>
+    <many-to-one class="home.shared.hibernate.Role" fetch="select" name="role">
+      <column name="ro_id"/>
     </many-to-one>
+    <property name="token" type="string">
+      <column length="80" name="token"/>
+    </property>
+    <property name="flags" type="int">
+      <column name="flags"/>
+    </property>
   </class>
 </hibernate-mapping>

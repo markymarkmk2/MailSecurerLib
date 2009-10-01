@@ -92,14 +92,17 @@ public class SQLArrayResult
             for (int f = 0; f < list.size(); f++)
             {
                 String orig = list.get(f);
-                String field = decode( orig );
-
-                // MODIFIED ?
-                if ( field.length() != orig.length())
+                if (orig != null)
                 {
-                    // THEN REPLACE
-                    list.remove(f);
-                    list.add(f, field);
+                    String field = decode( orig );
+
+                    // MODIFIED ?
+                    if ( field.length() != orig.length())
+                    {
+                        // THEN REPLACE
+                        list.remove(f);
+                        list.add(f, field);
+                    }
                 }
             }
         }
@@ -179,6 +182,8 @@ public class SQLArrayResult
     
     public String getString( int r, int c )
     {
+        if (r < 0)
+            return null;
         try
         {
             Object o = resultList.get(r).get(c);
@@ -187,7 +192,7 @@ public class SQLArrayResult
 
         } catch (Exception exc)
         {
-            err_log("Ung�ltiger Zugriff in getString( " + r + ", " + c + " ):" + exc.getMessage());
+            err_log("Ungültiger Zugriff in getString( " + r + ", " + c + " ):" + exc.getMessage());
             exc.printStackTrace();
             
         }
@@ -226,7 +231,7 @@ public class SQLArrayResult
 
         } catch (Exception exc)
         {
-            err_log("Ung�ltiger Zugriff in getInt( " + r + ", " + c + " ):" + exc.getMessage());
+            err_log("Ungültiger Zugriff in getInt( " + r + ", " + c + " ):" + exc.getMessage());
             exc.printStackTrace();
         }
         return -1;

@@ -1,6 +1,10 @@
 package home.shared.hibernate;
 // Generated 09.07.2009 10:42:43 by Hibernate Tools 3.2.1.GA
 
+import java.util.HashSet;
+import java.util.Set;
+
+
 
 
 /**
@@ -16,6 +20,8 @@ public class Role  implements java.io.Serializable {
      private String accountmatch;
      private Integer license;
      private String flags;
+     private AccountConnector accountConnector;
+     private Set<RoleOption> roleOptions = new HashSet<RoleOption>(0);
 
     public Role() {
     }
@@ -24,14 +30,17 @@ public class Role  implements java.io.Serializable {
     public Role(int id) {
         this.id = id;
     }
-    public Role(int id, Mandant mandant, String name, String opts, String ac, Integer license, String flags) {
+    public Role(int id, Mandant mandant, String name, String opts, String acm, Integer license, String flags, AccountConnector ac, Set<RoleOption> roleOptions) {
        this.id = id;
        this.mandant = mandant;
        this.name = name;
        this.license = license;
        this.opts = opts;
-       accountmatch = ac;
+       accountmatch = acm;
        this.flags = flags;
+       this.accountConnector = ac;
+       this.roleOptions = roleOptions;
+
     }
    
     public int getId() {
@@ -86,7 +95,21 @@ public class Role  implements java.io.Serializable {
         this.flags = flags;
     }
 
+    public AccountConnector getAccountConnector() {
+        return this.accountConnector;
+    }
 
+    public void setAccountConnector(AccountConnector ac) {
+        this.accountConnector = ac;
+    }
+
+    public Set<RoleOption> getRoleOptions() {
+        return this.roleOptions;
+    }
+
+    public void setRoleOptions(Set<RoleOption> roleOptions) {
+        this.roleOptions = roleOptions;
+    }
 
 }
 

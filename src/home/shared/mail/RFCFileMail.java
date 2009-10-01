@@ -31,6 +31,7 @@ public class RFCFileMail extends RFCGenericMail
     MessageDigest digest;
 
     public static boolean dflt_encoded = false;
+    public static boolean create_hash = true;
 
     public RFCFileMail( File _msg, Date _date, boolean _encoded )
     {
@@ -97,8 +98,15 @@ public class RFCFileMail extends RFCGenericMail
 
         try
         {
-            digest = MessageDigest.getInstance("SHA");
-            is = new DigestInputStream(new FileInputStream(file), digest);
+            if (create_hash && digest == null)
+            {
+                digest = MessageDigest.getInstance("SHA");
+                is = new DigestInputStream(new FileInputStream(file), digest);
+            }
+            else
+            {
+                is = new FileInputStream(file);
+            }
         }
         catch (NoSuchAlgorithmException noSuchAlgorithmException)
         {
@@ -119,8 +127,15 @@ public class RFCFileMail extends RFCGenericMail
 
         try
         {
-            digest = MessageDigest.getInstance("SHA");
-            os = new DigestOutputStream(new FileOutputStream(file), digest);
+             if (create_hash && digest == null)
+             {
+                digest = MessageDigest.getInstance("SHA");
+                os = new DigestOutputStream(new FileOutputStream(file), digest);
+             }
+             else
+             {
+                 os = new FileOutputStream(file);
+             }
         }
         catch (NoSuchAlgorithmException noSuchAlgorithmException)
         {
@@ -138,7 +153,7 @@ public class RFCFileMail extends RFCGenericMail
 
     public byte[] get_hash()
     {
-        if (digest == null)
+        if (create_hash && digest == null)
         {
             try
             {

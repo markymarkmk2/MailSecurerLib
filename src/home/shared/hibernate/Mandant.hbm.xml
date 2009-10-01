@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 09.07.2009 10:42:46 by Hibernate Tools 3.2.1.GA -->
-<hibernate-mapping default-lazy="false" >
+<hibernate-mapping default-lazy="false">
   <class name="home.shared.hibernate.Mandant" schema="APP" table="mandant">
     <id name="id" type="int">
       <column name="id"/>
@@ -25,49 +25,49 @@
     <property name="imap_port" type="int">
       <column name="imap_port"/>
     </property>
-    <set inverse="true" name="hotfolders">
+    <set cascade="delete" inverse="true" name="hotfolders">
       <key>
         <column name="mid" not-null="true"/>
       </key>
       <one-to-many class="home.shared.hibernate.Hotfolder"/>
     </set>
-    <set inverse="true" name="imapFetchers">
+    <set cascade="delete" inverse="true" name="imapFetchers">
       <key>
         <column name="mid" not-null="true"/>
       </key>
       <one-to-many class="home.shared.hibernate.ImapFetcher"/>
     </set>
-    <set inverse="true" name="roles">
+    <set cascade="delete" inverse="true" name="roles">
       <key>
         <column name="mid"/>
       </key>
       <one-to-many class="home.shared.hibernate.Role"/>
     </set>
-    <set inverse="true" name="milters">
+    <set cascade="delete" inverse="true" name="milters">
       <key>
         <column name="mid"/>
       </key>
       <one-to-many class="home.shared.hibernate.Milter"/>
     </set>
-    <set inverse="true" name="proxies">
+    <set cascade="delete" inverse="true" name="proxies">
       <key>
         <column name="mid"/>
       </key>
       <one-to-many class="home.shared.hibernate.Proxy"/>
     </set>
-    <set inverse="true" name="diskArchives">
+    <set cascade="delete" inverse="true" name="diskArchives">
       <key>
         <column name="mid"/>
       </key>
       <one-to-many class="home.shared.hibernate.DiskArchive"/>
     </set>
-    <set inverse="true" name="accountConnectors">
+    <set cascade="delete" inverse="true" name="accountConnectors">
       <key>
         <column name="mid"/>
       </key>
       <one-to-many class="home.shared.hibernate.AccountConnector"/>
     </set>
-    <set inverse="true" name="mailHeaderVariable">
+    <set cascade="delete" inverse="true" name="mailHeaderVariable">
       <key>
         <column name="mid"/>
       </key>

@@ -1,6 +1,10 @@
 package home.shared.hibernate;
 // Generated 09.07.2009 10:42:43 by Hibernate Tools 3.2.1.GA
 
+import java.util.HashSet;
+import java.util.Set;
+
+
 
 
 /**
@@ -17,6 +21,7 @@ public class AccountConnector  implements java.io.Serializable {
      private String username;
      private String pwd;
      private int flags;
+     private Set<Role> roles = new HashSet<Role>(0);
 
 
     public AccountConnector() {
@@ -27,7 +32,7 @@ public class AccountConnector  implements java.io.Serializable {
         this.id = id;
     }
 
-    public AccountConnector( int id, Mandant mandant, String type, String ip, Integer port, String user, String pwd, int flags )
+    public AccountConnector( int id, Mandant mandant, String type, String ip, Integer port, String user, String pwd, int flags, Set<Role> roles )
     {
         this.id = id;
         this.mandant = mandant;
@@ -37,6 +42,7 @@ public class AccountConnector  implements java.io.Serializable {
         this.username = user;
         this.pwd = pwd;
         this.flags = flags;
+        this.roles = roles;
     }
    
     public int getId() {
@@ -121,6 +127,13 @@ public class AccountConnector  implements java.io.Serializable {
     public void setFlags( int flags )
     {
         this.flags = flags;
+    }
+    public Set<Role> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
 
