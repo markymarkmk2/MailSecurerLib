@@ -7,6 +7,8 @@ package home.shared.mail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -79,7 +81,7 @@ public abstract class RFCGenericMail
     }
 
 
-
+    // THIS ONE IS THE LAST TIME WE SET THE TIMESTAMP, AFTER THIS WE AHE A UUID
     synchronized public File create_unique_mailfile( String parent_path)
     {
         File trg_file = null;
@@ -94,7 +96,15 @@ public abstract class RFCGenericMail
                 if (!parent.exists())
                     parent.mkdirs();
 
-                break;
+                try
+                {
+                    FileWriter fw = new FileWriter(trg_file);
+                    fw.close();
+                    break; // REGULAR EXIT
+                }
+                catch (IOException iOException)
+                {
+                }
             }
 
             trg_file = null;
