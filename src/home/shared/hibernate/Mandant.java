@@ -18,6 +18,7 @@ public class Mandant  implements java.io.Serializable {
      private String loginname;
      private String flags;
      private int imap_port;
+     private String imap_host;
      private Set<Hotfolder> hotfolders = new HashSet<Hotfolder>(0);
      private Set<ImapFetcher> imapFetchers = new HashSet<ImapFetcher>(0);
      private Set<Role> roles = new HashSet<Role>(0);
@@ -31,7 +32,7 @@ public class Mandant  implements java.io.Serializable {
     }
 
 	
-    public Mandant(int id, String name, String license, String password, String loginname, String flags, int imap_port) {
+    public Mandant(int id, String name, String license, String password, String loginname, String flags, int imap_port, String imap_host) {
         this.id = id;
         this.name = name;
         this.license = license;
@@ -39,8 +40,9 @@ public class Mandant  implements java.io.Serializable {
         this.loginname = loginname;
         this.flags = flags;
         this.imap_port = imap_port;
+        this.imap_host = imap_host;
     }
-    public Mandant(int id, String name, String license, String password, String loginname, String flags, int imap_port, Set<Hotfolder> hotfolders,
+    public Mandant(int id, String name, String license, String password, String loginname, String flags, int imap_port, String imap_host, Set<Hotfolder> hotfolders,
                 Set<ImapFetcher> imapFetchers, Set<Role> roles, Set<Milter> milters, Set<Proxy> proxies, Set<DiskArchive> diskArchives,
                 Set<AccountConnector> accountConnectors, Set<MailHeaderVariable> mailHeaderVariable)
     {
@@ -51,6 +53,7 @@ public class Mandant  implements java.io.Serializable {
        this.loginname = loginname;
        this.flags = flags;
        this.imap_port = imap_port;
+       this.imap_host = imap_host;
        this.hotfolders = hotfolders;
        this.imapFetchers = imapFetchers;
        this.roles = roles;
@@ -175,6 +178,22 @@ public class Mandant  implements java.io.Serializable {
     public void setImap_port( int imap_port )
     {
         this.imap_port = imap_port;
+    }
+
+    /**
+     * @return the imap_host
+     */
+    public String getImap_host()
+    {
+        return imap_host;
+    }
+
+    /**
+     * @param imap_host the imap_host to set
+     */
+    public void setImap_host( String imap_host )
+    {
+        this.imap_host = imap_host;
     }
 
 

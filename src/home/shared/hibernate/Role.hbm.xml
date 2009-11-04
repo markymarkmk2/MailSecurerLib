@@ -34,7 +34,5 @@
       </key>
       <one-to-many class="home.shared.hibernate.RoleOption"/>
     </set>
-
-    
   </class>
 </hibernate-mapping>

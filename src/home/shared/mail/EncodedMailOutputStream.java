@@ -15,6 +15,7 @@ import java.io.OutputStream;
  */
 public class EncodedMailOutputStream extends FilterOutputStream
 {
+    boolean is_in_write;
 
     public EncodedMailOutputStream( OutputStream is )
     {
@@ -24,7 +25,11 @@ public class EncodedMailOutputStream extends FilterOutputStream
     @Override
     public void write( int b ) throws IOException
     {
-        super.write( ~b);
+        // CHECK AGAINST CALL FROM OURSELF
+        if (is_in_write)
+            super.write( b);
+        else
+            super.write( ~b);
     }
 
     @Override
@@ -41,7 +46,9 @@ public class EncodedMailOutputStream extends FilterOutputStream
             byte ch = b[i];
             b[i] = (byte)(~ch & 0xFF);
         }
+        is_in_write = true;
         super.write(b, off, len);
+        is_in_write = false;
     }
     
 }

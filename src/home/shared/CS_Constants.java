@@ -119,7 +119,7 @@ public class CS_Constants
         for (int i = 0; i < typelist.length; i++)
         {
             EMTypeEntry elem = typelist[i];
-            if (suffix.compareTo(elem.suffix) == 0)
+            if (suffix.toLowerCase().compareTo(elem.suffix) == 0)
                 return elem.itype;
         }
 

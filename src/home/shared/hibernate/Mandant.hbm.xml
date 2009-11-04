@@ -25,6 +25,9 @@
     <property name="imap_port" type="int">
       <column name="imap_port"/>
     </property>
+    <property name="imap_host" type="string">
+      <column length="80" name="imap_host" not-null="true"/>
+    </property>
     <set cascade="delete" inverse="true" name="hotfolders">
       <key>
         <column name="mid" not-null="true"/>

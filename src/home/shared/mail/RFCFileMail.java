@@ -10,15 +10,19 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.DigestInputStream;
 import java.security.DigestOutputStream;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
+import javax.crypto.NoSuchPaddingException;
 
 /**
  *
@@ -28,10 +32,17 @@ public class RFCFileMail extends RFCGenericMail
 {
     File msg;
     boolean encoded;
+    boolean encrypted;
     MessageDigest digest;
 
-    public static boolean dflt_encoded = false;
+    int iterationCount;
+    byte[] salt;
+    String passPhrase;
+
+
     public static boolean create_hash = true;
+    public static final String HASH_MODE = "SHA-1";
+
 
     public RFCFileMail( File _msg, Date _date, boolean _encoded )
     {
@@ -39,10 +50,19 @@ public class RFCFileMail extends RFCGenericMail
         msg = _msg;
         encoded = _encoded;
         digest = null;
+        encrypted = false;
     }
     public RFCFileMail( File _msg, boolean _encoded )
     {
         this( _msg, new Date(), _encoded );
+    }
+
+    public void set_encryption( String passPhrase, int iterationCount, byte[] salt)
+    {
+        this.iterationCount = iterationCount;
+        this.salt = salt;
+        this.passPhrase = passPhrase;
+        encrypted = true;
     }
 
     @Override
@@ -52,12 +72,12 @@ public class RFCFileMail extends RFCGenericMail
     }
 
     @Override
-    public InputStream open_inputstream() throws FileNotFoundException
+    public InputStream open_inputstream() throws IOException
     {
         return open_inputstream(msg, encoded);
     }
 
-    public OutputStream open_outputstream() throws FileNotFoundException
+    public OutputStream open_outputstream() throws IOException
     {
         return open_outputstream(msg, encoded);
     }
@@ -92,7 +112,7 @@ public class RFCFileMail extends RFCGenericMail
 
 
 
-    private InputStream open_inputstream(File file, boolean encoded) throws FileNotFoundException
+    private InputStream open_inputstream(File file, boolean encoded) throws IOException
     {
         InputStream is;
 
@@ -100,7 +120,7 @@ public class RFCFileMail extends RFCGenericMail
         {
             if (create_hash && digest == null)
             {
-                digest = MessageDigest.getInstance("SHA");
+                digest = MessageDigest.getInstance(HASH_MODE);
                 is = new DigestInputStream(new FileInputStream(file), digest);
             }
             else
@@ -110,18 +130,57 @@ public class RFCFileMail extends RFCGenericMail
         }
         catch (NoSuchAlgorithmException noSuchAlgorithmException)
         {
-            System.out.println("Cannot open SHA Digest: " + noSuchAlgorithmException.getMessage());
+            System.out.println("Cannot open " + HASH_MODE + " Digest: " + noSuchAlgorithmException.getMessage());
             noSuchAlgorithmException.printStackTrace();
 
             is = new FileInputStream(file);
         }
 
-        if (!encoded)
-            return new BufferedInputStream( is );
+        InputStream enc_is = is;
+
+        if (encoded)
+        {
+            if (encrypted)
+            {
+                try
+                {
+                    enc_is = new CryptAESInputStream(is, iterationCount, salt, passPhrase);
+                }
+                catch (NoSuchAlgorithmException noSuchAlgorithmException)
+                {
+                    throw new IOException( noSuchAlgorithmException.getMessage() );
+                }
+                catch (InvalidKeySpecException invalidKeySpecException)
+                {
+                    throw new IOException( invalidKeySpecException.getMessage() );
+                }
+                catch (NoSuchPaddingException noSuchPaddingException)
+                {
+                    throw new IOException( noSuchPaddingException.getMessage() );
+                }
+                catch (InvalidKeyException invalidKeyException)
+                {
+                    throw new IOException( invalidKeyException.getMessage() );
+                }
+                catch (InvalidAlgorithmParameterException invalidAlgorithmParameterException)
+                {
+                    throw new IOException( invalidAlgorithmParameterException.getMessage() );
+                }
+            }
+            else
+            {
+                enc_is = new EncodedMailInputStream( is );
+            }
+            return new BufferedInputStream( enc_is );
+ 
+        }
         else
-            return new BufferedInputStream( new EncodedMailInputStream( is ));
+        {
+            return new BufferedInputStream( is);
+        }        
     }
-    private OutputStream open_outputstream(File file, boolean encoded) throws FileNotFoundException
+
+    private OutputStream open_outputstream(File file, boolean encoded) throws IOException
     {
         OutputStream os;
 
@@ -129,7 +188,7 @@ public class RFCFileMail extends RFCGenericMail
         {
              if (create_hash && digest == null)
              {
-                digest = MessageDigest.getInstance("SHA");
+                digest = MessageDigest.getInstance(HASH_MODE);
                 os = new DigestOutputStream(new FileOutputStream(file), digest);
              }
              else
@@ -139,16 +198,54 @@ public class RFCFileMail extends RFCGenericMail
         }
         catch (NoSuchAlgorithmException noSuchAlgorithmException)
         {
-            System.out.println("Cannot open SHA Digest: " + noSuchAlgorithmException.getMessage());
+            System.out.println("Cannot open " + HASH_MODE  +" Digest: " + noSuchAlgorithmException.getMessage());
             noSuchAlgorithmException.printStackTrace();
 
             os = new FileOutputStream(file);
         }
 
-        if (!encoded)
-            return new BufferedOutputStream( os );
+        OutputStream enc_os = os;
+
+        if (encoded)
+        {
+            if (encrypted)
+            {
+                try
+                {
+                    enc_os = new CryptAESOutputStream(os, iterationCount, salt, passPhrase);
+                }
+                catch (NoSuchAlgorithmException noSuchAlgorithmException)
+                {
+                    throw new IOException( noSuchAlgorithmException.getMessage() );
+                }
+                catch (InvalidKeySpecException invalidKeySpecException)
+                {
+                    throw new IOException( invalidKeySpecException.getMessage() );
+                }
+                catch (NoSuchPaddingException noSuchPaddingException)
+                {
+                    throw new IOException( noSuchPaddingException.getMessage() );
+                }
+                catch (InvalidKeyException invalidKeyException)
+                {
+                    throw new IOException( invalidKeyException.getMessage() );
+                }
+                catch (InvalidAlgorithmParameterException invalidAlgorithmParameterException)
+                {
+                    throw new IOException( invalidAlgorithmParameterException.getMessage() );
+                }
+            }
+            else
+            {
+                enc_os = new EncodedMailOutputStream( os );
+            }
+            return new BufferedOutputStream( enc_os );
+
+        }
         else
-            return new BufferedOutputStream( new EncodedMailOutputStream(os));
+        {
+            return new BufferedOutputStream( os);
+        }
     }
 
     public byte[] get_hash()
