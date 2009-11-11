@@ -114,27 +114,8 @@ public class RFCFileMail extends RFCGenericMail
 
     private InputStream open_inputstream(File file, boolean encoded) throws IOException
     {
-        InputStream is;
+        InputStream is = new FileInputStream(file);
 
-        try
-        {
-            if (create_hash && digest == null)
-            {
-                digest = MessageDigest.getInstance(HASH_MODE);
-                is = new DigestInputStream(new FileInputStream(file), digest);
-            }
-            else
-            {
-                is = new FileInputStream(file);
-            }
-        }
-        catch (NoSuchAlgorithmException noSuchAlgorithmException)
-        {
-            System.out.println("Cannot open " + HASH_MODE + " Digest: " + noSuchAlgorithmException.getMessage());
-            noSuchAlgorithmException.printStackTrace();
-
-            is = new FileInputStream(file);
-        }
 
         InputStream enc_is = is;
 
@@ -171,13 +152,30 @@ public class RFCFileMail extends RFCGenericMail
             {
                 enc_is = new EncodedMailInputStream( is );
             }
-            return new BufferedInputStream( enc_is );
+            enc_is = new BufferedInputStream( enc_is );
  
         }
         else
         {
-            return new BufferedInputStream( is);
-        }        
+            enc_is = new BufferedInputStream( is);
+        }
+
+        // READ HASH
+        try
+        {
+            if (create_hash && digest == null)
+            {
+                digest = MessageDigest.getInstance(HASH_MODE);
+                enc_is = new DigestInputStream(enc_is, digest);
+            }
+        }
+        catch (NoSuchAlgorithmException noSuchAlgorithmException)
+        {
+            System.out.println("Cannot open " + HASH_MODE + " Digest: " + noSuchAlgorithmException.getMessage());
+            noSuchAlgorithmException.printStackTrace();
+        }
+        return enc_is;
+
     }
 
     private OutputStream open_outputstream(File file, boolean encoded) throws IOException

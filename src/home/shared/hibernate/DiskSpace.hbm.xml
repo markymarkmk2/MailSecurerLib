@@ -14,9 +14,7 @@
       <column name="path" not-null="true"/>
     </property>
     <property name="maxCapacity" type="string">
-      <column length="80" name="max_capacity">
-        <comment>Size in kB, MB, GB, TB etc</comment>
-      </column>
+      <column length="80" name="max_capacity"/>
     </property>
     <property name="flags" type="string">
       <column name="flags"/>

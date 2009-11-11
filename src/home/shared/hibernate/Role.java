@@ -40,7 +40,6 @@ public class Role  implements java.io.Serializable {
        this.flags = flags;
        this.accountConnector = ac;
        this.roleOptions = roleOptions;
-
     }
    
     public int getId() {
