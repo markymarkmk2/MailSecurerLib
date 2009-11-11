@@ -34,9 +34,5 @@
       </key>
       <many-to-many class="home.shared.hibernate.MailAddress" column="ma_id"/>
     </set>
-
-    
   </class>
 </hibernate-mapping>
-
-

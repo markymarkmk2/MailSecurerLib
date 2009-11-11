@@ -16,6 +16,5 @@
     <property name="flags" type="java.lang.Integer">
       <column name="flags"/>
     </property>
-    
   </class>
 </hibernate-mapping>

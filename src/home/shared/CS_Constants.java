@@ -83,6 +83,8 @@ public class CS_Constants
     public static int ACCT_USE_TLS_FORCE = 0x008;
     public static int ACCT_HAS_TLS_CERT = 0x010;
 
+    // ROLE FLAGS
+    public static final int ROLE_DISABLED =   0x01;
 
 
     static EMTypeEntry[] em_typelist =
