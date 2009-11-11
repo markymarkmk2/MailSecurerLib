@@ -25,7 +25,7 @@ public abstract class LogicEntry
     }
 
 
-    public abstract boolean eval();
+    public abstract boolean eval(FilterValProvider f_provider);
 
     /**
      * @return the neg
