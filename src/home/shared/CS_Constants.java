@@ -85,6 +85,7 @@ public class CS_Constants
 
     // ROLE FLAGS
     public static final int ROLE_DISABLED =   0x01;
+    public static final int ROLE_ACM_COMPRESSED =   0x02;
 
 
     static EMTypeEntry[] em_typelist =
@@ -100,7 +101,8 @@ public class CS_Constants
         new AccountConnectorTypeEntry("ldap","LDAP"),
         new AccountConnectorTypeEntry("smtp","SMTP"),
         new AccountConnectorTypeEntry("pop","POP3"),
-        new AccountConnectorTypeEntry("imap","IMAP")
+        new AccountConnectorTypeEntry("imap","IMAP"),
+        new AccountConnectorTypeEntry("dbs","Database")
     };
 
     public static final String get_suffix_from_em_type(String type)

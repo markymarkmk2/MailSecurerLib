@@ -97,11 +97,11 @@ public class ExprEntry extends LogicEntry
 
             switch( operation )
             {
-                case BEGINS_WITH:   ret = value.startsWith(val); break;
-                case ENDS_WITH:     ret = value.endsWith(val); break;
-                case CONTAINS:      ret = value.indexOf(val) >= 0; break;
-                case EXACTLY:       ret = value.compareTo(val) == 0; break;
-                case REGEXP:        ret = value.matches(val); break;
+                case BEGINS_WITH:   ret = val.startsWith(value); break;
+                case ENDS_WITH:     ret = val.endsWith(value); break;
+                case CONTAINS:      ret = val.indexOf(value) >= 0; break;
+                case EXACTLY:       ret = val.compareTo(value) == 0; break;
+                case REGEXP:        ret = val.matches(value); break;
             }
 
             if (ret)
