@@ -19,6 +19,11 @@ public class Mandant  implements java.io.Serializable {
      private String flags;
      private int imap_port;
      private String imap_host;
+     private int smtp_port;
+     private String smtp_host;
+     private String smtp_user;
+     private String smtp_pwd;
+     private int smtp_flags;
      private Set<Hotfolder> hotfolders = new HashSet<Hotfolder>(0);
      private Set<ImapFetcher> imapFetchers = new HashSet<ImapFetcher>(0);
      private Set<Role> roles = new HashSet<Role>(0);
@@ -34,7 +39,8 @@ public class Mandant  implements java.io.Serializable {
     }
 
 	
-    public Mandant(int id, String name, String license, String password, String loginname, String flags, int imap_port, String imap_host) {
+    public Mandant(int id, String name, String license, String password, String loginname, String flags, int imap_port, String imap_host,
+            int smtp_port, String smtp_host, String smtp_user, String smtp_pwd, int smtp_flags) {
         this.id = id;
         this.name = name;
         this.license = license;
@@ -43,8 +49,15 @@ public class Mandant  implements java.io.Serializable {
         this.flags = flags;
         this.imap_port = imap_port;
         this.imap_host = imap_host;
+        this.smtp_port = smtp_port;
+        this.smtp_host = smtp_host;
+        this.smtp_user = smtp_user;
+        this.smtp_pwd = smtp_pwd;
+        this.smtp_flags = smtp_flags;
     }
-    public Mandant(int id, String name, String license, String password, String loginname, String flags, int imap_port, String imap_host, Set<Hotfolder> hotfolders,
+    public Mandant(int id, String name, String license, String password, String loginname, String flags, int imap_port, String imap_host, 
+                int smtp_port, String smtp_host, String smtp_user, String smtp_pwd, int smtp_flags,
+                Set<Hotfolder> hotfolders,
                 Set<ImapFetcher> imapFetchers, Set<Role> roles, Set<Milter> milters, Set<Proxy> proxies, Set<DiskArchive> diskArchives,
                 Set<AccountConnector> accountConnectors, Set<MailHeaderVariable> mailHeaderVariable, Set<MailUser> mailusers)
     {
@@ -65,6 +78,12 @@ public class Mandant  implements java.io.Serializable {
        this.accountConnectors = accountConnectors;
        this.mailHeaderVariable = mailHeaderVariable;
        this.mailusers = mailusers;
+        this.smtp_port = smtp_port;
+        this.smtp_host = smtp_host;
+        this.smtp_user = smtp_user;
+        this.smtp_pwd = smtp_pwd;
+        this.smtp_flags = smtp_flags;
+
     }
    
     public int getId() {
@@ -213,6 +232,86 @@ public class Mandant  implements java.io.Serializable {
     public void setMailusers( Set<MailUser> mailusers )
     {
         this.mailusers = mailusers;
+    }
+
+    /**
+     * @return the smtp_port
+     */
+    public int getSmtp_port()
+    {
+        return smtp_port;
+    }
+
+    /**
+     * @param smtp_port the smtp_port to set
+     */
+    public void setSmtp_port( int smtp_port )
+    {
+        this.smtp_port = smtp_port;
+    }
+
+    /**
+     * @return the smtp_host
+     */
+    public String getSmtp_host()
+    {
+        return smtp_host;
+    }
+
+    /**
+     * @param smtp_host the smtp_host to set
+     */
+    public void setSmtp_host( String smtp_host )
+    {
+        this.smtp_host = smtp_host;
+    }
+
+    /**
+     * @return the smtp_user
+     */
+    public String getSmtp_user()
+    {
+        return smtp_user;
+    }
+
+    /**
+     * @param smtp_user the smtp_user to set
+     */
+    public void setSmtp_user( String smtp_user )
+    {
+        this.smtp_user = smtp_user;
+    }
+
+    /**
+     * @return the smtp_pwd
+     */
+    public String getSmtp_pwd()
+    {
+        return smtp_pwd;
+    }
+
+    /**
+     * @param smtp_pwd the smtp_pwd to set
+     */
+    public void setSmtp_pwd( String smtp_pwd )
+    {
+        this.smtp_pwd = smtp_pwd;
+    }
+
+    /**
+     * @return the smtp_flags
+     */
+    public int getSmtp_flags()
+    {
+        return smtp_flags;
+    }
+
+    /**
+     * @param smtp_flags the smtp_flags to set
+     */
+    public void setSmtp_flags( int smtp_flags )
+    {
+        this.smtp_flags = smtp_flags;
     }
 
 

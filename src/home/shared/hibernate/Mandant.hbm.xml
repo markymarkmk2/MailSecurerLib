@@ -23,10 +23,25 @@
       <column length="80" name="flags" not-null="true"/>
     </property>
     <property name="imap_port" type="int">
-      <column name="imap_port"/>
+      <column name="imap_port" not-null="true"/>
     </property>
     <property name="imap_host" type="string">
       <column length="80" name="imap_host" not-null="true"/>
+    </property>
+    <property name="smtp_port" type="int">
+      <column name="smtp_port" not-null="true"/>
+    </property>
+    <property name="smtp_host" type="string">
+      <column length="80" name="smtp_host" not-null="true"/>
+    </property>
+    <property name="smtp_user" type="string">
+      <column length="80" name="smtp_user" not-null="true"/>
+    </property>
+    <property name="smtp_pwd" type="string">
+      <column length="80" name="smtp_pwd" not-null="true"/>
+    </property>
+    <property name="smtp_flags" type="int">
+      <column name="smtp_flags" not-null="true"/>
     </property>
     <set cascade="delete" inverse="true" name="hotfolders">
       <key>
@@ -75,6 +90,12 @@
         <column name="mid"/>
       </key>
       <one-to-many class="home.shared.hibernate.MailHeaderVariable"/>
+    </set>
+    <set cascade="delete" inverse="true" name="mailusers">
+      <key>
+        <column name="mid"/>
+      </key>
+      <one-to-many class="home.shared.hibernate.MailUser"/>
     </set>
   </class>
 </hibernate-mapping>

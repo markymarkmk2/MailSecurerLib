@@ -76,7 +76,7 @@ public class CS_Constants
 
     public static int STREAM_BUFFER_LEN = 128*1024;
 
-    // ACCOUNTCONNECTOR FLAGS
+    // ACCOUNTCONNECTOR FLAGS // MANDANT SMTP_FLAGS
     public static int ACCT_DISABLED = 0x001;
     public static int ACCT_USE_SSL = 0x002;
     public static int ACCT_USE_TLS_IF_AVAIL = 0x004;

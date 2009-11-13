@@ -20,6 +20,11 @@ public class GroupEntry extends LogicEntry
         super(null, false,  true);
         children = new ArrayList<LogicEntry>();
     }
+    public GroupEntry( ArrayList<LogicEntry> children )
+    {
+        super(null, false,  false);
+        this.children = children;
+    }
     public GroupEntry( ArrayList<LogicEntry> parent_list, boolean neg, boolean previuos_is_or )
     {
         super(parent_list, neg,  previuos_is_or);
@@ -75,5 +80,7 @@ public class GroupEntry extends LogicEntry
     {
         return children;
     }
+
+   
 
 }
