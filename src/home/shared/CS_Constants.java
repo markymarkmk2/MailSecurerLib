@@ -87,6 +87,15 @@ public class CS_Constants
     public static final int ROLE_DISABLED =   0x01;
     public static final int ROLE_ACM_COMPRESSED =   0x02;
 
+    // USERMODE
+    public enum USERMODE
+    {
+        UL_INVALID,
+        UL_DUMMY,
+        UL_USER,
+        UL_ADMIN,
+        UL_SYSADMIN
+    };
 
     static EMTypeEntry[] em_typelist =
     {

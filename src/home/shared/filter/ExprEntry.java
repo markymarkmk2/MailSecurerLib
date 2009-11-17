@@ -18,7 +18,7 @@ public class ExprEntry extends LogicEntry
         BEGINS_WITH,
         ENDS_WITH,
         CONTAINS,
-        EXACTLY,
+        CONTAINS_SUBSTR,
         REGEXP
     }
 
@@ -99,8 +99,8 @@ public class ExprEntry extends LogicEntry
             {
                 case BEGINS_WITH:   ret = val.startsWith(value); break;
                 case ENDS_WITH:     ret = val.endsWith(value); break;
-                case CONTAINS:      ret = val.indexOf(value) >= 0; break;
-                case EXACTLY:       ret = val.compareTo(value) == 0; break;
+                case CONTAINS_SUBSTR:      ret = val.indexOf(value) >= 0; break;
+                case CONTAINS:       ret = val.compareTo(value) == 0; break;
                 case REGEXP:        ret = val.matches(value); break;
             }
 

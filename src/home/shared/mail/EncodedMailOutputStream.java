@@ -5,7 +5,6 @@
 
 package home.shared.mail;
 
-import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -13,23 +12,20 @@ import java.io.OutputStream;
  *
  * @author mw
  */
-public class EncodedMailOutputStream extends FilterOutputStream
+public class EncodedMailOutputStream extends OutputStream
 {
-    boolean is_in_write;
+    OutputStream os;
 
-    public EncodedMailOutputStream( OutputStream is )
+    public EncodedMailOutputStream( OutputStream os )
     {
-        super(is);
+        this.os = os;
     }
 
     @Override
     public void write( int b ) throws IOException
     {
         // CHECK AGAINST CALL FROM OURSELF
-        if (is_in_write)
-            super.write( b);
-        else
-            super.write( ~b);
+        os.write( ~b);
     }
 
     @Override
@@ -46,9 +42,22 @@ public class EncodedMailOutputStream extends FilterOutputStream
             byte ch = b[i];
             b[i] = (byte)(~ch & 0xFF);
         }
-        is_in_write = true;
-        super.write(b, off, len);
-        is_in_write = false;
+        os.write(b, off, len);
     }
+
+    @Override
+    public void close() throws IOException
+    {
+        os.close();
+    }
+
+    @Override
+    public void flush() throws IOException
+    {
+        os.flush();
+    }
+    
+
+
     
 }

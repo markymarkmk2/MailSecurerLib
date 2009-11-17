@@ -5,7 +5,6 @@
 
 package home.shared.mail;
 
-import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -13,18 +12,18 @@ import java.io.InputStream;
  *
  * @author mw
  */
-public class EncodedMailInputStream extends FilterInputStream
+public class EncodedMailInputStream extends InputStream
 {
-
+    InputStream is;
     public EncodedMailInputStream( InputStream is )
     {
-        super(is);
+        this.is = is;
     }
 
     @Override
     public int read() throws IOException
     {
-        int ch = super.read();
+        int ch = is.read();
         ch = ~ch;
         return ch;
     }
@@ -38,7 +37,7 @@ public class EncodedMailInputStream extends FilterInputStream
     @Override
     public int read( byte[] b, int off, int len ) throws IOException
     {
-        int ret = super.read(b, off, len);
+        int ret = is.read(b, off, len);
         if (ret <= 0)
             return ret;
 
@@ -50,9 +49,30 @@ public class EncodedMailInputStream extends FilterInputStream
         return ret;
     }
 
+    @Override
+    public void close() throws IOException
+    {
+        is.close();
+    }
 
+    @Override
+    public int available() throws IOException
+    {
+        return is.available();
+    }
 
-   
+    @Override
+    public synchronized void reset() throws IOException
+    {
+        is.reset();
+    }
+
+    @Override
+    public long skip( long n ) throws IOException
+    {
+        return is.skip(n);
+    }
+
 
 
 

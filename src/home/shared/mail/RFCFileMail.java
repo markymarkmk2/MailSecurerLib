@@ -274,4 +274,15 @@ public class RFCFileMail extends RFCGenericMail
 
         return null;
     }
+
+    public boolean isEncoded()
+    {
+        return encoded;
+    }
+
+    public boolean isEncrypted()
+    {
+        return encrypted;
+    }
+    
 }

@@ -34,7 +34,11 @@ public abstract class RFCGenericMail
     public static boolean dflt_encrypted = true;
     public static int dflt_encoding = ENC_AES;
   
-    public static String get_suffix_for_enc( int enc_mode )
+    public static String get_suffix_for_encoded( )
+    {
+        return ".enc";
+    }
+    public static String get_suffix_for_encrypt_mode( int enc_mode )
     {
         switch (enc_mode)
         {
@@ -95,7 +99,7 @@ public abstract class RFCGenericMail
     }
     public static String get_mailpath_from_time( String parent_path, Date d, int enc_mode)
     {
-        String suffix = get_suffix_for_enc( enc_mode );
+        String suffix = get_suffix_for_encrypt_mode( enc_mode );
         String trg_file = parent_path + "/data" + mailpath_sdf.format(d) + suffix;
         return trg_file;
     }
@@ -146,4 +150,6 @@ public abstract class RFCGenericMail
 
     public abstract void delete();
     public abstract void move_to(File targ) throws Exception;
+
+    public abstract boolean isEncoded();
 }
