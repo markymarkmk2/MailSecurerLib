@@ -4,8 +4,7 @@
 <hibernate-mapping default-lazy="false">
   <class name="home.shared.hibernate.MailAddLink" schema="APP" table="mu_add_link">
     <id name="muId" type="int">
-      <column name="mu_id"/>
-      <generator class="identity"/>
+      <column name="mu_id"/>      
     </id>
     <property name="maId" type="int">
       <column name="ma_id"/>

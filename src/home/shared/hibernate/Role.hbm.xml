@@ -20,7 +20,7 @@
       <column name="flags"/>
     </property>
     <property name="accountmatch" type="string">
-      <column name="accountmatch"/>
+      <column length="32000" name="accountmatch"/>
     </property>
     <property name="license" type="java.lang.Integer">
       <column name="license"/>

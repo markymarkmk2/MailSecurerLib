@@ -69,6 +69,13 @@ public class CS_Constants
     public static final String FLD_HAS_ATTACHMENT = "FLDN_HATT";
     public static final String FLD_META_ADDRESS = "FLDN_ADDR";
     public static final String FLD_HASH = "FLDN_HASH";
+    public static final String FLD_TO = "To";
+    public static final String FLD_FROM = "From";
+    public static final String FLD_CC = "CC";
+    public static final String FLD_BCC = "BCC";
+    public static final String FLD_DELIVEREDTO = "DeliveredTo";
+    public static final String FLD_CONTENT_TYPE = "Content-Type";
+    public static final String FLD_CHARSET = "FLDN_CS";
 
 
     public static final String IFETCHER_TYPE_IMAP = "imap";
@@ -84,8 +91,18 @@ public class CS_Constants
     public static int ACCT_HAS_TLS_CERT = 0x010;
 
     // ROLE FLAGS
-    public static final int ROLE_DISABLED =   0x01;
-    public static final int ROLE_ACM_COMPRESSED =   0x02;
+    public static final int ROLE_DISABLED = 0x01;
+    public static final int ROLE_ACM_COMPRESSED = 0x02;
+
+    // HF
+    public static final int HF_FLAG_DISABLED = 0x01;
+
+    // IMAPFETCHER
+    public static int IMF_DISABLED = 0x01;
+
+    // DISKARCHIVE
+    public static int DA_DISABLED = 0x01;
+
 
     // USERMODE
     public enum USERMODE

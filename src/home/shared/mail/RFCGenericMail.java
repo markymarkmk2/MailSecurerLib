@@ -86,8 +86,15 @@ public abstract class RFCGenericMail
         return mailpath_sdf.format(date);
     }
 */
-    public static long get_time_from_mailfile( String path) throws ParseException
+    public static long get_time_from_mailfile( String path, int enc_mode) throws ParseException
     {
+        String suffix = get_suffix_for_encrypt_mode( enc_mode );
+        if (suffix.length() > 0)
+        {
+            path = path.substring(0, path.length() - suffix.length());
+        }
+        
+        path = path.substring("/data".length());
         Date d = mailpath_sdf.parse(path);
         return d.getTime();
     }

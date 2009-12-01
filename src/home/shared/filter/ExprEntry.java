@@ -89,24 +89,50 @@ public class ExprEntry extends LogicEntry
         boolean ret = false;
 
         ArrayList<String> val_list = f_provider.get_val_vor_name(name);
-
-        // EVAL ALL RESULT STRINGS
-        for (int i = 0; i < val_list.size(); i++)
+        if (val_list != null)
         {
-            String val = val_list.get(i);
-
-            switch( operation )
+            // EVAL ALL RESULT STRINGS
+            for (int i = 0; i < val_list.size(); i++)
             {
-                case BEGINS_WITH:   ret = val.startsWith(value); break;
-                case ENDS_WITH:     ret = val.endsWith(value); break;
-                case CONTAINS_SUBSTR:      ret = val.indexOf(value) >= 0; break;
-                case CONTAINS:       ret = val.compareTo(value) == 0; break;
-                case REGEXP:        ret = val.matches(value); break;
+                String val = val_list.get(i);
+
+                switch( operation )
+                {
+                    case BEGINS_WITH:   ret = val.startsWith(value); break;
+                    case ENDS_WITH:     ret = val.endsWith(value); break;
+                    case CONTAINS_SUBSTR:      ret = val.indexOf(value) >= 0; break;
+                    case CONTAINS:       
+                    {
+                        if (val.indexOf(value) != -1)
+                        {
+                            ret = true;
+                            break;
+                        }
+                        String[] s = val.split("[\\. ;,@]");
+                        if (s.length > 0)
+                        {
+                            for (int j = 0; j < s.length; j++)
+                            {
+                                String string = s[j];
+                                if (string.compareTo(value) == 0)
+                                {
+                                    ret = true; 
+                                    break;
+                                }                                
+                            }
+                        }
+                        else
+                        {
+                            ret = val.compareTo(value) == 0;
+                        }
+                        break;
+                    }
+                    case REGEXP:        ret = val.matches(value); break;
+                }
+
+                if (ret)
+                    break;
             }
-
-            if (ret)
-                break;
-
         }
 
         if (isNeg())

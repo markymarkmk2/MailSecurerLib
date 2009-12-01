@@ -61,23 +61,33 @@ public class RFCMimeMail
  
         msg.addFrom(ia_from);
         msg.addRecipients(Message.RecipientType.TO, ia_to);
-        msg.setSubject("Hotfolder " + attachment.getName());
+        if (subject != null)
+            msg.setSubject( subject);
+
         // CREATE MULTIPART
         Multipart multipart = new MimeMultipart();
+
         // CREATE MESSAGE PART
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         messageBodyPart.setText(text);
         messageBodyPart.setDisposition(MimeBodyPart.INLINE);
+
         // ADD TO MULTIPART
         multipart.addBodyPart(messageBodyPart);
-        // CREATE ATTACHMENT PART
-        MimeBodyPart dataBodyPart = new MimeBodyPart();
-        DataSource source = new FileDataSource(attachment);
-        dataBodyPart.setDataHandler(new DataHandler(source));
-        dataBodyPart.setFileName(attachment.getName());
-        dataBodyPart.setDisposition(MimeBodyPart.ATTACHMENT);
-        // ADD TO MULTIPART
-        multipart.addBodyPart(dataBodyPart);
+
+
+        if (attachment != null)
+        {
+            // CREATE ATTACHMENT PART
+            MimeBodyPart dataBodyPart = new MimeBodyPart();
+            DataSource source = new FileDataSource(attachment);
+            dataBodyPart.setDataHandler(new DataHandler(source));
+            dataBodyPart.setFileName(attachment.getName());
+            dataBodyPart.setDisposition(MimeBodyPart.ATTACHMENT);
+            // ADD TO MULTIPART
+            multipart.addBodyPart(dataBodyPart);
+        }
+
         // ADD MULTIPART TO MESSAGE
         msg.setContent(multipart);
 
@@ -369,6 +379,7 @@ public class RFCMimeMail
                 Part p = (Part) content;
                 check_part_content(p);
             }
+
 
             Part p = html_part;
             
