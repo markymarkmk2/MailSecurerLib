@@ -20,6 +20,7 @@ public class AccountConnector  implements java.io.Serializable {
      private Integer port;
      private String username;
      private String pwd;
+     private String searchbase;
      private int flags;
      private Set<Role> roles = new HashSet<Role>(0);
 
@@ -32,7 +33,7 @@ public class AccountConnector  implements java.io.Serializable {
         this.id = id;
     }
 
-    public AccountConnector( int id, Mandant mandant, String type, String ip, Integer port, String user, String pwd, int flags, Set<Role> roles )
+    public AccountConnector( int id, Mandant mandant, String type, String ip, Integer port, String user, String pwd, String searchbase, int flags, Set<Role> roles )
     {
         this.id = id;
         this.mandant = mandant;
@@ -43,6 +44,7 @@ public class AccountConnector  implements java.io.Serializable {
         this.pwd = pwd;
         this.flags = flags;
         this.roles = roles;
+        this.searchbase = searchbase;
     }
    
     public int getId() {
@@ -134,6 +136,22 @@ public class AccountConnector  implements java.io.Serializable {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    /**
+     * @return the searchbase
+     */
+    public String getSearchbase()
+    {
+        return searchbase;
+    }
+
+    /**
+     * @param searchbase the searchbase to set
+     */
+    public void setSearchbase( String searchbase )
+    {
+        this.searchbase = searchbase;
     }
 
 

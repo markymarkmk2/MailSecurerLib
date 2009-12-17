@@ -47,6 +47,13 @@ public abstract class RFCGenericMail
         }
         return ".vni";
     }
+    public static int get_encrypt_mode_for_suffix( String filename )
+    {
+        if (filename.endsWith(".sae"))
+            return ENC_AES;
+
+        return ENC_NONE;
+    }
 
     static SimpleDateFormat mailpath_sdf = new SimpleDateFormat("/yyyy/MM/dd/HHmmss.SSS");
     ArrayList<Address> bcc_list;

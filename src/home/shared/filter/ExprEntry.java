@@ -13,18 +13,29 @@ import java.util.ArrayList;
  */
 public class ExprEntry extends LogicEntry
 {
+
     public enum OPERATION
     {
         BEGINS_WITH,
         ENDS_WITH,
         CONTAINS,
         CONTAINS_SUBSTR,
-        REGEXP
+        REGEXP,
+        NUM_EQUAL,
+        NUM_LT,
+        NUM_GT
+    }
+    public enum TYPE
+    {
+        STRING,
+        INT,
+        TIMESTAMP
     }
 
     private String name;
     private String value;
     private OPERATION operation;
+    private TYPE type;
 
     /**
      * @return the name
@@ -73,14 +84,31 @@ public class ExprEntry extends LogicEntry
     {
         this.operation = operation;
     }
+    
+    /**
+     * @return the type
+     */
+    public TYPE getType()
+    {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType( TYPE type )
+    {
+        this.type = type;
+    }
 
 
-    public ExprEntry( ArrayList<LogicEntry> parent_list, String name, String value, OPERATION operation, boolean neg, boolean previous_is_or )
+    public ExprEntry( ArrayList<LogicEntry> parent_list, String name, String value, OPERATION operation, TYPE type, boolean neg, boolean previous_is_or )
     {
         super(parent_list, neg,  previous_is_or);
         this.name = name;
         this.value = value.toLowerCase();
         this.operation = operation;
+        this.type = type;
     }
 
     @Override

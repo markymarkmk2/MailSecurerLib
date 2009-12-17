@@ -77,6 +77,14 @@ public class CS_Constants
     public static final String FLD_CONTENT_TYPE = "Content-Type";
     public static final String FLD_CHARSET = "FLDN_CS";
 
+    // VIRTUAL FIELDNAMES
+    public static final String  VFLD_MAIL = "FLDV_MAIL";  // From To CC BCC
+    public static final String[] VFLD_MAIL_FIELDS = {FLD_TO, FLD_FROM, FLD_CC, FLD_BCC, FLD_DELIVEREDTO};
+    public static final String   VFLD_TXT =  "FLDV_TEXT";  // Subject Body Attachment
+    public static final String[] VFLD_TXT_FIELDS = {FLD_SUBJECT, FLD_BODY, FLD_ATTACHMENT};
+    public static final String   VFLD_ALL =  "FLDV_ALL";   // V_MAIL + V_TEXT + FLD_ATTACHMENT_NAME
+    public static final String[] VFLD_ALL_FIELDS = {FLD_TO, FLD_FROM, FLD_CC, FLD_BCC, FLD_DELIVEREDTO,FLD_SUBJECT, FLD_BODY, FLD_ATTACHMENT, FLD_ATTACHMENT_NAME };
+    
 
     public static final String IFETCHER_TYPE_IMAP = "imap";
     public static final String IFETCHER_TYPE_ENVELOPE = "exchange";

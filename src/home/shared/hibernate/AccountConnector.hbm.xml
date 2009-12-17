@@ -25,6 +25,9 @@
     <property name="pwd" type="string">
       <column length="80" name="pwd"/>
     </property>
+    <property name="searchbase" type="string">
+      <column length="255" name="searchbase"/>
+    </property>
     <property name="flags" type="java.lang.Integer">
       <column name="flags"/>
     </property>
