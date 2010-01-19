@@ -21,11 +21,17 @@ public class AccountConnector  implements java.io.Serializable {
      private String username;
      private String pwd;
      private String searchbase;
+     private String searchattribute;
+     private String mailattribute;
+     private String domainlist;
+     private String excludefilter;
+     
      private int flags;
      private Set<Role> roles = new HashSet<Role>(0);
 
 
-    public AccountConnector() {
+    public AccountConnector()
+    {
     }
 
 	
@@ -33,7 +39,7 @@ public class AccountConnector  implements java.io.Serializable {
         this.id = id;
     }
 
-    public AccountConnector( int id, Mandant mandant, String type, String ip, Integer port, String user, String pwd, String searchbase, int flags, Set<Role> roles )
+    public AccountConnector( int id, Mandant mandant, String type, String ip, Integer port, String user, String pwd, String searchbase, int flags, Set<Role> roles, String sa, String ma, String domainlist, String excludefilter )
     {
         this.id = id;
         this.mandant = mandant;
@@ -45,6 +51,10 @@ public class AccountConnector  implements java.io.Serializable {
         this.flags = flags;
         this.roles = roles;
         this.searchbase = searchbase;
+        searchattribute = sa;
+        mailattribute = ma;
+        this.domainlist = domainlist;
+        this.excludefilter = excludefilter;
     }
    
     public int getId() {
@@ -152,6 +162,76 @@ public class AccountConnector  implements java.io.Serializable {
     public void setSearchbase( String searchbase )
     {
         this.searchbase = searchbase;
+    }
+
+    /**
+     * @return the searchattribute
+     */
+    public String getSearchattribute()
+    {
+        return searchattribute;
+    }
+
+    /**
+     * @param searchattribute the searchattribute to set
+     */
+    public void setSearchattribute( String searchattribute )
+    {
+        this.searchattribute = searchattribute;
+    }
+
+    /**
+     * @return the mailattribute
+     */
+    public String getMailattribute()
+    {
+        if (mailattribute == null)
+            return "";
+        return mailattribute;
+    }
+
+    /**
+     * @param mailattribute the mailattribute to set
+     */
+    public void setMailattribute( String mailattribute )
+    {
+        this.mailattribute = mailattribute;
+    }
+
+    /**
+     * @return the domainlist
+     */
+    public String getDomainlist()
+    {
+        if (domainlist == null)
+            return "";
+        return domainlist;
+    }
+
+    /**
+     * @param domainlist the domainlist to set
+     */
+    public void setDomainlist( String domainlist )
+    {
+        this.domainlist = domainlist;
+    }
+
+    /**
+     * @return the excludefilter
+     */
+    public String getExcludefilter()
+    {
+        if (excludefilter == null)
+            return "";
+        return excludefilter;
+    }
+
+    /**
+     * @param excludefilter the excludefilter to set
+     */
+    public void setExcludefilter( String excludefilter )
+    {
+        this.excludefilter = excludefilter;
     }
 
 

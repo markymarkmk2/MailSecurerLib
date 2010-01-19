@@ -25,6 +25,12 @@ public abstract class RFCGenericMail
 
     public static final int ENC_NONE = 0;
     public static final int ENC_AES = 1;
+
+    public enum FILENAME_MODE
+    {
+        HMS_FILE,
+        H_DIR_MS_FILE
+    };
     
  /*   public static boolean dflt_encoded = false;
     public static boolean dflt_encrypted = false;
@@ -55,6 +61,7 @@ public abstract class RFCGenericMail
         return ENC_NONE;
     }
 
+    static SimpleDateFormat old_mailpath_sdf = new SimpleDateFormat("/yyyy/MM/dd/HHmmss.SSS");
     static SimpleDateFormat mailpath_sdf = new SimpleDateFormat("/yyyy/MM/dd/HHmmss.SSS");
     ArrayList<Address> bcc_list;
 
@@ -93,7 +100,7 @@ public abstract class RFCGenericMail
         return mailpath_sdf.format(date);
     }
 */
-    public static long get_time_from_mailfile( String path, int enc_mode) throws ParseException
+    public static long get_time_from_mailfile( String path, int enc_mode, FILENAME_MODE mode) throws ParseException
     {
         String suffix = get_suffix_for_encrypt_mode( enc_mode );
         if (suffix.length() > 0)
@@ -102,33 +109,60 @@ public abstract class RFCGenericMail
         }
         
         path = path.substring("/data".length());
-        Date d = mailpath_sdf.parse(path);
-        return d.getTime();
+        if (mode == FILENAME_MODE.HMS_FILE)
+        {
+            Date d = old_mailpath_sdf.parse(path);
+            return d.getTime();
+        }
+        if (mode == FILENAME_MODE.H_DIR_MS_FILE)
+        {
+            Date d = mailpath_sdf.parse(path);
+            return d.getTime();
+        }
+        return 0;
     }
 
-    public static String get_mailpath_from_time( String parent_path, long time, int enc_mode )
+    public static String get_mailpath_from_time( String parent_path, long time, int enc_mode, FILENAME_MODE mode )
     {       
         Date d = new Date(time);
-        return get_mailpath_from_time(parent_path, d, enc_mode);
+        return get_mailpath_from_time(parent_path, d, enc_mode, mode);
     }
-    public static String get_mailpath_from_time( String parent_path, Date d, int enc_mode)
+    public static String get_mailpath_from_time( String parent_path, Date d, int enc_mode, FILENAME_MODE mode)
     {
+        String trg_file = null;
         String suffix = get_suffix_for_encrypt_mode( enc_mode );
-        String trg_file = parent_path + "/data" + mailpath_sdf.format(d) + suffix;
+        if (mode == FILENAME_MODE.HMS_FILE)
+        {
+            trg_file = parent_path + "/data" + old_mailpath_sdf.format(d) + suffix;
+        }
+        if (mode == FILENAME_MODE.H_DIR_MS_FILE)
+        {
+            trg_file = parent_path + "/data" + mailpath_sdf.format(d) + suffix;
+        }
         return trg_file;
     }
 
 
     // THIS ONE IS THE LAST TIME WE SET THE TIMESTAMP, AFTER THIS WE HAVE A UUID
-    synchronized public File create_unique_mailfile( String parent_path, int enc_mode )
+    synchronized public File create_unique_mailfile( String parent_path, int enc_mode, FILENAME_MODE fmode )
     {
         File trg_file = null;
         int retries = 100;
+        File pp = new File( parent_path);
+        if (!pp.exists())
+        {
+            if (pp.getParentFile().exists())
+            {
+                pp.mkdir();
+            }
+        }
+        if (!pp.exists())
+            return null;
 
         
         do
         {
-            trg_file = new File( get_mailpath_from_time(parent_path, date, enc_mode) );
+            trg_file = new File( get_mailpath_from_time(parent_path, date, enc_mode, fmode) );
 
             if (!trg_file.exists())
             {

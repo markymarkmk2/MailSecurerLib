@@ -131,7 +131,7 @@ public class ZipUtilities
         return true;
     }
 
-    void zipDir( String start_path, String dir2zip, ZipOutputStream zos, String[] exclude_list ) throws FileNotFoundException, IOException, Exception
+    public void zipDir( String start_path, String dir2zip, ZipOutputStream zos, String[] exclude_list ) throws FileNotFoundException, IOException, Exception
     {
         //create a new File object based on the directory we have to zip File    
         File zipDir = new File(dir2zip);
@@ -185,7 +185,7 @@ public class ZipUtilities
         }
     }
 
-    void zipFile( String start_path, String file, ZipOutputStream zos ) throws FileNotFoundException, IOException, Exception
+    public void zipFile( String start_path, String file, ZipOutputStream zos ) throws FileNotFoundException, IOException, Exception
     {
         byte[] readBuffer = new byte[BUFFSIZE];
         int bytesIn = 0;

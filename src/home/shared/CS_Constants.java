@@ -26,6 +26,8 @@ class EMTypeEntry
  */
 public class CS_Constants
 {
+    public static final String TEXTLIST_DELIM = ",";
+
     public static final String TYPE_OLEXP = "OLEXP";
     public static final String TYPE_OUTLOOK = "OUTLK";
     public static final String TYPE_EML = "EML";
@@ -97,6 +99,8 @@ public class CS_Constants
     public static int ACCT_USE_TLS_IF_AVAIL = 0x004;
     public static int ACCT_USE_TLS_FORCE = 0x008;
     public static int ACCT_HAS_TLS_CERT = 0x010;
+    public static int ACCT_ANONYMOUS = 0x020;
+    public static int ACCT_USER_IS_MAIL = 0x040;
 
     // ROLE FLAGS
     public static final int ROLE_DISABLED = 0x01;
@@ -107,6 +111,12 @@ public class CS_Constants
 
     // IMAPFETCHER
     public static int IMF_DISABLED = 0x01;
+    public static int IMF_USE_SSL = 0x002;
+    public static int IMF_USE_TLS_IF_AVAIL = 0x004;
+    public static int IMF_USE_TLS_FORCE = 0x008;
+    public static int IMF_HAS_TLS_CERT = 0x010;
+    public static int IMF_POP3 = 0x020;
+    public static int IMF_USE_IDLE = 0x040;
 
     // DISKARCHIVE
     public static int DA_DISABLED = 0x01;
@@ -132,6 +142,7 @@ public class CS_Constants
     };
     static AccountConnectorTypeEntry[] act_typelist =
     {
+        new AccountConnectorTypeEntry("ad","ActiveDirectory"),
         new AccountConnectorTypeEntry("ldap","LDAP"),
         new AccountConnectorTypeEntry("smtp","SMTP"),
         new AccountConnectorTypeEntry("pop","POP3"),

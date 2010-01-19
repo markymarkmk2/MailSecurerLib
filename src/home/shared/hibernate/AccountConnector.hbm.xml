@@ -28,6 +28,18 @@
     <property name="searchbase" type="string">
       <column length="255" name="searchbase"/>
     </property>
+    <property name="searchattribute" type="string">
+      <column length="80" name="searchattribute"/>
+    </property>
+    <property name="mailattribute" type="string">
+      <column length="80" name="mailattribute"/>
+    </property>
+    <property name="domainlist" type="string">
+      <column length="255" name="domainlist"/>
+    </property>
+    <property name="excludefilter" type="string">
+      <column length="32000" name="excludefilter"/>
+    </property>
     <property name="flags" type="java.lang.Integer">
       <column name="flags"/>
     </property>
@@ -37,5 +49,6 @@
       </key>
       <one-to-many class="home.shared.hibernate.Role"/>
     </set>
+    
   </class>
 </hibernate-mapping>
