@@ -32,12 +32,14 @@ public class CS_Constants
     public static final String TYPE_OUTLOOK = "OUTLK";
     public static final String TYPE_EML = "EML";
     public static final String TYPE_TBIRD = "TBIRD";
+    public static final String TYPE_MBOX = "MBOX";
     public static final String TYPE_UNKNOWN = "UNKNOWN";
 
     public static final int ITYPE_OLEXP = 1;
     public static final int ITYPE_OUTLOOK = 2;
     public static final int ITYPE_EML = 3;
     public static final int ITYPE_TBIRD = 4;
+    public static final int ITYPE_MBOX = 5;
     public static final int ITYPE_UNKNOWN = -1;
 
 
@@ -138,6 +140,7 @@ public class CS_Constants
         new EMTypeEntry( TYPE_OUTLOOK, "pst", ITYPE_OUTLOOK),
         new EMTypeEntry( TYPE_EML, "eml", ITYPE_EML),
         new EMTypeEntry( TYPE_TBIRD, "mbox", ITYPE_TBIRD),
+        new EMTypeEntry( TYPE_MBOX, "mbox", ITYPE_MBOX),
         new EMTypeEntry( TYPE_UNKNOWN, "dat", ITYPE_UNKNOWN)
     };
     static AccountConnectorTypeEntry[] act_typelist =

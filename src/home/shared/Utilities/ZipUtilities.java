@@ -4,6 +4,8 @@
  */
 package home.shared.Utilities;
 
+import home.shared.CS_Constants;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -187,7 +189,7 @@ public class ZipUtilities
 
     public void zipFile( String start_path, String file, ZipOutputStream zos ) throws FileNotFoundException, IOException, Exception
     {
-        byte[] readBuffer = new byte[BUFFSIZE];
+        byte[] readBuffer = new byte[64*1024];
         int bytesIn = 0;
         File f = new File(file);
         long file_size = f.length();
@@ -195,42 +197,63 @@ public class ZipUtilities
         // NOTIFY
         notify_listeners_file(f.getName());
 
-        //create a FileInputStream on top of f 
-        FileInputStream fis = new FileInputStream(f);
-        //create a new zip entry 
-        String e_name = f.getAbsolutePath().substring(start_path.length() + 1);
+        InputStream fis = null;
 
-        // REPLACE BS WITH SLASH
-        if (System.getProperty("os.name").startsWith("Win"))
+
+        try
         {
-            e_name = e_name.replace('\\', '/');
-        }
+            //create a FileInputStream on top of f
+            fis = new BufferedInputStream(new FileInputStream(f),CS_Constants.STREAM_BUFFER_LEN);
+            //create a new zip entry
+            String e_name = f.getAbsolutePath().substring(start_path.length() + 1);
 
-        ZipEntry anEntry = new ZipEntry(e_name);
-        //place the zip entry in the ZipOutputStream object 
-        anEntry.setTime(f.lastModified());
-        zos.putNextEntry(anEntry);
-
-
-        int act_size = 0;
-        while ((bytesIn = fis.read(readBuffer)) != -1)
-        {
-            if (abort)
+            // REPLACE BS WITH SLASH
+            if (System.getProperty("os.name").startsWith("Win"))
             {
-                throw new Exception("Aborted");
+                e_name = e_name.replace('\\', '/');
             }
 
-            zos.write(readBuffer, 0, bytesIn);
+            ZipEntry anEntry = new ZipEntry(e_name);
+            //place the zip entry in the ZipOutputStream object
+            anEntry.setTime(f.lastModified());
+            zos.putNextEntry(anEntry);
 
-            if (file_size > 0)
+
+            int act_size = 0;
+            while ((bytesIn = fis.read(readBuffer)) != -1)
             {
-                act_size += bytesIn;
-                int percent = (int) ((act_size * 100) / file_size);
-                notify_listeners_file_percent(percent);
+                if (abort)
+                {
+                    throw new Exception("Aborted");
+                }
+
+                zos.write(readBuffer, 0, bytesIn);
+
+                if (file_size > 0)
+                {
+                    act_size += bytesIn;
+                    int percent = (int) ((act_size * 100) / file_size);
+                    notify_listeners_file_percent(percent);
+                }
             }
         }
-
-        fis.close();
+        catch (IOException exception)
+        {
+            throw exception;
+        }
+        finally
+        {
+            if (fis != null)
+            {
+                try
+                {
+                    fis.close();
+                }
+                catch (IOException iOException)
+                {
+                }
+            }
+        }
     }
 
     public final void copyInputStream( InputStream in, OutputStream out, long file_size )
