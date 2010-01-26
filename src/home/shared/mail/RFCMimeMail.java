@@ -4,13 +4,17 @@
  */
 package home.shared.mail;
 
+import home.shared.CS_Constants;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -31,6 +35,7 @@ public class RFCMimeMail
 
     private MimeMessage msg;
     private Session session;
+    ArrayList<RFCMailAddress> email_list;
 
     public RFCMimeMail()
     {
@@ -38,31 +43,51 @@ public class RFCMimeMail
         props.put("mail.smtp.host", "localhost");
         session = Session.getDefaultInstance(props, null);
         msg = new MimeMessage(session);
+        email_list = new ArrayList<RFCMailAddress>();
     }
 
     public RFCMimeMail( java.util.Properties props )
     {
         session = Session.getDefaultInstance(props, null);
         msg = new MimeMessage(session);
+        email_list = new ArrayList<RFCMailAddress>();
     }
+
     public RFCMimeMail( MimeMessage _msg )
     {
         msg = _msg;
         java.util.Properties props = new java.util.Properties();
         props.put("mail.smtp.host", "localhost");
         session = Session.getDefaultInstance(props, null);
+        email_list = parse_email_list(msg);
     }
+
+    public ArrayList<RFCMailAddress> getEmail_list()
+    {
+        return email_list;
+    }
+    
 
     public void create( String from, String to, String subject, String text, File attachment ) throws MessagingException
     {
+        email_list.add(new RFCMailAddress(from, RFCMailAddress.ADR_TYPE.FROM));
+        email_list.add(new RFCMailAddress(to, RFCMailAddress.ADR_TYPE.TO));
         // Construct the message
-        InternetAddress[] ia_from = {new InternetAddress(from)};
-        InternetAddress[] ia_to = {new InternetAddress(from)};
- 
+        InternetAddress[] ia_from =
+        {
+            new InternetAddress(from)
+        };
+        InternetAddress[] ia_to =
+        {
+            new InternetAddress(from)
+        };
+
         msg.addFrom(ia_from);
         msg.addRecipients(Message.RecipientType.TO, ia_to);
         if (subject != null)
-            msg.setSubject( subject);
+        {
+            msg.setSubject(subject);
+        }
 
         // CREATE MULTIPART
         Multipart multipart = new MimeMultipart();
@@ -93,42 +118,21 @@ public class RFCMimeMail
 
     }
 
-    public void parse(RFCGenericMail mail_file ) throws FileNotFoundException, MessagingException, IOException
+    public void parse( RFCGenericMail mail_file ) throws FileNotFoundException, MessagingException, IOException
     {
-            InputStream bis = mail_file.open_inputstream();
+        InputStream bis = mail_file.open_inputstream();
 
-            msg = new MimeMessage(session, bis);
+        msg = new MimeMessage(session, bis);
+        email_list = parse_email_list(msg);
 
-            bis.close();
-    }
-    public void parse(InputStream bis ) throws FileNotFoundException, MessagingException, IOException
-    {
-        msg = new MimeMessage(session, bis);            
+        bis.close();
     }
 
-    /*
-     *         try
-        {
-            InputStream bis = mail_file.open_inputstream();
-            msg = new MimeMessage(session, bis);
-
-            bis.close();
-        }
-
-        catch (FileNotFoundException fileNotFoundException)
-        {
-            LogManager.log(Level.SEVERE, "Parse error in parse MimeMail", fileNotFoundException);
-        }
-        catch (IOException iox)
-        {
-            LogManager.log(Level.SEVERE, "IO error in parse MimeMail", iox);
-        }
-        catch (MessagingException messagingException)
-        {
-            LogManager.log(Level.SEVERE, "Message error in parse MimeMail", messagingException);
-        }
-
-     * */
+    public void parse( InputStream bis ) throws FileNotFoundException, MessagingException, IOException
+    {
+        msg = new MimeMessage(session, bis);
+        email_list = parse_email_list(msg);
+    }
 
     public void send() throws MessagingException
     {
@@ -143,9 +147,9 @@ public class RFCMimeMail
     {
         return msg;
     }
-
     Part html_part = null;
     Part text_part = null;
+
     private void check_part_content( Part p ) throws IOException, MessagingException
     {
         // SELECT THE PLAIN PART OF AN ALTERNATIVE MP
@@ -182,7 +186,9 @@ public class RFCMimeMail
         {
             // WE DONT WANT TO LOOK DEEPER INTO MAIL
             if (html_part != null && text_part != null)
+            {
                 break;
+            }
 
             Part p = mp.getBodyPart(i);
             // WE GO DOWN TO NEXT LEVEL ONLY IF WE HAVE MP/ALTERNATIVE, OTHERWISE WE WOULD DETECT TEXT IN INLINE ATTACHMENTS
@@ -192,7 +198,7 @@ public class RFCMimeMail
             }
             else
             {
-                check_part_content( p);
+                check_part_content(p);
             }
         }
     }
@@ -210,10 +216,10 @@ public class RFCMimeMail
                 }
             }
             else
-            {                
+            {
                 String disposition = p.getDisposition();
 
-                if(disposition == null)
+                if (disposition == null)
                 {
                     System.err.println("GOT No attachement contentTye : " + p.getContentType());
                 }
@@ -243,29 +249,35 @@ public class RFCMimeMail
             {
                 if (!p.isMimeType("multipart/alternative"))
                 {
-                    Part pp = get_attachment( (Multipart)p, idx );
+                    Part pp = get_attachment((Multipart) p, idx);
                     if (pp != null)
+                    {
                         return pp;
+                    }
                 }
             }
             else
             {
                 String disposition = p.getDisposition();
-                if(disposition == null)
+                if (disposition == null)
                 {
                     System.err.println("GOT No attachement contentTye : " + p.getContentType());
                 }
                 else if (disposition.equalsIgnoreCase(Part.INLINE))
                 {
                     if (idx == 0)
+                    {
                         return p;
+                    }
 
                     idx--;
                 }
                 else if (disposition.equalsIgnoreCase(Part.ATTACHMENT))
                 {
                     if (idx == 0)
+                    {
                         return p;
+                    }
 
                     idx--;
                 }
@@ -277,7 +289,7 @@ public class RFCMimeMail
         }
         return null;
     }
-    
+
     public int get_attachment_cnt()
     {
         try
@@ -296,7 +308,7 @@ public class RFCMimeMail
         }
         return 0;
     }
-    
+
     public Part get_attachment( int idx )
     {
         try
@@ -304,7 +316,7 @@ public class RFCMimeMail
             Object content = msg.getContent();
             if (content instanceof Multipart)
             {
-                return get_attachment( (Multipart) content, idx);
+                return get_attachment((Multipart) content, idx);
             }
         }
         catch (IOException iOException)
@@ -363,7 +375,7 @@ public class RFCMimeMail
 
         return txt_msg;
     }
-    
+
     public String get_html_content()
     {
         String txt_msg = null;
@@ -382,7 +394,7 @@ public class RFCMimeMail
 
 
             Part p = html_part;
-            
+
             txt_msg = null;
             if (p != null)
             {
@@ -399,4 +411,45 @@ public class RFCMimeMail
         return txt_msg;
     }
 
+    // PARSE EMAIL_LIST FROM MAIL HEADERS
+    private ArrayList<RFCMailAddress> parse_email_list( MimeMessage msg )
+    {
+        
+        ArrayList<RFCMailAddress> list = new ArrayList<RFCMailAddress>();
+        try
+        {
+            Enumeration en = msg.getAllHeaders();
+            while (en.hasMoreElements())
+            {
+                Object h = en.nextElement();
+                if (h instanceof Header)
+                {
+                    Header ih = (Header) h;
+                    String name = ih.getName();
+                    String value = ih.getValue();
+                    
+                    if (name.compareToIgnoreCase(CS_Constants.FLD_FROM ) == 0)
+                    {
+                        list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.FROM));
+                    }
+                    else if (name.compareToIgnoreCase(CS_Constants.FLD_TO ) == 0)
+                    {
+                        list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.TO));
+                    }
+                    else if (name.compareToIgnoreCase(CS_Constants.FLD_CC ) == 0)
+                    {
+                        list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.CC));
+                    }
+                    else if (name.compareToIgnoreCase(CS_Constants.FLD_BCC ) == 0)
+                    {
+                        list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.BCC));
+                    }
+                }
+            }
+        }
+        catch (MessagingException messagingException)
+        {
+        }
+        return list;
+    }
 }

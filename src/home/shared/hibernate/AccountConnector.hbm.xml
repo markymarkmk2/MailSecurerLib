@@ -49,6 +49,5 @@
       </key>
       <one-to-many class="home.shared.hibernate.Role"/>
     </set>
-    
   </class>
 </hibernate-mapping>

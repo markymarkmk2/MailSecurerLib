@@ -103,6 +103,14 @@ public class CS_Constants
     public static int ACCT_HAS_TLS_CERT = 0x010;
     public static int ACCT_ANONYMOUS = 0x020;
     public static int ACCT_USER_IS_MAIL = 0x040;
+    public static String ACCT_FF_MAIL = "Email";
+    public static String ACCT_FF_SUBJECT = "Subject";
+    public static String ACCT_FF_MAILHEADER = "Mailheader";
+    static String[] ACCT_FILTER_FIELDS = { ACCT_FF_MAIL, ACCT_FF_SUBJECT, ACCT_FF_MAILHEADER };
+    public static String[] get_acct_filter_fields()
+    {
+        return ACCT_FILTER_FIELDS;
+    }
 
     // ROLE FLAGS
     public static final int ROLE_DISABLED = 0x01;
