@@ -78,6 +78,8 @@ public class CS_Constants
     public static final String FLD_CC = "CC";
     public static final String FLD_BCC = "BCC";
     public static final String FLD_DELIVEREDTO = "DeliveredTo";
+    public static final String FLD_ENVELOPE_TO = "Envelope-To";
+    public static final String FLD_REPLY_TO = "Reply-To";
     public static final String FLD_CONTENT_TYPE = "Content-Type";
     public static final String FLD_CHARSET = "FLDN_CS";
 

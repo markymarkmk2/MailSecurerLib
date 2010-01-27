@@ -29,7 +29,8 @@ public abstract class RFCGenericMail
     public enum FILENAME_MODE
     {
         HMS_FILE,
-        H_DIR_MS_FILE
+        H_DIR_MS_FILE,  // THIS WAS BUGGY, KEEP CAMPATIBLE
+        H_OK_DIR_MS_FILE
     };
     
  /*   public static boolean dflt_encoded = false;
@@ -61,8 +62,9 @@ public abstract class RFCGenericMail
         return ENC_NONE;
     }
 
-    static SimpleDateFormat old_mailpath_sdf = new SimpleDateFormat("/yyyy/MM/dd/HHmmss.SSS");
-    static SimpleDateFormat mailpath_sdf = new SimpleDateFormat("/yyyy/MM/dd/HHmmss.SSS");
+    static SimpleDateFormat hms_mailpath_sdf = new SimpleDateFormat("/yyyy/MM/dd/HHmmss.SSS");
+    static SimpleDateFormat broken_h_dir_ms_mailpath_sdf = new SimpleDateFormat("/yyyy/MM/dd/HHmmss.SSS");
+    static SimpleDateFormat h_dir_ms_mailpath_sdf = new SimpleDateFormat("/yyyy/MM/dd/HH/mmss.SSS");
     ArrayList<Address> bcc_list;
 
     public RFCGenericMail( Date _date )
@@ -111,12 +113,17 @@ public abstract class RFCGenericMail
         path = path.substring("/data".length());
         if (mode == FILENAME_MODE.HMS_FILE)
         {
-            Date d = old_mailpath_sdf.parse(path);
+            Date d = hms_mailpath_sdf.parse(path);
             return d.getTime();
         }
         if (mode == FILENAME_MODE.H_DIR_MS_FILE)
         {
-            Date d = mailpath_sdf.parse(path);
+            Date d = broken_h_dir_ms_mailpath_sdf.parse(path);
+            return d.getTime();
+        }
+        if (mode == FILENAME_MODE.H_OK_DIR_MS_FILE)
+        {
+            Date d = h_dir_ms_mailpath_sdf.parse(path);
             return d.getTime();
         }
         return 0;
@@ -133,11 +140,15 @@ public abstract class RFCGenericMail
         String suffix = get_suffix_for_encrypt_mode( enc_mode );
         if (mode == FILENAME_MODE.HMS_FILE)
         {
-            trg_file = parent_path + "/data" + old_mailpath_sdf.format(d) + suffix;
+            trg_file = parent_path + "/data" + hms_mailpath_sdf.format(d) + suffix;
         }
         if (mode == FILENAME_MODE.H_DIR_MS_FILE)
         {
-            trg_file = parent_path + "/data" + mailpath_sdf.format(d) + suffix;
+            trg_file = parent_path + "/data" + broken_h_dir_ms_mailpath_sdf.format(d) + suffix;
+        }
+        if (mode == FILENAME_MODE.H_OK_DIR_MS_FILE)
+        {
+            trg_file = parent_path + "/data" + h_dir_ms_mailpath_sdf.format(d) + suffix;
         }
         return trg_file;
     }

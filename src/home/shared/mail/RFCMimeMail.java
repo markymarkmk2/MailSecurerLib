@@ -436,6 +436,10 @@ public class RFCMimeMail
                     {
                         list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.TO));
                     }
+                    else if (name.compareToIgnoreCase(CS_Constants.FLD_ENVELOPE_TO ) == 0)
+                    {
+                        list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.TO));
+                    }
                     else if (name.compareToIgnoreCase(CS_Constants.FLD_CC ) == 0)
                     {
                         list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.CC));

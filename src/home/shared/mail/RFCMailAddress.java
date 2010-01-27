@@ -14,6 +14,26 @@ package home.shared.mail;
 public class RFCMailAddress
 {
     String adr;
+
+    private String parse_mail( String adr )
+    {
+        int start_idx = adr.indexOf('<');
+        int end_idx = adr.indexOf('>');
+        if (start_idx < 0)
+        {
+            return adr.trim().toLowerCase();
+        }
+        if (end_idx < 0)
+        {
+            return adr.substring(start_idx + 1).trim().toLowerCase();
+        }
+        if (start_idx < end_idx)
+            return adr.substring(start_idx + 1, end_idx).trim().toLowerCase();
+        
+        // IN CASE OF FAILURE...
+        return adr;
+    }
+    
     public enum ADR_TYPE
     {
         FROM,
@@ -26,7 +46,7 @@ public class RFCMailAddress
 
     public RFCMailAddress( String adr, ADR_TYPE _type )
     {
-        this.adr = adr.trim().toLowerCase();
+        this.adr = parse_mail(adr);
         adr_type = _type;
     }
 
