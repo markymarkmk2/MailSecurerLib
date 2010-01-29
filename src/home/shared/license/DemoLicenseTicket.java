@@ -49,6 +49,9 @@ public class DemoLicenseTicket extends LicenseTicket
     @Override
     public boolean isValid()
     {
+        if (!super.isValid())
+            return false;
+        
         Date now = new Date();
 
         return now.before(expires);
@@ -65,6 +68,12 @@ public class DemoLicenseTicket extends LicenseTicket
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
         return super.toString() + " expires:" + sdf.format(expires);
+    }
+    public String get_text()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+        return sdf.format(expires);
     }
 
 }

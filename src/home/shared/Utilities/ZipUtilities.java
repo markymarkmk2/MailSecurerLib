@@ -450,62 +450,90 @@ public class ZipUtilities
         return true;
     }
 
-    public static String compress( String stream ) throws IOException
+    public static String compress( String stream )
     {
+        if (stream == null)
+            return null;
+        if (stream.length() == 0)
+            return stream;
+
         ByteArrayInputStream fis = null;
         ByteArrayOutputStream fos = null;
         String erg = "";
 
-        fis = new ByteArrayInputStream(stream.getBytes("UTF-8"));
-        fos = new ByteArrayOutputStream();
-
-        ZipOutputStream zos = new ZipOutputStream(fos);
-        ZipEntry ze = new ZipEntry("CS");  // COMPRESSED STRING
-        zos.putNextEntry(ze);
-        final int BUFSIZ = 4096;
-        byte inbuf[] = new byte[BUFSIZ];
-        int n;
-        while ((n = fis.read(inbuf)) != -1)
+        try
         {
-            zos.write(inbuf, 0, n);
-        }
-        fis.close();
-        fis = null;
-        zos.close();
+            fis = new ByteArrayInputStream(stream.getBytes("UTF-8"));
+            fos = new ByteArrayOutputStream();
 
-        erg = new String( Base64.encodeBase64(fos.toByteArray()), "UTF-8" );
+            ZipOutputStream zos = new ZipOutputStream(fos);
+            ZipEntry ze = new ZipEntry("CS");  // COMPRESSED STRING
+            zos.putNextEntry(ze);
+            final int BUFSIZ = 4096;
+            byte inbuf[] = new byte[BUFSIZ];
+            int n;
+            while ((n = fis.read(inbuf)) != -1)
+            {
+                zos.write(inbuf, 0, n);
+            }
+            fis.close();
+            fis = null;
+            zos.close();
+
+            erg = new String(Base64.encodeBase64(fos.toByteArray()), "UTF-8");
+        }
+        catch (IOException iOException)
+        {
+            // CANNOT HAPPEN
+            return null;
+        }
         
         return erg;
     }
 
 
 
-    public static String uncompress( String stream ) throws IOException, IllegalArgumentException
+    public static String uncompress( String stream ) throws IllegalArgumentException
     {
+        if (stream == null)
+            return null;
+        if (stream.length() == 0)
+            return stream;
+
         ByteArrayInputStream fis = null;
         ByteArrayOutputStream fos = null;
         String erg = "";
 
-        byte[] data = Base64.decodeBase64(stream.getBytes("UTF-8"));
-        fis = new ByteArrayInputStream(data);
-        fos = new ByteArrayOutputStream();
-        ZipInputStream zis = new ZipInputStream(fis);
-        ZipEntry ze = zis.getNextEntry();
-        if (ze.getName().compareTo("CS") != 0)
-            throw new IllegalArgumentException("Data is not a CS data element");
-
-        final int BUFSIZ = 4096;
-        byte inbuf[] = new byte[BUFSIZ];
-        int n;
-        while ((n = zis.read(inbuf, 0, BUFSIZ)) != -1)
+        try
         {
-            fos.write(inbuf, 0, n);
-        }
-        zis.close();
-        fis = null;
-        fos.close();
+            byte[] data = Base64.decodeBase64(stream.getBytes("UTF-8"));
+            fis = new ByteArrayInputStream(data);
+            fos = new ByteArrayOutputStream();
+            ZipInputStream zis = new ZipInputStream(fis);
+            ZipEntry ze = zis.getNextEntry();
+            if (ze.getName().compareTo("CS") != 0)
+            {
+                throw new IllegalArgumentException("Data is not a CS data element");
+            }
+            final int BUFSIZ = 4096;
+            byte inbuf[] = new byte[BUFSIZ];
+            int n;
+            while ((n = zis.read(inbuf, 0, BUFSIZ)) != -1)
+            {
+                fos.write(inbuf, 0, n);
+            }
+            zis.close();
+            fis = null;
+            fos.close();
 
-        erg = new String(fos.toByteArray(), "UTF-8");
+            erg = new String(fos.toByteArray(), "UTF-8");
+        }
+        catch (IOException iOException)
+        {
+            // CANNOT HAPPEN
+            return null;
+        }
+
         return erg;
     }
 
@@ -525,10 +553,6 @@ public class ZipUtilities
             String cout = ZipUtilities.uncompress(cin);
 
             ret = (in.compareTo(cout) == 0);
-        }
-        catch (IOException iOException)
-        {
-            iOException.printStackTrace();
         }
         catch (IllegalArgumentException illegalArgumentException)
         {

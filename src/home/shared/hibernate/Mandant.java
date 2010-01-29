@@ -24,6 +24,7 @@ public class Mandant  implements java.io.Serializable {
      private String smtp_user;
      private String smtp_pwd;
      private int smtp_flags;
+     
      private Set<Hotfolder> hotfolders = new HashSet<Hotfolder>(0);
      private Set<ImapFetcher> imapFetchers = new HashSet<ImapFetcher>(0);
      private Set<Role> roles = new HashSet<Role>(0);
@@ -83,7 +84,6 @@ public class Mandant  implements java.io.Serializable {
         this.smtp_user = smtp_user;
         this.smtp_pwd = smtp_pwd;
         this.smtp_flags = smtp_flags;
-
     }
    
     public int getId() {

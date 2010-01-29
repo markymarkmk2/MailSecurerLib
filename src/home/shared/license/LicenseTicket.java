@@ -7,6 +7,7 @@ package home.shared.license;
 
 import home.shared.Utilities.LogListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
@@ -199,6 +200,15 @@ public abstract class LicenseTicket
         return product + " serial:" + serial + " units:" + units + " module:" + Long.toHexString(modules);
     }
 
+    public ArrayList<String> get_modules_text()
+    {
+        ArrayList<String> ret = new ArrayList<String>();
+        if (hasModule(LTM_4EYES))
+        {
+            ret.add("4EYES");
+        }
+        return ret;
+    }
 
 
     
