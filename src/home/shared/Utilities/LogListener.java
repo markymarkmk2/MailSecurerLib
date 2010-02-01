@@ -11,8 +11,8 @@ package home.shared.Utilities;
  */
 public interface LogListener
 {
-    public void err_log( String txt );
-    public void err_log( String txt, Exception ex );
+    public void error_log( String txt );
+    public void error_log( String txt, Exception ex );
     public void warn_log( String txt );
     public void info_log( String txt );
     public void debug_log( String txt );

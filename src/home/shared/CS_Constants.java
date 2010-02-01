@@ -26,6 +26,12 @@ class EMTypeEntry
  */
 public class CS_Constants
 {
+
+    private CS_Constants()
+    {
+    }
+
+
     public static final String TEXTLIST_DELIM = ",";
 
     public static final String TYPE_OLEXP = "OLEXP";
@@ -246,7 +252,35 @@ public class CS_Constants
     {
         return act_typelist[idx];
     }
-   
+
+
+    // USED FOR ENCRYPTION END DECRYPTION OF INTERNAL SECRETS
+    public static String get_InternalPassPhrase()
+    {
+        return "hrXblks4G_oip9!zf";
+    }
+    public static String get_KeyAlgorithm()
+    {
+        return "PBEWithMD5AndDES";
+    }
+
+    // 8-byte Salt
+    static byte[] salt =
+    {
+        (byte) 0x19, (byte) 0x09, (byte) 0x58, (byte) 0x0f,
+        (byte) 'h', (byte) 'e', (byte) 'l', (byte) 'i'
+    };
+
+    // THIS IS FIXED, IF USER LOOSES THIS, DATA IS LOST FOR EVER
+    public static byte[] get_KeyPBESalt()
+    {
+        return salt;
+    }
+    public static int get_KeyPBEIteration()
+    {
+        return 13;
+    }
+
 
 
 }

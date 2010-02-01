@@ -81,7 +81,7 @@ public class HWIDLicenseTicket extends LicenseTicket
         {
             lastErrMessage = "Cannot_check_HWID";
             if (ll != null)
-                ll.err_log( lastErrMessage , exc);
+                ll.error_log( lastErrMessage , exc);
         }
         return false;
     }

@@ -111,7 +111,7 @@ public abstract class LicenseTicket
         catch (IOException iOException)
         {
             if (ll != null)
-                ll.err_log("cannot calculate key", iOException);
+                ll.error_log("cannot calculate key", iOException);
         }
         return ret;
     }
