@@ -22,13 +22,13 @@
     <property name="flags" type="java.lang.Integer">
       <column name="flags"/>
     </property>
-    <set name="addMailAddresses" table="mu_add_link">
+    <set name="addMailAddresses" table="mailuser_add_link">
       <key>
         <column name="mu_id" not-null="true"/>
       </key>
       <many-to-many class="home.shared.hibernate.MailAddress" column="ma_id"/>
     </set>
-    <set name="allowedViewers" table="mu_view_link">
+    <set name="allowedViewers" table="mailuser_view_link">
       <key>
         <column name="mu_id" not-null="true"/>
       </key>

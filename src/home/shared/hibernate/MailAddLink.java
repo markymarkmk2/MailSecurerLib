@@ -10,6 +10,7 @@ package home.shared.hibernate;
 public class MailAddLink  implements java.io.Serializable {
 
 
+
      private int muId;
      private int maId;
 
@@ -18,7 +19,8 @@ public class MailAddLink  implements java.io.Serializable {
     }
 
 	
-    public MailAddLink(int mu_id, int ma_id) {
+    public MailAddLink(int mu_id, int ma_id)
+    {
         this.muId = mu_id;
         this.maId = ma_id;
     }

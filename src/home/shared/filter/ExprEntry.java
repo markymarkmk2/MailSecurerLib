@@ -23,7 +23,8 @@ public class ExprEntry extends LogicEntry
         REGEXP,
         NUM_EQUAL,
         NUM_LT,
-        NUM_GT
+        NUM_GT,
+        EXACT
     }
     public enum TYPE
     {
@@ -116,27 +117,27 @@ public class ExprEntry extends LogicEntry
     {
         boolean ret = false;
 
-        ArrayList<String> val_list = f_provider.get_val_vor_name(name);
-        if (val_list != null)
+        ArrayList<String> provider_val_list = f_provider.get_val_vor_name(name);
+        if (provider_val_list != null)
         {
             // EVAL ALL RESULT STRINGS
-            for (int i = 0; i < val_list.size(); i++)
+            for (int i = 0; i < provider_val_list.size(); i++)
             {
-                String val = val_list.get(i);
+                String provider_val = provider_val_list.get(i);
 
                 switch( operation )
                 {
-                    case BEGINS_WITH:   ret = val.startsWith(value); break;
-                    case ENDS_WITH:     ret = val.endsWith(value); break;
-                    case CONTAINS_SUBSTR:      ret = val.indexOf(value) >= 0; break;
+                    case BEGINS_WITH:   ret = provider_val.startsWith(value); break;
+                    case ENDS_WITH:     ret = provider_val.endsWith(value); break;
+                    case CONTAINS_SUBSTR:      ret = provider_val.indexOf(value) >= 0; break;
                     case CONTAINS:       
                     {
-                        if (val.indexOf(value) != -1)
+                        if (provider_val.indexOf(value) != -1)
                         {
                             ret = true;
                             break;
                         }
-                        String[] s = val.split("[\\. ;,@]");
+                        String[] s = provider_val.split("[\\. ;,@]");
                         if (s.length > 0)
                         {
                             for (int j = 0; j < s.length; j++)
@@ -151,11 +152,39 @@ public class ExprEntry extends LogicEntry
                         }
                         else
                         {
-                            ret = val.compareTo(value) == 0;
+                            ret = provider_val.compareTo(value) == 0;
                         }
                         break;
                     }
-                    case REGEXP:        ret = val.matches(value); break;
+                    case REGEXP:        ret = provider_val.matches(value); break;
+                    case EXACT:         ret = provider_val.equals(value); break;
+                    case NUM_EQUAL:
+                    case NUM_GT:
+                    case NUM_LT:
+                    {
+                        try
+                        {
+                            long l1 = Long.parseLong(provider_val);
+                            long l2 = Long.parseLong(value);
+                            if (operation == OPERATION.NUM_EQUAL)
+                            {
+                                ret = l1 == l2;
+                            }
+                            if (operation == OPERATION.NUM_GT)
+                            {
+                                ret = l1 > l2;
+                            }
+                            if (operation == OPERATION.NUM_LT)
+                            {
+                                ret = l1 > l2;
+                            }
+                        }
+                        catch (NumberFormatException exc)
+                        {
+                            ret = false;
+                        }
+                        break;
+                    }
                 }
 
                 if (ret)

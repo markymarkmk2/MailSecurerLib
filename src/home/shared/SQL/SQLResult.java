@@ -305,6 +305,11 @@ public class SQLResult<T> extends ArrayList<T>
                     int id = res.getInt(row, "ac_id");
                     method.invoke(o, object_getter.get_account_connector( id ));
                 }
+                else if (object_getter != null && type.compareTo("home.shared.hibernate.Role") == 0)
+                {
+                    int id = res.getInt(row, "ro_id");
+                    method.invoke(o, object_getter.get_role( id ));
+                }
                 else if (!type.contains("java.util.Set"))
                 {
                     Logger.getLogger(SQLResult.class.getName()).log(Level.SEVERE, "unresolved Object type " + type + " in SQLResult.get_object()");

@@ -161,11 +161,11 @@ public class CS_Constants
     };
     static AccountConnectorTypeEntry[] act_typelist =
     {
-        new AccountConnectorTypeEntry("ad","ActiveDirectory"),
-        new AccountConnectorTypeEntry("ldap","LDAP"),
         new AccountConnectorTypeEntry("smtp","SMTP"),
         new AccountConnectorTypeEntry("pop","POP3"),
         new AccountConnectorTypeEntry("imap","IMAP"),
+        new AccountConnectorTypeEntry("ad","ActiveDirectory"),
+        new AccountConnectorTypeEntry("ldap","LDAP"),
         new AccountConnectorTypeEntry("dbs","Database")
     };
 
