@@ -139,6 +139,9 @@ public class CS_Constants
     // DISKARCHIVE
     public static int DA_DISABLED = 0x01;
 
+    // MANDANT
+    public static int MA_NOWAIT_ON_NO_SPACE = 0x02;  // ??? MEANS IF WE HAVE NO SPACE, DO NOT BLOCK -> DEL MAIL
+
 
     // USERMODE
     public enum USERMODE

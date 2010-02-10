@@ -68,10 +68,12 @@ public class RFCMimeMail
     }
     
 
-    public void create( String from, String to, String subject, String text, File attachment ) throws MessagingException
+    public void create( String from, String to, String[] cc, String subject, String text, File attachment ) throws MessagingException
     {
         email_list.add(new RFCMailAddress(from, RFCMailAddress.ADR_TYPE.FROM));
         email_list.add(new RFCMailAddress(to, RFCMailAddress.ADR_TYPE.TO));
+
+
         // Construct the message
         InternetAddress[] ia_from =
         {
@@ -79,7 +81,7 @@ public class RFCMimeMail
         };
         InternetAddress[] ia_to =
         {
-            new InternetAddress(from)
+            new InternetAddress(to)
         };
 
         msg.addFrom(ia_from);
@@ -87,6 +89,16 @@ public class RFCMimeMail
         if (subject != null)
         {
             msg.setSubject(subject);
+        }
+        if (cc != null && cc.length > 0)
+        {
+            InternetAddress[] ia_cc = new InternetAddress[cc.length];
+            for (int i = 0; i < cc.length; i++)
+            {
+                email_list.add(new RFCMailAddress(cc[i], RFCMailAddress.ADR_TYPE.CC));
+                ia_cc[i] = new InternetAddress( cc[i] );
+            }
+            msg.addRecipients(Message.RecipientType.CC, ia_cc);
         }
 
         // CREATE MULTIPART

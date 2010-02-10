@@ -43,6 +43,12 @@
     <property name="smtp_flags" type="int">
       <column name="smtp_flags" not-null="true"/>
     </property>
+    <property name="notificationlist" type="string">
+      <column length="32000" name="notificationlist" not-null="true"/>
+    </property>
+    <property name="mailfrom" type="string">
+      <column length="80" name="mailfrom" not-null="true"/>
+    </property>
     <set cascade="delete" inverse="true" name="hotfolders">
       <key>
         <column name="mid" not-null="true"/>

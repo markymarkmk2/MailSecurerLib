@@ -23,6 +23,8 @@ public class Mandant  implements java.io.Serializable {
      private String smtp_host;
      private String smtp_user;
      private String smtp_pwd;
+     private String notificationlist;
+     private String mailfrom;
      private int smtp_flags;
      
      private Set<Hotfolder> hotfolders = new HashSet<Hotfolder>(0);
@@ -312,6 +314,26 @@ public class Mandant  implements java.io.Serializable {
     public void setSmtp_flags( int smtp_flags )
     {
         this.smtp_flags = smtp_flags;
+    }
+
+    public String getNotificationlist()
+    {
+        return notificationlist;
+    }
+
+    public String getMailfrom()
+    {
+        return mailfrom;
+    }
+
+    public void setNotificationlist( String notificationlist )
+    {
+        this.notificationlist = notificationlist;
+    }
+
+    public void setMailfrom( String mailfrom )
+    {
+        this.mailfrom = mailfrom;
     }
 
 
