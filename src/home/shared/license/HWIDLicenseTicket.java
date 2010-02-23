@@ -6,9 +6,7 @@
 package home.shared.license;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.util.Enumeration;
 import org.apache.commons.codec.binary.Base64;
 
@@ -27,6 +25,17 @@ public class HWIDLicenseTicket extends LicenseTicket
     public String getHwid()
     {
         return hwid;
+    }
+
+    public void createTicket( String p, int _serial, int un, int mod, String _hw_id ) throws IOException
+    {
+        hwid = _hw_id;
+        product = p;
+        modules = mod;
+        units = un;
+        serial = _serial;
+        type = LT_DEMO;
+        setKey( calculate_key() );
     }
 
 
@@ -69,19 +78,22 @@ public class HWIDLicenseTicket extends LicenseTicket
             while (en.hasMoreElements())
             {
                 byte[] mac = en.nextElement().getHardwareAddress();
-                String str_mac = new String(Base64.encodeBase64(mac), "UTF-8");
-                if (str_mac.compareToIgnoreCase(hwid) == 0)
+                if (mac != null)
                 {
-                    return true;
+                    String str_mac = new String(Base64.encodeBase64(mac), "UTF-8");
+                    if (str_mac.compareToIgnoreCase(hwid) == 0)
+                    {
+                        return true;
+                    }
                 }
             }
             lastErrMessage = "HWID_does_not_match";
         }
         catch (Exception exc)
         {
-            lastErrMessage = "Cannot_check_HWID";
+            lastErrMessage = "Cannot_check_HWID: " + exc.getLocalizedMessage();
             if (ll != null)
-                ll.error_log( lastErrMessage , exc);
+                ll.error_log( lastErrMessage);
         }
         return false;
     }

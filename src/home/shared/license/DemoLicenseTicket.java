@@ -66,8 +66,9 @@ public class DemoLicenseTicket extends LicenseTicket
     public String toString()
     {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+       
 
-        return super.toString() + " expires:" + sdf.format(expires);
+        return product + " expires:" + sdf.format(expires) +  " serial:" + serial + " units:" + units + " module:" + Long.toHexString(modules);
     }
     public String get_text()
     {
