@@ -20,15 +20,19 @@ public class DiskArchive  implements java.io.Serializable {
      private Set<Milter> milters = new HashSet<Milter>(0);
      private Set<Proxy> proxies = new HashSet<Proxy>(0);
      private Set<Hotfolder> hotfolders = new HashSet<Hotfolder>(0);
+     private Set<Backup> backups = new HashSet<Backup>(0);
 
-    public DiskArchive() {
+    public DiskArchive()
+    {
     }
 
 	
     public DiskArchive(int id) {
         this.id = id;
     }
-    public DiskArchive(int id, Mandant mandant, String name, String flags, Set<DiskSpace> diskSpaces, Set<ImapFetcher> imapFetchers, Set<Milter> milters, Set<Proxy> proxies, Set<Hotfolder> hotfolders) {
+    public DiskArchive(int id, Mandant mandant, String name, String flags, Set<DiskSpace> diskSpaces, Set<ImapFetcher> imapFetchers, 
+                    Set<Milter> milters, Set<Proxy> proxies, Set<Hotfolder> hotfolders, Set<Backup> backups)
+    {
        this.id = id;
        this.mandant = mandant;
        this.name = name;
@@ -38,6 +42,7 @@ public class DiskArchive  implements java.io.Serializable {
        this.milters = milters;
        this.proxies = proxies;
        this.hotfolders = hotfolders;
+       this.backups = backups;
     }
    
     public int getId() {
@@ -102,6 +107,16 @@ public class DiskArchive  implements java.io.Serializable {
     
     public void setHotfolders(Set<Hotfolder> hotfolders) {
         this.hotfolders = hotfolders;
+    }
+
+    public Set<Backup> getBackups()
+    {
+        return backups;
+    }
+
+    public void setBackups( Set<Backup> backups )
+    {
+        this.backups = backups;
     }
 
 

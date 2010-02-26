@@ -79,6 +79,12 @@
       </key>
       <one-to-many class="home.shared.hibernate.Proxy"/>
     </set>
+    <set cascade="delete" inverse="true" name="backups">
+      <key>
+        <column name="mid"/>
+      </key>
+      <one-to-many class="home.shared.hibernate.Backup"/>
+    </set>
     <set cascade="delete" inverse="true" name="diskArchives">
       <key>
         <column name="mid"/>

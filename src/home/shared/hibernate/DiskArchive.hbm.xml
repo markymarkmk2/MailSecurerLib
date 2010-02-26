@@ -46,5 +46,11 @@
       </key>
       <one-to-many class="home.shared.hibernate.Hotfolder"/>
     </set>
+    <set inverse="true" name="backups">
+      <key>
+        <column name="da_id" not-null="true"/>
+      </key>
+      <one-to-many class="home.shared.hibernate.Backup"/>
+    </set>
   </class>
 </hibernate-mapping>

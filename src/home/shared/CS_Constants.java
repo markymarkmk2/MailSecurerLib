@@ -104,18 +104,18 @@ public class CS_Constants
     public static int STREAM_BUFFER_LEN = 128*1024;
 
     // ACCOUNTCONNECTOR FLAGS // MANDANT SMTP_FLAGS
-    public static int ACCT_DISABLED = 0x001;
-    public static int ACCT_USE_SSL = 0x002;
-    public static int ACCT_USE_TLS_IF_AVAIL = 0x004;
-    public static int ACCT_USE_TLS_FORCE = 0x008;
-    public static int ACCT_HAS_TLS_CERT = 0x010;
-    public static int ACCT_ANONYMOUS = 0x020;
-    public static int ACCT_USER_IS_MAIL = 0x040;
-    public static String ACCT_FF_MAIL = "Email";
-    public static String ACCT_FF_SUBJECT = "Subject";
-    public static String ACCT_FF_MAILHEADER = "Mailheader";
-    static String[] ACCT_FILTER_FIELDS = { ACCT_FF_MAIL, ACCT_FF_SUBJECT, ACCT_FF_MAILHEADER };
-    public static String[] get_acct_filter_fields()
+    public static final int ACCT_DISABLED = 0x001;
+    public static final int ACCT_USE_SSL = 0x002;
+    public static final int ACCT_USE_TLS_IF_AVAIL = 0x004;
+    public static final int ACCT_USE_TLS_FORCE = 0x008;
+    public static final int ACCT_HAS_TLS_CERT = 0x010;
+    public static final int ACCT_ANONYMOUS = 0x020;
+    public static final int ACCT_USER_IS_MAIL = 0x040;
+    public static final String ACCT_FF_MAIL = "Email";
+    public static final String ACCT_FF_SUBJECT = "Subject";
+    public static final String ACCT_FF_MAILHEADER = "Mailheader";
+    static final String[] ACCT_FILTER_FIELDS = { ACCT_FF_MAIL, ACCT_FF_SUBJECT, ACCT_FF_MAILHEADER };
+    public static final String[] get_acct_filter_fields()
     {
         return ACCT_FILTER_FIELDS;
     }
@@ -128,20 +128,35 @@ public class CS_Constants
     public static final int HF_FLAG_DISABLED = 0x01;
 
     // IMAPFETCHER
-    public static int IMF_DISABLED = 0x01;
-    public static int IMF_USE_SSL = 0x002;
-    public static int IMF_USE_TLS_IF_AVAIL = 0x004;
-    public static int IMF_USE_TLS_FORCE = 0x008;
-    public static int IMF_HAS_TLS_CERT = 0x010;
-    public static int IMF_POP3 = 0x020;
-    public static int IMF_USE_IDLE = 0x040;
+    public static final int IMF_DISABLED = 0x01;
+    public static final int IMF_USE_SSL = 0x002;
+    public static final int IMF_USE_TLS_IF_AVAIL = 0x004;
+    public static final int IMF_USE_TLS_FORCE = 0x008;
+    public static final int IMF_HAS_TLS_CERT = 0x010;
+    public static final int IMF_POP3 = 0x020;
+    public static final int IMF_USE_IDLE = 0x040;
 
     // DISKARCHIVE
-    public static int DA_DISABLED = 0x01;
+    public static final int DA_DISABLED = 0x01;
 
     // MANDANT
-    public static int MA_NOWAIT_ON_NO_SPACE = 0x02;  // ??? MEANS IF WE HAVE NO SPACE, DO NOT BLOCK -> DEL MAIL
+    public static final int MA_NOWAIT_ON_NO_SPACE = 0x02;  // ??? MEANS IF WE HAVE NO SPACE, DO NOT BLOCK -> DEL MAIL
 
+    // BACKUP FLAGS
+    public static final int BACK_DISABLED = 0x001;
+    public static final int BACK_CYCLE = 0x002;
+    public static final int BACK_SYS = 0x004;
+    public static String BACK_STARTDATE_FORMAT = "dd.MM.yyyy";
+
+
+    public static final String[] BY_CYCLE_UNITS =
+    {
+        "minute","hour", "day", "week"
+    };
+    public static final int[] BY_CYCLE_UNITS_SECS =
+    {
+        60,(60*60), (60*60*24), (60*60*24*7)
+    };
 
     // USERMODE
     public enum USERMODE

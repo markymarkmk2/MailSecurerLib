@@ -36,6 +36,7 @@ public class Mandant  implements java.io.Serializable {
      private Set<AccountConnector> accountConnectors = new HashSet<AccountConnector>(0);
      private Set<MailHeaderVariable> mailHeaderVariable = new HashSet<MailHeaderVariable>(0);
      private Set<MailUser> mailusers = new HashSet<MailUser>(0);
+     private Set<Backup> backups = new HashSet<Backup>(0);
 
     public Mandant()
     {
@@ -62,7 +63,8 @@ public class Mandant  implements java.io.Serializable {
                 int smtp_port, String smtp_host, String smtp_user, String smtp_pwd, int smtp_flags,
                 Set<Hotfolder> hotfolders,
                 Set<ImapFetcher> imapFetchers, Set<Role> roles, Set<Milter> milters, Set<Proxy> proxies, Set<DiskArchive> diskArchives,
-                Set<AccountConnector> accountConnectors, Set<MailHeaderVariable> mailHeaderVariable, Set<MailUser> mailusers)
+                Set<AccountConnector> accountConnectors, Set<MailHeaderVariable> mailHeaderVariable, Set<MailUser> mailusers,
+                Set<Backup> backups)
     {
        this.id = id;
        this.name = name;
@@ -81,6 +83,7 @@ public class Mandant  implements java.io.Serializable {
        this.accountConnectors = accountConnectors;
        this.mailHeaderVariable = mailHeaderVariable;
        this.mailusers = mailusers;
+       this.backups = backups;
         this.smtp_port = smtp_port;
         this.smtp_host = smtp_host;
         this.smtp_user = smtp_user;
@@ -334,6 +337,16 @@ public class Mandant  implements java.io.Serializable {
     public void setMailfrom( String mailfrom )
     {
         this.mailfrom = mailfrom;
+    }
+
+    public Set<Backup> getBackups()
+    {
+        return backups;
+    }
+
+    public void setBackups( Set<Backup> backups )
+    {
+        this.backups = backups;
     }
 
 

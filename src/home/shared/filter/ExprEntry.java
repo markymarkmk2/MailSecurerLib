@@ -127,17 +127,17 @@ public class ExprEntry extends LogicEntry
 
                 switch( operation )
                 {
-                    case BEGINS_WITH:   ret = provider_val.startsWith(value); break;
-                    case ENDS_WITH:     ret = provider_val.endsWith(value); break;
-                    case CONTAINS_SUBSTR:      ret = provider_val.indexOf(value) >= 0; break;
+                    case BEGINS_WITH:   ret = provider_val.toLowerCase().startsWith(value); break;
+                    case ENDS_WITH:     ret = provider_val.toLowerCase().endsWith(value); break;
+                    case CONTAINS_SUBSTR:      ret = provider_val.toLowerCase().indexOf(value) >= 0; break;
                     case CONTAINS:       
                     {
-                        if (provider_val.indexOf(value) != -1)
+                        if (provider_val.toLowerCase().indexOf(value) != -1)
                         {
                             ret = true;
                             break;
                         }
-                        String[] s = provider_val.split("[\\. ;,@]");
+                        String[] s = provider_val.toLowerCase().split("[\\. ;,@]");
                         if (s.length > 0)
                         {
                             for (int j = 0; j < s.length; j++)
@@ -152,7 +152,7 @@ public class ExprEntry extends LogicEntry
                         }
                         else
                         {
-                            ret = provider_val.compareTo(value) == 0;
+                            ret = provider_val.toLowerCase().compareTo(value) == 0;
                         }
                         break;
                     }
