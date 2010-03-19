@@ -10,6 +10,7 @@ public class MailHeaderVariable  implements java.io.Serializable {
      private int id;
      private String varName;
      private Mandant mandant;
+     private int flags;
 
 
     public MailHeaderVariable() {
@@ -19,11 +20,13 @@ public class MailHeaderVariable  implements java.io.Serializable {
     public MailHeaderVariable(int id) {
         this.id = id;
     }
-    public MailHeaderVariable(int id, String varName, Mandant mandant) {
-       this.id = id;
-       this.varName = varName;
-       this.mandant = mandant;
 
+    public MailHeaderVariable( int id, String varName, Mandant mandant, int flags )
+    {
+        this.id = id;
+        this.varName = varName;
+        this.mandant = mandant;
+        this.flags = flags;
     }
    
     public int getId() {
@@ -46,6 +49,16 @@ public class MailHeaderVariable  implements java.io.Serializable {
 
     public void setMandant(Mandant mandant) {
         this.mandant = mandant;
+    }
+
+    public int getFlags()
+    {
+        return flags;
+    }
+
+    public void setFlags( int flags )
+    {
+        this.flags = flags;
     }
 
 

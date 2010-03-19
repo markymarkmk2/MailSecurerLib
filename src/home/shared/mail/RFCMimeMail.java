@@ -165,7 +165,7 @@ public class RFCMimeMail
     private void check_part_content( Part p ) throws IOException, MessagingException
     {
         // SELECT THE PLAIN PART OF AN ALTERNATIVE MP
-        if (p.isMimeType("multipart/alternative"))
+        if (p.isMimeType("multipart/*"))
         {
             Multipart mp = (Multipart) p.getContent();
             for (int i = 0; i < mp.getCount(); i++)
@@ -178,6 +178,10 @@ public class RFCMimeMail
                 if (bp.isMimeType("text/html"))
                 {
                     html_part = bp;
+                }
+                if (bp.isMimeType("multipart/*"))
+                {
+                    check_part_content( bp );
                 }
             }
         }
@@ -204,7 +208,7 @@ public class RFCMimeMail
 
             Part p = mp.getBodyPart(i);
             // WE GO DOWN TO NEXT LEVEL ONLY IF WE HAVE MP/ALTERNATIVE, OTHERWISE WE WOULD DETECT TEXT IN INLINE ATTACHMENTS
-            if (p instanceof Multipart && p.isMimeType("multipart/alternative"))
+            if (p instanceof Multipart && p.isMimeType("multipart/*"))
             {
                 check_mp_content((Multipart) p);
             }
@@ -387,6 +391,43 @@ public class RFCMimeMail
 
         return txt_msg;
     }
+    public Part get_text_part()
+    {
+        Part p = null;
+        try
+        {
+            Object content = msg.getContent();
+            if (content instanceof Multipart)
+            {
+                check_mp_content((Multipart) content);
+            }
+            else if (content instanceof Part)
+            {
+                Part _p = (Part) content;
+                check_part_content(_p);
+            }
+
+            p = text_part;
+            if (p == null)
+            {
+                p = html_part;
+            }
+        }
+        catch (IOException iOException)
+        {
+        }
+        catch (MessagingException messagingException)
+        {
+        }
+
+        return p;
+    }
+
+    public Part get_html_part()
+    {
+        return html_part;
+    }
+
 
     public String get_html_content()
     {
@@ -415,9 +456,11 @@ public class RFCMimeMail
         }
         catch (IOException iOException)
         {
+            System.out.println(iOException.getMessage());
         }
         catch (MessagingException messagingException)
         {
+            System.out.println(messagingException.getMessage());
         }
 
         return txt_msg;

@@ -11,7 +11,7 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.security.Provider;
 import java.security.spec.InvalidKeySpecException;
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
@@ -61,7 +61,7 @@ public class CryptAESOutputStream extends FilterOutputStream
         {           
             // Create a PBE key and cipher.
             PBEKeySpec keySpec = new PBEKeySpec(passPhrase.toCharArray());
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(strong_pbe_mode);
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(strong_pbe_mode);           
             SecretKey key = keyFactory.generateSecret(keySpec);
             PBEParameterSpec paramSpec = new PBEParameterSpec(salt, iterationCount);
 

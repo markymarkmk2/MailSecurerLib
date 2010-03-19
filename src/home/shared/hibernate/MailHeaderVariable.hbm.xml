@@ -10,6 +10,9 @@
     <property name="varName" type="string">
       <column name="var_name" unique="true"/>
     </property>
+    <property name="flags" type="java.lang.Integer">
+      <column name="flags"/>
+    </property>
     <many-to-one class="home.shared.hibernate.Mandant" fetch="select" name="mandant">
       <column name="mid"/>
     </many-to-one>

@@ -148,6 +148,10 @@ public class CS_Constants
     public static final int BACK_SYS = 0x004;
     public static String BACK_STARTDATE_FORMAT = "dd.MM.yyyy";
 
+    // MAILHEADERVARIABLE
+    public static final int MHV_CONTAINS_EMAIL = 0x001;
+
+
 
     public static final String[] BY_CYCLE_UNITS =
     {
