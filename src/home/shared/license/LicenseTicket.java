@@ -30,7 +30,7 @@ public abstract class LicenseTicket
     protected long modules;
     protected int type;
     private String key;
-    String lastErrMessage;
+    protected String lastErrMessage;
     
     protected LogListener ll;
 
@@ -39,10 +39,21 @@ public abstract class LicenseTicket
         this.ll = ll;
     }
 
+    public LogListener getLogListener()
+    {
+        return ll;
+    }
+
     public String getLastErrMessage()
     {
         return lastErrMessage;
     }
+
+    public void setLastErrMessage( String lastErrMessage )
+    {
+        this.lastErrMessage = lastErrMessage;
+    }
+    
 
 
     /**
@@ -137,7 +148,7 @@ public abstract class LicenseTicket
 
 
     // USED FOR HASH CREATION
-    String get_license_hash_str()
+    protected String get_license_hash_str()
     {
         return product + "," +modules + "," + type + "," + units + "," + serial;
     }

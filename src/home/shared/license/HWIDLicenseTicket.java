@@ -6,9 +6,6 @@
 package home.shared.license;
 
 import java.io.IOException;
-import java.net.NetworkInterface;
-import java.util.Enumeration;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  *
@@ -16,7 +13,7 @@ import org.apache.commons.codec.binary.Base64;
  */
 public class HWIDLicenseTicket extends LicenseTicket
 {    
-    private String hwid;
+    protected String hwid;
    
 
     /**
@@ -39,67 +36,11 @@ public class HWIDLicenseTicket extends LicenseTicket
     }
 
 
-    public static String generate_hwid() throws IOException
-    {
-        try
-        {
-            Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
 
-            while (en.hasMoreElements())
-            {
-                NetworkInterface ni = en.nextElement();
-                if (ni.getName().startsWith("lo") || ni.getHardwareAddress() == null || ni.getHardwareAddress().length == 0)
-                    continue;
-
-                byte[] mac = ni.getHardwareAddress();
-                String str_mac = new String(Base64.encodeBase64(mac), "UTF-8");
-                return str_mac;
-            }
-        }
-        catch (Exception exc)
-        {
-            throw new IOException(exc.getLocalizedMessage());
-        }
-
-        return null;
-    }
+ 
 
     @Override
-    public boolean isValid()
-    {
-        if (!super.isValid())
-        {
-            return false;
-        }
-        try
-        {
-            Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
-
-            while (en.hasMoreElements())
-            {
-                byte[] mac = en.nextElement().getHardwareAddress();
-                if (mac != null)
-                {
-                    String str_mac = new String(Base64.encodeBase64(mac), "UTF-8");
-                    if (str_mac.compareToIgnoreCase(hwid) == 0)
-                    {
-                        return true;
-                    }
-                }
-            }
-            lastErrMessage = "HWID_does_not_match";
-        }
-        catch (Exception exc)
-        {
-            lastErrMessage = "Cannot_check_HWID: " + exc.getLocalizedMessage();
-            if (ll != null)
-                ll.error_log( lastErrMessage);
-        }
-        return false;
-    }
-
-    @Override
-    String get_license_hash_str()
+    protected String get_license_hash_str()
     {
         return super.get_license_hash_str() + "," +hwid;
     }

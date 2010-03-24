@@ -11,8 +11,8 @@ package home.shared.license;
  */
 public class ValidTicketContainer
 {
-    LicenseTicket ticket;
-    boolean valid;
+    protected LicenseTicket ticket;
+    protected boolean valid;
 
     public ValidTicketContainer( LicenseTicket ticket, boolean valid )
     {
