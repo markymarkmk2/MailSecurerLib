@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 09.07.2009 10:42:46 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping default-lazy="false">
+  <class name="home.shared.hibernate.RoleOption" schema="APP" table="role_option">
+    <id name="id" type="int">
+      <column name="id"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="home.shared.hibernate.Role" fetch="select" name="role">
+      <column name="ro_id"/>
+    </many-to-one>
+    <property name="token" type="string">
+      <column length="80" name="token"/>
+    </property>
+    <property name="flags" type="int">
+      <column name="flags"/>
+    </property>
+  </class>
+</hibernate-mapping>
