@@ -140,7 +140,9 @@ public class CS_Constants
     public static final int DA_DISABLED = 0x01;
 
     // MANDANT
+    public static final int MA_DISABLED =   0x01;
     public static final int MA_NOWAIT_ON_NO_SPACE = 0x02;  // ??? MEANS IF WE HAVE NO SPACE, DO NOT BLOCK -> DEL MAIL
+    public static final int MA_IMAP_SSL = 0x04;  
 
     // BACKUP FLAGS
     public static final int BACK_DISABLED = 0x001;

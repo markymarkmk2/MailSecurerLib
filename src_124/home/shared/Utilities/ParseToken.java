@@ -1,5 +1,7 @@
 package home.shared.Utilities;
 
+import com.thoughtworks.xstream.XStream;
+
 
 public class ParseToken extends Object
 {
@@ -234,5 +236,40 @@ public class ParseToken extends Object
     {
         return str.substring(from_index, str.length());
     }
+    public String GetCompressedString(String token)
+    {
+        String cstr = GetString(token);
+        return ZipUtilities.uncompress(cstr);
+    }
+    public Object GetCompressedObject(String token)
+    {
+        String cstr = GetString(token);
+        return DeCompressObject(cstr);
+    }
+    public static String BuildCompressedObjectString( Object o )
+    {
+        XStream xs = new XStream();
+        String xml = xs.toXML(o);
+        String cxml = ZipUtilities.compress(xml);
+        return cxml;
+    }
+    public static Object DeCompressObject( String cstr )
+    {
+        String xml = ZipUtilities.uncompress(cstr);
+        XStream xs = new XStream();
+        return xs.fromXML(xml);
+    }
+    public <T> T GetObject(String token, Class t)
+    {
+        Object o = GetCompressedObject( token );
+        if (t.isInstance(o))
+        {
+            return (T)o;
+        }
+        System.err.println("Wrong class in GetObject, expected: " + t.getName() + " got: " + o.getClass().getName());
+        return null;
+    }
+
+
 }
 
