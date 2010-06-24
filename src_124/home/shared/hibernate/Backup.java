@@ -20,8 +20,6 @@ public class Backup  implements java.io.Serializable {
      private Integer cycleval;
      private String  cycleunit;
      private String  validfrom;
-
-
      private String flags;
 
     public Backup() {
@@ -46,6 +44,22 @@ public class Backup  implements java.io.Serializable {
         this.cycleunit = cycleunit;
         this.validfrom = validfrom;
         this.flags = flags;
+    }
+
+    public Backup( Backup b )
+    {
+        this.id = b.id;
+        this.diskArchive = b.diskArchive;
+        this.mandant = b.mandant;
+        this.agentip = b.agentip;
+        this.agentpath = b.agentpath;
+        this.agentport = b.agentport;
+        this.schedenable = b.schedenable;
+        this.schedtime = b.schedtime;
+        this.cycleval = b.cycleval;
+        this.cycleunit = b.cycleunit;
+        this.validfrom = b.validfrom;
+        this.flags = b.flags;
     }
 
 

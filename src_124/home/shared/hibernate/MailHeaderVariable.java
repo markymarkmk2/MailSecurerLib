@@ -28,6 +28,13 @@ public class MailHeaderVariable  implements java.io.Serializable {
         this.mandant = mandant;
         this.flags = flags;
     }
+
+    public MailHeaderVariable( MailHeaderVariable hmv )
+    {
+        this.id = hmv.id;
+        this.varName = hmv.varName;
+        this.mandant = hmv.mandant;
+    }
    
     public int getId() {
         return this.id;

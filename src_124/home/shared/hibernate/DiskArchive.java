@@ -44,6 +44,20 @@ public class DiskArchive  implements java.io.Serializable {
        this.hotfolders = hotfolders;
        this.backups = backups;
     }
+
+    public DiskArchive( DiskArchive d )
+    {
+       this.id = d.id;
+       this.mandant = d.mandant;
+       this.name = d.name;
+       this.flags = d.flags;
+       this.diskSpaces = d.diskSpaces;
+       this.imapFetchers = d.imapFetchers;
+       this.milters = d.milters;
+       this.proxies = d.proxies;
+       this.hotfolders = d.hotfolders;
+       this.backups = d.backups;
+    }
    
     public int getId() {
         return this.id;

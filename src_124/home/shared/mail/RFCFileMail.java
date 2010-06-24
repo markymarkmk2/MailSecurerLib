@@ -152,7 +152,7 @@ public class RFCFileMail extends RFCGenericMail
             {
                 enc_is = new EncodedMailInputStream( is );
             }
-            enc_is = new BufferedInputStream( enc_is );
+            //enc_is = new BufferedInputStream( enc_is );
  
         }
         else

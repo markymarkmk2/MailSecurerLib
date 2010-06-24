@@ -37,6 +37,19 @@ public class Milter  implements java.io.Serializable {
        this.type = type;
        this.flags = flags;
     }
+
+    public Milter( Milter m )
+    {
+       this.id = m.id;
+       this.diskArchive = m.diskArchive;
+       this.mandant = m.mandant;
+       this.inServer = m.inServer;
+       this.inPort = m.inPort;
+       this.outServer = m.outServer;
+       this.outPort = m.outPort;
+       this.type = m.type;
+       this.flags = m.flags;
+    }
    
     public int getId() {
         return this.id;

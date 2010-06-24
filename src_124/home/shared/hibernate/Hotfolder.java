@@ -39,6 +39,17 @@ public class Hotfolder  implements java.io.Serializable {
        this.flags = flags;
        this.hotfolderExcludes = hotfolderExcludes;
     }
+
+    public Hotfolder( Hotfolder h )
+    {
+       this.id = h.id;
+       this.diskArchive = h.diskArchive;
+       this.mandant = h.mandant;
+       this.usermailadress = h.usermailadress;
+       this.path = h.path;
+       this.flags = h.flags;
+       this.hotfolderExcludes = h.hotfolderExcludes;
+    }
    
     public int getId() {
         return this.id;

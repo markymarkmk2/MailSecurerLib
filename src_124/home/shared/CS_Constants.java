@@ -96,6 +96,8 @@ public class CS_Constants
     public static final String[] VFLD_TXT_FIELDS = {FLD_SUBJECT, FLD_BODY, FLD_ATTACHMENT};
     public static final String   VFLD_ALL =  "FLDV_ALL";   // V_MAIL + V_TEXT + FLD_ATTACHMENT_NAME
     public static final String[] VFLD_ALL_FIELDS = {FLD_TO, FLD_FROM, FLD_CC, FLD_BCC, FLD_DELIVEREDTO,FLD_SUBJECT, FLD_BODY, FLD_ATTACHMENT, FLD_ATTACHMENT_NAME };
+
+    public static final String VFLD_4EYES = "FLDV_4EYES";
     
 
     public static final String IFETCHER_TYPE_IMAP = "imap";
@@ -152,6 +154,10 @@ public class CS_Constants
 
     // MAILHEADERVARIABLE
     public static final int MHV_CONTAINS_EMAIL = 0x001;
+
+    // PROXY
+    public static final int PX_DISABLED = 0x001;
+    public static final int PX_SSL = 0x002;
 
 
 

@@ -25,6 +25,12 @@
     <property name="license" type="java.lang.Integer">
       <column name="license"/>
     </property>
+    <property name="user4eyes" type="string">
+      <column name="user4eyes"/>
+    </property>
+    <property name="pwd4eyes" type="string">
+      <column name="pwd4eyes"/>
+    </property>
     <many-to-one class="home.shared.hibernate.AccountConnector" fetch="select" name="accountConnector">
       <column name="ac_id"/>
     </many-to-one>

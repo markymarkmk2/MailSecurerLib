@@ -40,6 +40,19 @@ public class ImapFetcher  implements java.io.Serializable {
        this.flags = flags;
        this.type = type;
     }
+
+    public ImapFetcher( ImapFetcher i )
+    {
+       this.id = i.id;
+       this.diskArchive = i.diskArchive;
+       this.mandant = i.mandant;
+       this.server = i.server;
+       this.port = i.port;
+       this.username = i.username;
+       this.password = i.password;
+       this.flags = i.flags;
+       this.type = i.type;
+    }
    
     public int getId() {
         return this.id;

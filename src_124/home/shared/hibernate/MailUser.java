@@ -42,6 +42,18 @@ public class MailUser  implements java.io.Serializable {
         this.addMailAddresses = add_mail_addresses;
         this.allowedViewers = allowed_viewers;
     }
+
+    public MailUser( MailUser m )
+    {
+        this.id = m.id;
+        this.mandant = m.mandant;
+        this.email = m.email;
+        this.username = m.username;
+        this.pwd = m.pwd;
+        this.flags = m.flags;
+        this.addMailAddresses = m.addMailAddresses;
+        this.allowedViewers = m.allowedViewers;
+    }
    
     public int getId() {
         return this.id;

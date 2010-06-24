@@ -37,6 +37,19 @@ public class Proxy  implements java.io.Serializable {
        this.type = type;
        this.flags = flags;
     }
+
+    public Proxy( Proxy p )
+    {
+       this.id = p.id;
+       this.diskArchive = p.diskArchive;
+       this.mandant = p.mandant;
+       this.localServer = p.localServer;
+       this.localPort = p.localPort;
+       this.remoteServer = p.remoteServer;
+       this.remotePort = p.remotePort;
+       this.type = p.type;
+       this.flags = p.flags;
+    }
    
     public int getId() {
         return this.id;

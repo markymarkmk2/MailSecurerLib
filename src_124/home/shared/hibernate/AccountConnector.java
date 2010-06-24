@@ -28,6 +28,7 @@ public class AccountConnector  implements java.io.Serializable {
      
      private int flags;
      private Set<Role> roles = new HashSet<Role>(0);
+     private String ldapdomain;
 
 
     public AccountConnector()
@@ -39,7 +40,7 @@ public class AccountConnector  implements java.io.Serializable {
         this.id = id;
     }
 
-    public AccountConnector( int id, Mandant mandant, String type, String ip, Integer port, String user, String pwd, String searchbase, int flags, Set<Role> roles, String sa, String ma, String domainlist, String excludefilter )
+    public AccountConnector( int id, Mandant mandant, String type, String ip, Integer port, String user, String pwd, String searchbase, int flags, Set<Role> roles, String sa, String ma, String domainlist, String excludefilter, String ldap_domain )
     {
         this.id = id;
         this.mandant = mandant;
@@ -55,6 +56,26 @@ public class AccountConnector  implements java.io.Serializable {
         mailattribute = ma;
         this.domainlist = domainlist;
         this.excludefilter = excludefilter;
+        this.ldapdomain = ldap_domain;
+    }
+
+    public AccountConnector( AccountConnector a )
+    {
+        this.id = a.id;
+        this.mandant = a.mandant;
+        this.type = a.type;
+        this.ip = a.ip;
+        this.port = a.port;
+        this.username = a.username;
+        this.pwd = a.pwd;
+        this.flags = a.flags;
+        this.roles = a.roles;
+        this.searchbase = a.searchbase;
+        this.searchattribute = a.searchattribute;
+        this.mailattribute = a.mailattribute;
+        this.domainlist = a.domainlist;
+        this.excludefilter = a.excludefilter;
+        this.ldapdomain = a.ldapdomain;
     }
    
     public int getId() {
@@ -232,6 +253,16 @@ public class AccountConnector  implements java.io.Serializable {
     public void setExcludefilter( String excludefilter )
     {
         this.excludefilter = excludefilter;
+    }
+
+    public String getLdapdomain()
+    {
+        return ldapdomain;
+    }
+
+    public void setLdapdomain( String ldapdomain )
+    {
+        this.ldapdomain = ldapdomain;
     }
 
 

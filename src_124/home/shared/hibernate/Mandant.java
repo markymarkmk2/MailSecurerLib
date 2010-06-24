@@ -90,6 +90,36 @@ public class Mandant  implements java.io.Serializable {
         this.smtp_pwd = smtp_pwd;
         this.smtp_flags = smtp_flags;
     }
+
+
+    public Mandant( Mandant m )
+    {
+       this.id = m.id;
+       this.name = m.name;
+       this.license = m.license;
+       this.password = m.password;
+       this.loginname = m.loginname;
+       this.flags = m.flags;
+       this.imap_port = m.imap_port;
+       this.imap_host = m.imap_host;
+       this.hotfolders = m.hotfolders;
+       this.imapFetchers = m.imapFetchers;
+       this.roles = m.roles;
+       this.milters = m.milters;
+       this.proxies = m.proxies;
+       this.diskArchives = m.diskArchives;
+       this.accountConnectors = m.accountConnectors;
+       this.mailHeaderVariable = m.mailHeaderVariable;
+       this.mailusers = m.mailusers;
+       this.backups = m.backups;
+        this.smtp_port = m.smtp_port;
+        this.smtp_host = m.smtp_host;
+        this.smtp_user = m.smtp_user;
+        this.smtp_pwd = m.smtp_pwd;
+        this.mailfrom = m.mailfrom;
+        this.notificationlist = m.notificationlist;
+        this.smtp_flags = m.smtp_flags;
+    }
    
     public int getId() {
         return this.id;

@@ -20,17 +20,34 @@ public class Role  implements java.io.Serializable {
      private String accountmatch;
      private Integer license;
      private String flags;
+     private String user4eyes;
+     private String pwd4eyes;
      private AccountConnector accountConnector;
      private Set<RoleOption> roleOptions = new HashSet<RoleOption>(0);
 
-    public Role() {
+    public Role()
+    {
+    }
+    public Role(Role r)
+    {
+       this.id = r.id;
+       this.mandant = r.mandant;
+       this.name = r.name;
+       this.license = r.license;
+       this.opts = r.opts;
+       this.accountmatch = r.accountmatch;
+       this.flags = r.flags;
+       this.accountConnector = r.accountConnector;
+       this.roleOptions = r.roleOptions;
+       this.user4eyes = r.user4eyes;
+       this.pwd4eyes = r.pwd4eyes;
     }
 
 	
     public Role(int id) {
         this.id = id;
     }
-    public Role(int id, Mandant mandant, String name, String opts, String acm, Integer license, String flags, AccountConnector ac, Set<RoleOption> roleOptions) {
+    public Role(int id, Mandant mandant, String name, String opts, String acm, Integer license, String flags, AccountConnector ac, Set<RoleOption> roleOptions, String user4eyes, String pwd4eyes) {
        this.id = id;
        this.mandant = mandant;
        this.name = name;
@@ -40,6 +57,8 @@ public class Role  implements java.io.Serializable {
        this.flags = flags;
        this.accountConnector = ac;
        this.roleOptions = roleOptions;
+       this.user4eyes = user4eyes;
+       this.pwd4eyes = pwd4eyes;
     }
    
     public int getId() {
@@ -109,6 +128,27 @@ public class Role  implements java.io.Serializable {
     public void setRoleOptions(Set<RoleOption> roleOptions) {
         this.roleOptions = roleOptions;
     }
+
+    public String getPwd4eyes()
+    {
+        return pwd4eyes;
+    }
+
+    public String getUser4eyes()
+    {
+        return user4eyes;
+    }
+
+    public void setPwd4eyes( String pwd4eyes )
+    {
+        this.pwd4eyes = pwd4eyes;
+    }
+
+    public void setUser4eyes( String user4eyes )
+    {
+        this.user4eyes = user4eyes;
+    }
+
 
 }
 

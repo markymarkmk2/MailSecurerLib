@@ -31,6 +31,14 @@ public class MailAddress  implements java.io.Serializable {
         this.email = email;
         this.flags = flags;
     }
+
+    public MailAddress( MailAddress ma )
+    {
+        this.id = ma.id;
+        this.mandant = ma.mandant;
+        this.email = ma.email;
+        this.flags = ma.flags;
+    }
    
     public int getId() {
         return this.id;

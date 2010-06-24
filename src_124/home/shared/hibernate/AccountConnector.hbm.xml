@@ -37,6 +37,9 @@
     <property name="domainlist" type="string">
       <column length="255" name="domainlist"/>
     </property>
+    <property name="ldapdomain" type="string">
+      <column length="80" name="ldapdomain"/>
+    </property>
     <property name="excludefilter" type="string">
       <column length="32000" name="excludefilter"/>
     </property>

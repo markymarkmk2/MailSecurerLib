@@ -26,8 +26,9 @@ public class UserSSOEntry
     long last_auth;
     ArrayList<String> mail_list;
     int user_sso_id;
+    int ma_id;
 
-    public UserSSOEntry( String user, String pwd, Role role, AccountConnector acct, long checked, long last_auth, int _id )
+    public UserSSOEntry( String user, String pwd, Role role, AccountConnector acct, long checked, long last_auth, int _id, int _ma_id )
     {
         this.user = user;
         this.pwd = pwd;
@@ -36,6 +37,7 @@ public class UserSSOEntry
         this.checked = checked;
         this.last_auth = last_auth;
         user_sso_id = _id;
+        ma_id = _ma_id;
     }
 
     public AccountConnector getAcct()
@@ -87,6 +89,10 @@ public class UserSSOEntry
         }
         return false;
     }
+    public boolean is_auditor()
+    {
+        return role_has_option( OptCBEntry.AUDIT );
+    }
 
     public String getUser()
     {
@@ -126,6 +132,11 @@ public class UserSSOEntry
     public void setMail_list( ArrayList<String> mail_list )
     {
         this.mail_list = mail_list;
+    }
+
+    public int get_ma_id()
+    {
+        return ma_id;
     }
     
 }

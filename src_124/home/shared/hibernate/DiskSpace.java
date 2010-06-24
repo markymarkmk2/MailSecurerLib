@@ -33,6 +33,16 @@ public class DiskSpace  implements java.io.Serializable {
        this.flags = flags;
        this.status = status;
     }
+
+    public DiskSpace( DiskSpace d )
+    {
+       this.id = d.id;
+       this.diskArchive = d.diskArchive;
+       this.path = d.path;
+       this.maxCapacity = d.maxCapacity;
+       this.flags = d.flags;
+       this.status = d.status;
+    }
    
     public int getId() {
         return this.id;

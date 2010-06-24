@@ -61,7 +61,7 @@
       </key>
       <one-to-many class="home.shared.hibernate.ImapFetcher"/>
     </set>
-    <set cascade="delete" inverse="true" name="roles">
+    <set cascade="delete" inverse="true" name="roles" order-by="name asc">
       <key>
         <column name="mid"/>
       </key>
