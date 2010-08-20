@@ -15,17 +15,20 @@ import java.io.OutputStream;
 public class EncodedMailOutputStream extends OutputStream
 {
     OutputStream os;
+    byte[] buffer;
 
     public EncodedMailOutputStream( OutputStream os )
     {
         this.os = os;
+        buffer = new byte[8192];
     }
 
     @Override
     public void write( int b ) throws IOException
     {
         // CHECK AGAINST CALL FROM OURSELF
-        os.write( ~b);
+        b = (byte)(~b & 0xFF);
+        os.write( b);
     }
 
     @Override
@@ -37,12 +40,18 @@ public class EncodedMailOutputStream extends OutputStream
     @Override
     public void write( byte[] b, int off, int len ) throws IOException
     {
+        // WE CANNOT CHANGE AN EXTERNAL BUFFER -> USE OUR OWN
+        if (b.length > buffer.length)
+        {
+             buffer = new byte[b.length];
+        }
+
         for (int i = off; i < len; i++)
         {
             byte ch = b[i];
-            b[i] = (byte)(~ch & 0xFF);
+            buffer[i] = (byte)(~ch & 0xFF);
         }
-        os.write(b, off, len);
+        os.write(buffer, off, len);
     }
 
     @Override

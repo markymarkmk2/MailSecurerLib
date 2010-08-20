@@ -338,6 +338,9 @@ public class SQLResult<T> extends ArrayList<T>
 
     public static String html_to_native( String txt )
     {
+        if (txt == null)
+            return null;
+        
         if (txt.indexOf('&') == -1)
             return txt;
 

@@ -15,16 +15,18 @@ import java.io.InputStream;
 public class EncodedMailInputStream extends InputStream
 {
     InputStream is;
+
     public EncodedMailInputStream( InputStream is )
     {
         this.is = is;
+
     }
 
     @Override
     public int read() throws IOException
     {
         int ch = is.read();
-        ch = ~ch;
+        ch = (byte)(~ch & 0xFF);
         return ch;
     }
 

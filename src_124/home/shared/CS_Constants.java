@@ -125,6 +125,7 @@ public class CS_Constants
     // ROLE FLAGS
     public static final int ROLE_DISABLED = 0x01;
     public static final int ROLE_ACM_COMPRESSED = 0x02;
+    public static final int ROLE_ACM_SIMPLE = 0x04;
 
     // HF
     public static final int HF_FLAG_DISABLED = 0x01;

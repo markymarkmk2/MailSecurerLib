@@ -40,7 +40,8 @@ public class RFCFileMail extends RFCGenericMail
     String passPhrase;
 
 
-    public static boolean create_hash = true;
+
+    //public static boolean create_hash = true;
     public static final String HASH_MODE = "SHA-1";
 
 
@@ -163,11 +164,8 @@ public class RFCFileMail extends RFCGenericMail
         // READ HASH
         try
         {
-            if (create_hash && digest == null)
-            {
-                digest = MessageDigest.getInstance(HASH_MODE);
-                enc_is = new DigestInputStream(enc_is, digest);
-            }
+            digest = MessageDigest.getInstance(HASH_MODE);
+            enc_is = new DigestInputStream(enc_is, digest);
         }
         catch (NoSuchAlgorithmException noSuchAlgorithmException)
         {
@@ -180,27 +178,7 @@ public class RFCFileMail extends RFCGenericMail
 
     private OutputStream open_outputstream(File file, boolean encoded) throws IOException
     {
-        OutputStream os;
-
-        try
-        {
-             if (create_hash && digest == null)
-             {
-                digest = MessageDigest.getInstance(HASH_MODE);
-                os = new DigestOutputStream(new FileOutputStream(file), digest);
-             }
-             else
-             {
-                 os = new FileOutputStream(file);
-             }
-        }
-        catch (NoSuchAlgorithmException noSuchAlgorithmException)
-        {
-            System.out.println("Cannot open " + HASH_MODE  +" Digest: " + noSuchAlgorithmException.getMessage());
-            noSuchAlgorithmException.printStackTrace();
-
-            os = new FileOutputStream(file);
-        }
+        OutputStream os = new FileOutputStream(file);
 
         OutputStream enc_os = os;
 
@@ -236,19 +214,27 @@ public class RFCFileMail extends RFCGenericMail
             else
             {
                 enc_os = new EncodedMailOutputStream( os );
-            }
-            return new BufferedOutputStream( enc_os );
+            }            
+        }
 
-        }
-        else
+        // CREATE DIGEST FOR HASH
+        try
         {
-            return new BufferedOutputStream( os);
+            digest = MessageDigest.getInstance(HASH_MODE);
+            enc_os = new DigestOutputStream(enc_os, digest);
         }
+        catch (NoSuchAlgorithmException noSuchAlgorithmException)
+        {
+            System.out.println("Cannot open " + HASH_MODE  +" Digest: " + noSuchAlgorithmException.getMessage());
+            noSuchAlgorithmException.printStackTrace();
+        }
+        return enc_os;
+
     }
 
     public byte[] get_hash()
     {
-        if (create_hash && digest == null)
+        if (digest == null)
         {
             try
             {
@@ -270,7 +256,9 @@ public class RFCFileMail extends RFCGenericMail
             }
         }
         if (digest != null)
+        {
             return digest.digest();
+        }
 
         return null;
     }
@@ -284,5 +272,13 @@ public class RFCFileMail extends RFCGenericMail
     {
         return encrypted;
     }
+
+    @Override
+    public String toString()
+    {
+        return msg.getName();
+    }
+
+   
     
 }

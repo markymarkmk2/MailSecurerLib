@@ -468,6 +468,7 @@ public class ZipUtilities
 
             ZipOutputStream zos = new ZipOutputStream(fos);
             ZipEntry ze = new ZipEntry("CS");  // COMPRESSED STRING
+            ze.setTime(0);
             zos.putNextEntry(ze);
             final int BUFSIZ = 4096;
             byte inbuf[] = new byte[BUFSIZ];

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.Hex;
 
 /**
  *
@@ -111,7 +110,7 @@ public abstract class LicenseTicket
         catch (IOException iOException)
         {
             if (ll != null)
-                ll.error_log("cannot calculate key", iOException);
+                ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_LICENSE, "cannot calculate key", iOException);
         }
         return ret;
     }

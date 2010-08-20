@@ -135,9 +135,11 @@ public class RFCMimeMail
         InputStream bis = mail_file.open_inputstream();
 
         msg = new MimeMessage(session, bis);
+        bis.close();
+        bis = null;
+
         email_list = parse_email_list(msg);
 
-        bis.close();
     }
 
     public void parse( InputStream bis ) throws FileNotFoundException, MessagingException, IOException

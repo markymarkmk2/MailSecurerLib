@@ -26,6 +26,7 @@ public abstract class RFCGenericMail
     public static final int ENC_NONE = 0;
     public static final int ENC_AES = 1;
 
+    
     public enum FILENAME_MODE
     {
         HMS_FILE,

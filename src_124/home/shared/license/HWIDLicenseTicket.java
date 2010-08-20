@@ -5,6 +5,7 @@
 
 package home.shared.license;
 
+import home.shared.Utilities.LogListener;
 import java.io.IOException;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
@@ -93,7 +94,7 @@ public class HWIDLicenseTicket extends LicenseTicket
         {
             lastErrMessage = "Cannot_check_HWID: " + exc.getLocalizedMessage();
             if (ll != null)
-                ll.error_log( lastErrMessage);
+                ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_LICENSE,  lastErrMessage);
         }
         return false;
     }
