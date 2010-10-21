@@ -4,12 +4,12 @@
 <hibernate-mapping default-lazy="false">
   <class name="home.shared.hibernate.MailAddLink" schema="APP" table="mailuser_add_link">
     <composite-id>
-    <key-property name="muId" type="int">
-      <column name="mu_id"/>
-    </key-property>
-    <key-property name="maId" type="int">
-      <column name="ma_id"/>
-    </key-property>
+      <key-property name="muId" type="int">
+        <column name="mu_id"/>
+      </key-property>
+      <key-property name="maId" type="int">
+        <column name="ma_id"/>
+      </key-property>
     </composite-id>
   </class>
 </hibernate-mapping>
