@@ -73,6 +73,12 @@
       </key>
       <one-to-many class="home.shared.hibernate.Milter"/>
     </set>
+    <set cascade="delete" inverse="true" name="smtpServers">
+      <key>
+        <column name="mid"/>
+      </key>
+      <one-to-many class="home.shared.hibernate.SmtpServer"/>
+    </set>
     <set cascade="delete" inverse="true" name="proxies">
       <key>
         <column name="mid"/>

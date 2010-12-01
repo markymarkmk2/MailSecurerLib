@@ -22,6 +22,18 @@ public class SmtpServer  implements java.io.Serializable {
     public SmtpServer() {
     }
 
+    public SmtpServer(SmtpServer s)
+    {
+       this.id = s.id;
+       this.diskArchive = s.diskArchive;
+       this.mandant = s.mandant;
+       this.server = s.server;
+       this.port = s.port;
+       this.username = s.username;
+       this.password = s.password;
+       this.flags = s.flags;
+       this.type = s.type;
+    }
 	
     public SmtpServer(int id, DiskArchive diskArchive, Mandant mandant, String server) {
         this.id = id;

@@ -37,6 +37,7 @@ public class Mandant  implements java.io.Serializable {
      private Set<MailHeaderVariable> mailHeaderVariable = new HashSet<MailHeaderVariable>(0);
      private Set<MailUser> mailusers = new HashSet<MailUser>(0);
      private Set<Backup> backups = new HashSet<Backup>(0);
+     private Set<SmtpServer> smtpServers = new HashSet<SmtpServer>(0);
 
     public Mandant()
     {
@@ -64,7 +65,7 @@ public class Mandant  implements java.io.Serializable {
                 Set<Hotfolder> hotfolders,
                 Set<ImapFetcher> imapFetchers, Set<Role> roles, Set<Milter> milters, Set<Proxy> proxies, Set<DiskArchive> diskArchives,
                 Set<AccountConnector> accountConnectors, Set<MailHeaderVariable> mailHeaderVariable, Set<MailUser> mailusers,
-                Set<Backup> backups)
+                Set<Backup> backups, Set<SmtpServer> smtpservers)
     {
        this.id = id;
        this.name = name;
@@ -84,6 +85,7 @@ public class Mandant  implements java.io.Serializable {
        this.mailHeaderVariable = mailHeaderVariable;
        this.mailusers = mailusers;
        this.backups = backups;
+       this.smtpServers = smtpservers;
         this.smtp_port = smtp_port;
         this.smtp_host = smtp_host;
         this.smtp_user = smtp_user;
@@ -112,6 +114,7 @@ public class Mandant  implements java.io.Serializable {
        this.mailHeaderVariable = m.mailHeaderVariable;
        this.mailusers = m.mailusers;
        this.backups = m.backups;
+       this.smtpServers = m.smtpServers;
         this.smtp_port = m.smtp_port;
         this.smtp_host = m.smtp_host;
         this.smtp_user = m.smtp_user;
@@ -191,6 +194,15 @@ public class Mandant  implements java.io.Serializable {
     public void setMilters(Set<Milter> milters) {
         this.milters = milters;
     }
+
+    public Set<SmtpServer> getSmtpServers() {
+        return this.smtpServers;
+    }
+
+    public void setSmtpServers(Set<SmtpServer> smtpservers) {
+        this.smtpServers = smtpservers;
+    }
+
     public Set<Proxy> getProxies() {
         return this.proxies;
     }

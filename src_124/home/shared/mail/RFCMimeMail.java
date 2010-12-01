@@ -468,10 +468,28 @@ public class RFCMimeMail
         return txt_msg;
     }
 
-    // PARSE EMAIL_LIST FROM MAIL HEADERS
-    private ArrayList<RFCMailAddress> parse_email_list( MimeMessage msg )
+    ArrayList<RFCMailAddress> getRFCMailAddressList( String txt, RFCMailAddress.ADR_TYPE typ)
     {
-        
+        ArrayList<RFCMailAddress> list = new ArrayList<RFCMailAddress>();
+        String[] args = txt.split(",|;| |<|>|\"|\'|\r|\n|\t");
+
+        for (int i = 0; i < args.length; i++)
+        {
+            String string = args[i];
+            if (string.length() == 0)
+                continue;
+            
+            if (string.indexOf('@') > 0)
+            {
+                list.add(new RFCMailAddress(string, typ));
+            }
+        }
+        return list;
+    }
+
+    // PARSE EMAIL_LIST FROM MAIL HEADERS
+    protected ArrayList<RFCMailAddress> parse_email_list( MimeMessage msg )
+    {        
         ArrayList<RFCMailAddress> list = new ArrayList<RFCMailAddress>();
         try
         {
@@ -484,26 +502,31 @@ public class RFCMimeMail
                     Header ih = (Header) h;
                     String name = ih.getName();
                     String value = ih.getValue();
+                    ArrayList<RFCMailAddress> local_list = null;
                     
                     if (name.compareToIgnoreCase(CS_Constants.FLD_FROM ) == 0)
                     {
-                        list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.FROM));
+                        local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.FROM);
                     }
                     else if (name.compareToIgnoreCase(CS_Constants.FLD_TO ) == 0)
                     {
-                        list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.TO));
+                        local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.TO);
                     }
                     else if (name.compareToIgnoreCase(CS_Constants.FLD_ENVELOPE_TO ) == 0)
                     {
-                        list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.TO));
+                        local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.TO);
                     }
                     else if (name.compareToIgnoreCase(CS_Constants.FLD_CC ) == 0)
                     {
-                        list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.CC));
+                        local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.CC);
                     }
                     else if (name.compareToIgnoreCase(CS_Constants.FLD_BCC ) == 0)
                     {
-                        list.add(new RFCMailAddress(value, RFCMailAddress.ADR_TYPE.BCC));
+                        local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.BCC);
+                    }
+                    if (local_list != null)
+                    {
+                        list.addAll(local_list);
                     }
                 }
             }

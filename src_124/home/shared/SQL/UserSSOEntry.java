@@ -24,7 +24,7 @@ public class UserSSOEntry
     AccountConnector acct;
     long checked;
     long last_auth;
-    ArrayList<String> mail_list;
+    private ArrayList<String> mail_list;
     int user_sso_id;
     int ma_id;
 
@@ -50,7 +50,7 @@ public class UserSSOEntry
         return role;
     }
 
-    public ArrayList<String> getMail_list()
+    public final ArrayList<String> getMail_list()
     {
         return mail_list;
     }

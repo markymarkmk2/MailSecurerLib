@@ -39,6 +39,7 @@ public class CS_Constants
     public static final String TYPE_EML = "EML";
     public static final String TYPE_TBIRD = "TBIRD";
     public static final String TYPE_MBOX = "MBOX";
+    public static final String TYPE_EXCHANGE = "EXCHNG";
     public static final String TYPE_UNKNOWN = "UNKNOWN";
 
     public static final int ITYPE_OLEXP = 1;
@@ -46,6 +47,7 @@ public class CS_Constants
     public static final int ITYPE_EML = 3;
     public static final int ITYPE_TBIRD = 4;
     public static final int ITYPE_MBOX = 5;
+    public static final int ITYPE_EXCHANGE = 6;
     public static final int ITYPE_UNKNOWN = -1;
 
 
@@ -160,6 +162,15 @@ public class CS_Constants
     public static final int PX_DISABLED = 0x001;
     public static final int PX_SSL = 0x002;
 
+    // MILTER
+    public static final int ML_DISABLED = 0x001;
+
+    // SMTP-LISTENER
+    public static final int SL_DISABLED = 0x001;
+    public static final int SL_SSL = 0x002;
+    public static final int SL_USE_TLS_IF_AVAIL = 0x004;
+    public static final int SL_USE_TLS_FORCE = 0x008;
+    public static final int SL_HAS_TLS_CERT = 0x010;
 
 
     public static final String[] BY_CYCLE_UNITS =

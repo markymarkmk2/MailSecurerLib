@@ -11,8 +11,10 @@ package home.shared.Utilities;
  */
 public interface LogListener
 {
+    public static final String TYP_EXCEXPTIONS = "exceptions";
     public static final String TYP_AUTH = "auth";
     public static final String TYP_EXTRACT = "extract";
+    public static final String TYP_EXCHANGE = "exchange";
     public static final String TYP_PROXY = "proxy";
     public static final String TYP_HOTFOLDER = "hotfolder";
     public static final String TYP_IMPORT = "import";
