@@ -43,6 +43,9 @@
     <property name="excludefilter" type="string">
       <column length="32000" name="excludefilter"/>
     </property>
+    <property name="ldapfilter" type="string">
+      <column length="255" name="ldapfilter"/>
+    </property>
     <property name="flags" type="java.lang.Integer">
       <column name="flags"/>
     </property>

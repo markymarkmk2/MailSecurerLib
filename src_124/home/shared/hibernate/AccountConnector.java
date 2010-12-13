@@ -29,6 +29,7 @@ public class AccountConnector  implements java.io.Serializable {
      private int flags;
      private Set<Role> roles = new HashSet<Role>(0);
      private String ldapdomain;
+     private String ldapfilter;
 
 
     public AccountConnector()
@@ -40,7 +41,8 @@ public class AccountConnector  implements java.io.Serializable {
         this.id = id;
     }
 
-    public AccountConnector( int id, Mandant mandant, String type, String ip, Integer port, String user, String pwd, String searchbase, int flags, Set<Role> roles, String sa, String ma, String domainlist, String excludefilter, String ldap_domain )
+    public AccountConnector( int id, Mandant mandant, String type, String ip, Integer port, String user, String pwd, String searchbase, int flags, Set<Role> roles, String sa, String ma, 
+                                String domainlist, String excludefilter, String ldap_domain, String ldapfilter )
     {
         this.id = id;
         this.mandant = mandant;
@@ -57,6 +59,7 @@ public class AccountConnector  implements java.io.Serializable {
         this.domainlist = domainlist;
         this.excludefilter = excludefilter;
         this.ldapdomain = ldap_domain;
+        this.ldapfilter = ldapfilter;
     }
 
     public AccountConnector( AccountConnector a )
@@ -76,6 +79,7 @@ public class AccountConnector  implements java.io.Serializable {
         this.domainlist = a.domainlist;
         this.excludefilter = a.excludefilter;
         this.ldapdomain = a.ldapdomain;
+        this.ldapfilter = a.ldapfilter;
     }
    
     public int getId() {
@@ -263,6 +267,16 @@ public class AccountConnector  implements java.io.Serializable {
     public void setLdapdomain( String ldapdomain )
     {
         this.ldapdomain = ldapdomain;
+    }
+
+    public void setLdapfilter( String ldapfilter )
+    {
+        this.ldapfilter = ldapfilter;
+    }
+
+    public String getLdapfilter()
+    {
+        return ldapfilter;
     }
 
 

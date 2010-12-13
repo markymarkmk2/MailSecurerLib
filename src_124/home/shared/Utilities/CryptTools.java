@@ -116,27 +116,10 @@ public class CryptTools
             return enc;
         }
 
-        catch (NoSuchPaddingException ex)
+        catch (Exception ex)
         {
-            ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptException", ex);
-        }        catch (NoSuchAlgorithmException ex)
-        {
-            ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptException", ex);
-        }        catch (InvalidKeySpecException ex)
-        {
-            ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptException", ex);
-        }        catch (IllegalBlockSizeException ex)
-        {
-            ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptException", ex);
-        }        catch (BadPaddingException ex)
-        {
-            ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptException", ex);
-        }        catch (InvalidKeyException ex)
-        {
-            ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptException", ex);
-        }        catch (InvalidAlgorithmParameterException ex)
-        {
-            ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptException", ex);
+            if (ll != null)
+                ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptException", ex);
         }
         return null;
     }
@@ -157,7 +140,8 @@ public class CryptTools
         }
         catch (UnsupportedEncodingException ex)
         {
-            ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptException", ex);
+            if (ll != null)
+                ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptException", ex);
         }
         return null;
     }
@@ -188,7 +172,8 @@ public class CryptTools
         }
         catch (UnsupportedEncodingException ex)
         {
-            ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "Crypt failed", ex);
+            if (ll != null)
+                ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "Crypt failed", ex);
         }
         return null;
     }
@@ -227,7 +212,8 @@ public class CryptTools
         }
         catch (UnsupportedEncodingException ex)
         {
-            ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptInternal failed", ex);
+            if (ll != null)
+                ll.log_msg(LogListener.LVL_ERR, LogListener.TYP_SECURITY, "CryptInternal failed", ex);
         }
         return null;
     }
