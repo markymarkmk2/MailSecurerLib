@@ -28,6 +28,13 @@ public class UserSSOEntry
     int user_sso_id;
     int ma_id;
 
+
+    public UserSSOEntry()
+    {
+        user_sso_id = -1;
+        ma_id = -1;
+    }
+
     public UserSSOEntry( String user, String pwd, Role role, AccountConnector acct, long checked, long last_auth, int _id, int _ma_id )
     {
         this.user = user;
@@ -137,6 +144,10 @@ public class UserSSOEntry
     public int get_ma_id()
     {
         return ma_id;
+    }
+    public String get_sso_str_id()
+    {
+        return ma_id + "." + user_sso_id;
     }
     
 }

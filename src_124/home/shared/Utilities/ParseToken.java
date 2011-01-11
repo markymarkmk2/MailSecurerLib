@@ -19,6 +19,10 @@ public class ParseToken extends Object
     {
         _is_ordered = f;
     }
+
+    public ParseToken()
+    {
+    }
     
     public ParseToken( String _str)
     {

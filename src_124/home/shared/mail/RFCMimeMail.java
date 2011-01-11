@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -86,6 +87,9 @@ public class RFCMimeMail
 
         msg.addFrom(ia_from);
         msg.addRecipients(Message.RecipientType.TO, ia_to);
+
+        msg.setSentDate( new Date() );
+
         if (subject != null)
         {
             msg.setSubject(subject);
@@ -239,7 +243,12 @@ public class RFCMimeMail
 
                 if (disposition == null)
                 {
-                    System.err.println("GOT No attachement contentTye : " + p.getContentType());
+                    // VIEW INLINE IMAGES AS ATTACHMENTS
+                    if ( p.getFileName() == null)
+                        System.err.println("GOT No attachement contentTye : " + p.getContentType());
+                    else 
+                        sum++;
+
                 }
                 else if (disposition.equalsIgnoreCase(Part.INLINE))
                 {
@@ -279,7 +288,16 @@ public class RFCMimeMail
                 String disposition = p.getDisposition();
                 if (disposition == null)
                 {
-                    System.err.println("GOT No attachement contentTye : " + p.getContentType());
+                    if ( p.getFileName() == null)
+                        System.err.println("GOT No attachement contentTye : " + p.getContentType());
+                    else
+                    {
+                        if (idx == 0)
+                        {
+                            return p;
+                        }
+                        idx--;
+                    }
                 }
                 else if (disposition.equalsIgnoreCase(Part.INLINE))
                 {
@@ -449,8 +467,11 @@ public class RFCMimeMail
 
 
             Part p = html_part;
-
-            txt_msg = null;
+            if (p == null && msg.isMimeType("text/html"))
+            {
+                txt_msg = msg.getContent().toString();
+            }
+            
             if (p != null)
             {
                 txt_msg = p.getContent().toString();
@@ -468,7 +489,7 @@ public class RFCMimeMail
         return txt_msg;
     }
 
-    ArrayList<RFCMailAddress> getRFCMailAddressList( String txt, RFCMailAddress.ADR_TYPE typ)
+    static ArrayList<RFCMailAddress> getRFCMailAddressList( String txt, RFCMailAddress.ADR_TYPE typ)
     {
         ArrayList<RFCMailAddress> list = new ArrayList<RFCMailAddress>();
         String[] args = txt.split(",|;| |<|>|\"|\'|\r|\n|\t");
@@ -481,14 +502,14 @@ public class RFCMimeMail
             
             if (string.indexOf('@') > 0)
             {
-                list.add(new RFCMailAddress(string, typ));
+                list.add(new RFCMailAddress(string.toLowerCase(), typ));
             }
         }
         return list;
     }
 
     // PARSE EMAIL_LIST FROM MAIL HEADERS
-    protected ArrayList<RFCMailAddress> parse_email_list( MimeMessage msg )
+    public static ArrayList<RFCMailAddress> parse_email_list( MimeMessage msg )
     {        
         ArrayList<RFCMailAddress> list = new ArrayList<RFCMailAddress>();
         try
@@ -513,6 +534,10 @@ public class RFCMimeMail
                         local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.TO);
                     }
                     else if (name.compareToIgnoreCase(CS_Constants.FLD_ENVELOPE_TO ) == 0)
+                    {
+                        local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.TO);
+                    }
+                    else if (name.compareToIgnoreCase("X-" + CS_Constants.FLD_ENVELOPE_TO ) == 0)
                     {
                         local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.TO);
                     }

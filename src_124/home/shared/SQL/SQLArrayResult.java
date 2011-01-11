@@ -21,6 +21,10 @@ public class SQLArrayResult
     private ArrayList<String> fieldTypeList;
     private Throwable exception;
 
+    public SQLArrayResult()
+    {
+        qry = null;
+    }
     public SQLArrayResult(String _qry)
     {
         qry = _qry;
