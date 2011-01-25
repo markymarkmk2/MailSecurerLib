@@ -16,8 +16,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
@@ -537,6 +540,27 @@ public class ZipUtilities
 
         return erg;
     }
+
+     public static String toBase64( String stream )
+     {
+        String erg = null;
+        try
+        {
+            erg = new String(Base64.encodeBase64(stream.getBytes("UTF-8")), "UTF-8");
+        }
+        catch (UnsupportedEncodingException ex)
+        {
+            //cannot_happen
+        }
+        return erg;
+    }
+     public static String fromBase64( String stream ) throws UnsupportedEncodingException
+     {
+        String erg;
+        erg = new String(Base64.decodeBase64(stream.getBytes("UTF-8")), "UTF-8");
+        return erg;
+    }
+
 
     public static void main( String[] args )
     {
