@@ -150,6 +150,7 @@ public class CS_Constants
     public static final int MA_IMAP_SSL = 0x04;
     public static final int MA_HTTPS_ENABLE = 0x08;
     public static final int MA_HTTPS_OWN = 0x10;
+    public static final int MA_NO_SMTP_AUTH = 0x20;
 
     // BACKUP FLAGS
     public static final int BACK_DISABLED = 0x001;
@@ -173,6 +174,7 @@ public class CS_Constants
     public static final int SL_USE_TLS_IF_AVAIL = 0x004;
     public static final int SL_USE_TLS_FORCE = 0x008;
     public static final int SL_HAS_TLS_CERT = 0x010;
+    public static final int SL_NO_SMTP_AUTH = 0x020;
 
 
     public static final String[] BY_CYCLE_UNITS =
