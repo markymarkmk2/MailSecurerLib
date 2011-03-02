@@ -5,13 +5,17 @@
 package home.shared.mail;
 
 import home.shared.CS_Constants;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.StringTokenizer;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -43,14 +47,14 @@ public class RFCMimeMail
         java.util.Properties props = new java.util.Properties();
         props.put("mail.smtp.host", "localhost");
         session = Session.getDefaultInstance(props, null);
-        msg = new MimeMessage(session);
+        msg = new MimeMessage(getSession());
         email_list = new ArrayList<RFCMailAddress>();
     }
 
     public RFCMimeMail( java.util.Properties props )
     {
         session = Session.getDefaultInstance(props, null);
-        msg = new MimeMessage(session);
+        msg = new MimeMessage(getSession());
         email_list = new ArrayList<RFCMailAddress>();
     }
 
@@ -138,7 +142,7 @@ public class RFCMimeMail
     {
         InputStream bis = mail_file.open_inputstream();
 
-        msg = new MimeMessage(session, bis);
+        msg = new MimeMessage(getSession(),bis);
         bis.close();
         bis = null;
 
@@ -148,7 +152,7 @@ public class RFCMimeMail
 
     public void parse( InputStream bis ) throws FileNotFoundException, MessagingException, IOException
     {
-        msg = new MimeMessage(session, bis);
+        msg = new MimeMessage(getSession(),bis);
         email_list = parse_email_list(msg);
     }
 
@@ -364,11 +368,47 @@ public class RFCMimeMail
         return null;
     }
 
+    byte[] get_byte_content( Part p ) throws IOException, MessagingException
+    {
+        try
+        {
+            ByteArrayOutputStream byos = new ByteArrayOutputStream();
+            p.writeTo(byos);
+
+            return byos.toByteArray();
+        }
+        catch (Exception exception)
+        {
+        }
+        return p.getContent().toString().getBytes();
+    }
+    String get_txt_content( Part p ) throws IOException, MessagingException
+    {
+        try
+        {
+            //String cstxt =  new String( p.getContent().toString().getBytes(cs) );
+            if ( p.getContent() instanceof String)
+                return p.getContent().toString();
+
+           
+
+            String cs = get_charset( p );
+            byte[] data = get_byte_content( p );
+            String txt_msg = new String( data, cs );
+            return txt_msg;
+        }
+        catch (Exception exception)
+        {
+        }
+        return p.getContent().toString();
+    }
     public String get_text_content()
     {
         String txt_msg = null;
         try
         {
+
+
             Object content = msg.getContent();
             if (content instanceof Multipart)
             {
@@ -379,16 +419,19 @@ public class RFCMimeMail
                 Part p = (Part) content;
                 check_part_content(p);
             }
+            else if (content instanceof String)
+            {
+                txt_msg = (String) content;
+            }
 
             Part p = text_part;
             if (p == null)
             {
                 p = html_part;
             }
-            txt_msg = null;
             if (p != null)
             {
-                txt_msg = p.getContent().toString();
+                txt_msg = get_txt_content( p );
             }
         }
         catch (IOException iOException)
@@ -398,11 +441,12 @@ public class RFCMimeMail
         {
         }
 
+        // NOTHING FOUND? THEN USE COMPLETE MSG
         if (txt_msg == null)
         {
             try
             {
-                txt_msg = msg.getContent().toString();
+                txt_msg = get_txt_content( msg );
             }
             catch (Exception ex)
             {
@@ -469,12 +513,12 @@ public class RFCMimeMail
             Part p = html_part;
             if (p == null && msg.isMimeType("text/html"))
             {
-                txt_msg = msg.getContent().toString();
+                txt_msg = get_txt_content( msg );
             }
             
             if (p != null)
             {
-                txt_msg = p.getContent().toString();
+                txt_msg = get_txt_content( p );
             }
         }
         catch (IOException iOException)
@@ -507,6 +551,46 @@ public class RFCMimeMail
         }
         return list;
     }
+    static void sort_email_list(ArrayList<RFCMailAddress> list )
+    {
+        Comparator<RFCMailAddress> comp = new Comparator<RFCMailAddress>()
+        {
+
+            public int compare( RFCMailAddress o1, RFCMailAddress o2 )
+            {
+                int t1 = o1.getAdr_type().ordinal();
+                int t2 = o2.getAdr_type().ordinal();
+                if (t1 != t2)
+                    return t1 - t2;
+
+                int dr = o1.get_domain().compareToIgnoreCase(o2.get_domain());
+                if (dr != 0)
+                    return dr;
+
+                return o1.get_mail().compareToIgnoreCase(o2.get_mail());
+            }
+        };
+
+        // SORT
+        Collections.sort(list, comp);
+
+        // REMOVE DOUBLES        
+        for (int i = 0; i < list.size(); i++)
+        {
+            RFCMailAddress rFCMailAddress = list.get(i);
+
+            for (int j = 0; j < i; j++)
+            {
+                RFCMailAddress last_rFCMailAddress = list.get(j);
+                if (last_rFCMailAddress.get_mail().equals(rFCMailAddress.get_mail()) )
+                {
+                    list.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
+    }
 
     // PARSE EMAIL_LIST FROM MAIL HEADERS
     public static ArrayList<RFCMailAddress> parse_email_list( MimeMessage msg )
@@ -535,11 +619,11 @@ public class RFCMimeMail
                     }
                     else if (name.compareToIgnoreCase(CS_Constants.FLD_ENVELOPE_TO ) == 0)
                     {
-                        local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.TO);
+                        local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.BCC);
                     }
                     else if (name.compareToIgnoreCase("X-" + CS_Constants.FLD_ENVELOPE_TO ) == 0)
                     {
-                        local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.TO);
+                        local_list = getRFCMailAddressList(value, RFCMailAddress.ADR_TYPE.BCC);
                     }
                     else if (name.compareToIgnoreCase(CS_Constants.FLD_CC ) == 0)
                     {
@@ -555,10 +639,79 @@ public class RFCMimeMail
                     }
                 }
             }
+            sort_email_list(list);
         }
         catch (MessagingException messagingException)
         {
         }
         return list;
     }
+
+    /**
+     * @return the session
+     */
+    public final Session getSession()
+    {
+        return session;
+    }
+
+    public boolean contains_email( String string )
+    {
+        for (int i = 0; i < email_list.size(); i++)
+        {
+            RFCMailAddress rFCMailAddress = email_list.get(i);
+            if (rFCMailAddress.get_mail().equalsIgnoreCase(string))
+                return true;
+        }
+        return false;
+    }
+
+    static public String get_charset( Part p )
+    {
+        if (p == null)
+            return null;
+
+        String mt;
+        try
+        {
+            mt = p.getContentType();
+        }
+        catch (MessagingException ex)
+        {
+            return null;
+        }
+        int atr_idx = mt.indexOf(';');
+        if (atr_idx == -1)
+            atr_idx = mt.indexOf('\n');
+        if (atr_idx == -1)
+            return "";
+
+
+        String attr = mt.substring(atr_idx + 1);
+
+        String delim = "[/;\"=\n\r\t ]";
+        StringTokenizer st = new StringTokenizer(attr, delim);
+        String name = st.nextToken();
+        try
+        {
+            if (name.compareToIgnoreCase("charset") == 0)
+            {
+                String eq = st.nextToken("\"\n\r; ");
+                String val = eq;
+                if (val.length() > 1 && val.charAt(0) == '=')
+                    return javax.mail.internet.MimeUtility.javaCharset(val.substring(1));
+
+                if (st.hasMoreTokens())
+                    val = st.nextToken("\"\n\r");
+
+                return javax.mail.internet.MimeUtility.javaCharset(val);
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Invalid Charset: " + mt);
+        }
+        return "UTF-8";
+    }
+
 }

@@ -5,9 +5,9 @@
 
 package home.shared.mail;
 
+import com.thoughtworks.xstream.XStream;
 import home.shared.CS_Constants;
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,8 +21,10 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.crypto.NoSuchPaddingException;
+
 
 /**
  *
@@ -38,11 +40,13 @@ public class RFCFileMail extends RFCGenericMail
     int iterationCount;
     byte[] salt;
     String passPhrase;
-
+    
 
 
     //public static boolean create_hash = true;
     public static final String HASH_MODE = "SHA-1";
+
+    public static final String ATTR_SUFFIX = ".attr";
 
 
     public RFCFileMail( File _msg, Date _date, boolean _encoded )
@@ -51,12 +55,13 @@ public class RFCFileMail extends RFCGenericMail
         msg = _msg;
         encoded = _encoded;
         digest = null;
-        encrypted = false;
+        encrypted = false;        
     }
     public RFCFileMail( File _msg, boolean _encoded )
     {
         this( _msg, new Date(), _encoded );
     }
+
 
     public void set_encryption( String passPhrase, int iterationCount, byte[] salt)
     {
@@ -90,6 +95,10 @@ public class RFCFileMail extends RFCGenericMail
     public void delete()
     {
         msg.delete();
+        File attr = new File(msg.getAbsolutePath() + ATTR_SUFFIX);
+        if (attr.exists())
+            attr.delete();
+
     }
 
     @Override
@@ -97,6 +106,13 @@ public class RFCFileMail extends RFCGenericMail
     {
         try
         {
+            File attr = new File(msg.getAbsolutePath() + ATTR_SUFFIX);
+            if (attr.exists())
+            {
+                File new_attr = new File(index_msg.getAbsolutePath() + ATTR_SUFFIX);
+                attr.renameTo(new_attr);
+            }
+
             if (msg.renameTo(index_msg))
                 msg = index_msg;
         }
@@ -279,6 +295,78 @@ public class RFCFileMail extends RFCGenericMail
         return msg.getName();
     }
 
-   
-    
+    @Override
+    public boolean read_attributes() throws IOException
+    {
+        File attr = new File(msg.getAbsolutePath() + ATTR_SUFFIX);
+        attributes.clear();
+
+        if (!attr.exists())
+            return true;
+
+        XStream xs = new XStream();
+
+        InputStream is = null;
+        try
+        {
+            is = open_inputstream(attr, false);
+            Object o = xs.fromXML(is);
+            is.close();
+            if (o instanceof ArrayList)
+            {
+                attributes = (ArrayList<MailAttribute>) o;
+            }
+            else
+                return false;
+        }
+        catch (Exception iOException)
+        {
+            throw new IOException("Cannot read attributes of " + msg.getAbsolutePath() + ": " + iOException.getMessage());
+        }
+        finally
+        {
+            if (is != null)
+                is.close();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean  write_attributes() throws IOException
+    {
+        // EMPTY, DO NOTING
+        if (attributes.isEmpty())
+            return true;
+
+
+        File attr = new File(msg.getAbsolutePath() + ATTR_SUFFIX);
+
+        XStream xs = new XStream();
+        OutputStream is = null;
+        try
+        {
+            is = open_outputstream(attr, false);
+            xs.toXML( attributes, is);
+        }
+        catch (Exception iOException)
+        {
+            throw new IOException("Cannot write attributes of " + msg.getAbsolutePath() + ": " + iOException.getMessage());
+        }
+        finally
+        {
+            if (is != null)
+                is.close();
+        }
+        return true;
+    }
+
+    @Override
+    public long get_attr_length()
+    {
+        File attr = new File(msg.getAbsolutePath() + ATTR_SUFFIX);
+        if (attr.exists())
+            return attr.length();
+
+        return 0;
+   }
 }

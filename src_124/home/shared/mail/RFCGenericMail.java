@@ -5,6 +5,7 @@
 
 package home.shared.mail;
 
+import home.shared.CS_Constants;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.mail.Address;
+
+
 
 /**
  *
@@ -25,6 +28,10 @@ public abstract class RFCGenericMail
 
     public static final int ENC_NONE = 0;
     public static final int ENC_AES = 1;
+
+    public static final String MATTR_LUCENE = "luce";
+    public static final String MATTR_ENVELOPE = "envl";
+
 
     
     public enum FILENAME_MODE
@@ -41,7 +48,53 @@ public abstract class RFCGenericMail
     public static boolean dflt_encoded = true;
     public static boolean dflt_encrypted = true;
     public static int dflt_encoding = ENC_AES;
-  
+
+    ArrayList<MailAttribute> attributes;
+
+    public ArrayList<MailAttribute> getAttributes()
+    {
+        return attributes;
+    }
+
+    public void setAttributes( ArrayList<MailAttribute> attributes )
+    {
+        this.attributes = attributes;
+    }
+
+
+    public ArrayList<String> get_attribute( String type, String name )
+    {
+        ArrayList<String> ret = new ArrayList<String>();
+
+        for (int i = 0; i < attributes.size(); i++)
+        {
+            MailAttribute mailAttribute = attributes.get(i);
+            if (mailAttribute.isType(type) && mailAttribute.isName(name))
+            {
+                ret.add( mailAttribute.getValue() );
+            }
+        }
+        return ret;
+    }
+    public ArrayList<String[]> get_attribute_arr( String type )
+    {
+        if (attributes.size() == 0)
+            return null;
+        
+        ArrayList<String[]> ret = new ArrayList<String[]>();
+
+        for (int i = 0; i < attributes.size(); i++)
+        {
+            MailAttribute mailAttribute = attributes.get(i);
+            if (mailAttribute.isType(type))
+            {
+                String[] entry = {mailAttribute.getName(), mailAttribute.getValue()};
+                ret.add( entry );
+            }
+        }
+        return ret;
+    }
+
     public static String get_suffix_for_encoded( )
     {
         return ".enc";
@@ -72,26 +125,34 @@ public abstract class RFCGenericMail
     {
         date = _date;
         bcc_list = new ArrayList<Address>();
+        attributes = new ArrayList<MailAttribute>();
     }
 
-    public void add_bcc( Address a )
+    
+    public void add_attribute( String type, String name, String value )
     {
-        bcc_list.add(a);
+        MailAttribute attr = new MailAttribute(type, name, value);
+        attributes.add(attr);
     }
+
     public void set_bcc( ArrayList<Address> bcc_list )
     {
-        this.bcc_list = bcc_list;
+        for (int i = 0; i < bcc_list.size(); i++)
+        {
+            Address address = bcc_list.get(i);
+            MailAttribute attr = new MailAttribute(MATTR_LUCENE, CS_Constants.FLD_BCC, address.toString());
+            attributes.add(attr);
+        }
     }
-    public ArrayList<Address> get_bcc_list()
-    {
-        return this.bcc_list;
-    }
-   
+    
 
     public abstract long get_length();
+    public abstract long get_attr_length();
     public abstract byte[] get_hash();
 
     public abstract InputStream open_inputstream() throws IOException;
+    public abstract boolean read_attributes() throws IOException;
+    public abstract boolean write_attributes() throws IOException;
 
     public Date getDate()
     {

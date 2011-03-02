@@ -102,6 +102,12 @@ public class ExprEntry extends LogicEntry
         this.type = type;
     }
 
+    public ExprEntry()
+    {
+        super(null, false,  false);
+        this.type = TYPE.STRING;
+    }
+
 
     public ExprEntry( ArrayList<LogicEntry> parent_list, String name, String value, OPERATION operation, TYPE type, boolean neg, boolean previous_is_or )
     {
