@@ -47,6 +47,20 @@ public class MailAttribute
         return name;
     }
 
+    @Override
+    public boolean equals( Object obj )
+    {
+        if (obj instanceof MailAttribute)
+        {
+            MailAttribute ma = (MailAttribute) obj;
+            if (ma.type.equals(type) && ma.name.equals(name) && ma.value.equals(value))
+                return true;
+            return false;
+        }
+        else
+            return super.equals(obj);
+    }
+
 
 
 }

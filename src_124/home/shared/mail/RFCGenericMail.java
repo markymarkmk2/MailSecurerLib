@@ -134,6 +134,17 @@ public abstract class RFCGenericMail
         MailAttribute attr = new MailAttribute(type, name, value);
         attributes.add(attr);
     }
+    public void add_attribute(MailAttribute attr )
+    {
+        for (int i = 0; i < attributes.size(); i++)
+        {
+            MailAttribute mailAttribute = attributes.get(i);
+            if (mailAttribute.equals(attr))
+                return;
+
+        }
+        attributes.add(attr);
+    }
 
     public void set_bcc( ArrayList<Address> bcc_list )
     {

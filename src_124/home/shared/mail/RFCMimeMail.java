@@ -5,6 +5,7 @@
 package home.shared.mail;
 
 import home.shared.CS_Constants;
+import home.shared.mail.RFCMailAddress.ADR_TYPE;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -712,6 +713,28 @@ public class RFCMimeMail
             System.out.println("Invalid Charset: " + mt);
         }
         return "UTF-8";
+    }
+
+    public boolean is_in_email( ArrayList<String> list, ADR_TYPE aDR_TYPE )
+    {
+        if (list == null || list.isEmpty())
+            return false;
+
+        for (int i = 0; i < email_list.size(); i++)
+        {
+            RFCMailAddress rFCMailAddress = email_list.get(i);
+            if (rFCMailAddress.getAdr_type() != aDR_TYPE)
+                continue;
+
+            for (int j = 0; j < list.size(); j++)
+            {
+                String mail = list.get(j);
+                if (rFCMailAddress.get_mail().equalsIgnoreCase(mail))
+                    return true;
+            }
+        }
+
+        return false;
     }
 
 }
