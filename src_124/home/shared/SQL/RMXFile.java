@@ -29,6 +29,12 @@ public class RMXFile
     long size;
     boolean is_dir;
 
+    public RMXFile()
+    {
+        path = "";
+        os = SRC_OS.WIN;
+        path_deli = '\\';
+    }
 
     public RMXFile( File f )
     {
