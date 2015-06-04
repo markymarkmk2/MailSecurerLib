@@ -21,6 +21,8 @@ public class MailAttribute
         this.name = name;
         this.value = value;
     }
+    public MailAttribute(  )
+    {}
 
     public boolean isName(String n)
     {

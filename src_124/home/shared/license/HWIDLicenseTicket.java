@@ -102,6 +102,11 @@ public class HWIDLicenseTicket extends LicenseTicket
     {
         return new File(VM_LICFILE).exists();
     }
+    public static String read_virtual_license()
+    {
+        String str_mac = read_virtual_hw_lic_file();
+        return str_mac;
+    }
 
     static void create_virtual_hw_lic_file()
     {

@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.StringTokenizer;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -552,7 +553,7 @@ public class RFCMimeMail
         }
         return list;
     }
-    static void sort_email_list(ArrayList<RFCMailAddress> list )
+    public static void sort_email_list(List<RFCMailAddress> list )
     {
         Comparator<RFCMailAddress> comp = new Comparator<RFCMailAddress>()
         {
