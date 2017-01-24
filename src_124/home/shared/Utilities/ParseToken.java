@@ -1,6 +1,12 @@
 package home.shared.Utilities;
 
 import com.thoughtworks.xstream.XStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 
 
 public class ParseToken extends Object
@@ -245,11 +251,84 @@ public class ParseToken extends Object
         String cstr = GetString(token);
         return ZipUtilities.uncompress(cstr);
     }
-    public Object GetCompressedObject(String token)
-    {
+
+    public Object GetCompressedObject( String token ) {
         String cstr = GetString(token);
         return DeCompressObject(cstr);
     }
+
+    public ArrayList<X509Certificate[]> GetCompressed509CertArrayList( String token ) {
+        String cstr = GetString(token);
+        return DeCompressX509CertArrayList(cstr);
+    }
+
+    public static String BuildCompressedX509CertArrayList( ArrayList<X509Certificate[]> cert_list ) {
+
+        ArrayList<ArrayList<String>> certStringList = new ArrayList<>();
+
+        for (X509Certificate[] x509Certificates : cert_list) {
+            ArrayList<String> stringList = new ArrayList<>();
+            certStringList.add(stringList);
+            for (X509Certificate x509Certificate : x509Certificates) {
+                ByteArrayOutputStream byos = new ByteArrayOutputStream();
+                try {
+                    ObjectOutputStream out = new ObjectOutputStream(byos);
+                    out.writeObject(x509Certificate);
+                    out.close();
+                }
+                catch (Exception exception) {
+                    System.err.println("Abort in BuildCompressedX509CertArrayList: " + exception.getMessage());
+                }
+                byte[] d = byos.toByteArray();
+                XStream xs = new XStream();
+                String xml = xs.toXML(d);
+                stringList.add(xml);
+//
+//            ByteArrayInputStream byis = new ByteArrayInputStream(d);
+//            ObjectInputStream in = new ObjectInputStream(byis);
+//            Object o = in.readObject();
+            /*
+             * XStream xs = new XStream();
+             * String xml = xs.toXML(x509Certificate);
+             * Object o = xs.fromXML(xml);
+             *
+             */
+                //System.out.print(o);
+            }
+        }
+        XStream xs = new XStream();
+        return ZipUtilities.compress(xs.toXML(certStringList));
+    }
+
+    public static ArrayList<X509Certificate[]> DeCompressX509CertArrayList( String cstr ) {
+        String xml = ZipUtilities.uncompress(cstr);
+        XStream xs = new XStream();
+        @SuppressWarnings("unchecked")
+        ArrayList<ArrayList<String>> certStringList = (ArrayList<ArrayList<String>>) xs.fromXML(xml);
+
+        ArrayList<X509Certificate[]> certArrayList = new ArrayList<>();
+        for (ArrayList<String> stringList : certStringList) {
+            ArrayList<X509Certificate> certList = new ArrayList<>();
+            for (String string : stringList) {
+
+                byte[] d = (byte[]) xs.fromXML(string);
+                ByteArrayInputStream byis = new ByteArrayInputStream(d);
+                try {
+                    try (ObjectInputStream in = new ObjectInputStream(byis)) {
+                        X509Certificate cert = (X509Certificate) in.readObject();
+                        certList.add(cert);
+                    }
+                }
+                catch (Exception exception) {
+                    System.err.println("Abort in DeCompressX509CertArrayList: " + exception.getMessage());
+                }
+            }
+            certArrayList.add(certList.toArray(new X509Certificate[0]));
+
+        }
+        return certArrayList;
+    }
+
     public static String BuildCompressedObjectString( Object o )
     {
         XStream xs = new XStream();
@@ -263,15 +342,17 @@ public class ParseToken extends Object
         XStream xs = new XStream();
         return xs.fromXML(xml);
     }
-    public <T> T GetObject(String token, Class t)
-    {
-        Object o = GetCompressedObject( token );
-        if (t.isInstance(o))
-        {
-            return (T)o;
+    public <T> T GetObject( String token, Class t ) {
+        Object o = GetCompressedObject(token);
+        if (t.isInstance(o)) {
+            return (T) o;
         }
         System.err.println("Wrong class in GetObject, expected: " + t.getName() + " got: " + o.getClass().getName());
         return null;
+    }
+
+    public ArrayList<X509Certificate[]> GetX509CertArrayList( String token ) {
+        return GetCompressed509CertArrayList(token);
     }
 
 
